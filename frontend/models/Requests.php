@@ -9,9 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property string $record_id
- * @property integer $name
- * @property integer $phone
- * @property integer $email
+ * @property string $name
+ * @property string $phone
+ * @property string $email
+ * @property integer $visited
  * @property string $created_at
  * @property string $updated_at
  *
@@ -19,6 +20,7 @@ use Yii;
  */
 class Requests extends \yii\db\ActiveRecord
 {
+    public $verifyCode;
     /**
      * @inheritdoc
      */
@@ -33,9 +35,12 @@ class Requests extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['record_id', 'name', 'phone', 'email', 'created_at', 'updated_at'], 'required'],
-            [['record_id', 'name', 'phone', 'email'], 'integer'],
+            [['record_id', 'name', 'phone', 'email'], 'required'],
+            [['record_id', 'visited'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['name'], 'string', 'max' => 150],
+            [['phone'], 'string', 'max' => 20],
+            [['email'], 'string', 'max' => 50],
             [['record_id'], 'exist', 'skipOnError' => true, 'targetClass' => Records::className(), 'targetAttribute' => ['record_id' => 'id']],
         ];
     }
@@ -51,6 +56,7 @@ class Requests extends \yii\db\ActiveRecord
             'name' => 'Name',
             'phone' => 'Phone',
             'email' => 'Email',
+            'visited' => 'Visited',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

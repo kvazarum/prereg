@@ -18,8 +18,8 @@ class RequestsSearch extends Requests
     public function rules()
     {
         return [
-            [['id', 'record_id', 'name', 'phone', 'email'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['id', 'record_id', 'visited'], 'integer'],
+            [['name', 'phone', 'email', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -61,12 +61,14 @@ class RequestsSearch extends Requests
         $query->andFilterWhere([
             'id' => $this->id,
             'record_id' => $this->record_id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'email' => $this->email,
+            'visited' => $this->visited,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }
