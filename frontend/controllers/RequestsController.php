@@ -8,6 +8,7 @@ use frontend\models\RequestsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\Records;
 
 /**
  * RequestsController implements the CRUD actions for Requests model.
@@ -80,6 +81,10 @@ class RequestsController extends Controller
         $model->record_id = $id;
 
         if ($model->load(Yii::$app->request->post())) {
+            $record = Records::findOne($id);
+            $record->reserved = 1;
+            $record->save();
+            
             $model->created_at = date('Y-m-d H:i:s');
             $model->updated_at = date('Y-m-d H:i:s');
             $model->visited = 0;
