@@ -65,7 +65,7 @@ use kartik\date\DatePicker;
                 'id' => 'date',
                 'name' => 'date', 
                 'language' => 'ru',
-                'value' => date('d-M-Y', time()),
+                'value' => date('d-m-Y', time()),
                 'options' => ['placeholder' => 'Выберите дату ...'],
                 'pluginOptions' => [
                     'format' => 'dd-mm-yyyy',
