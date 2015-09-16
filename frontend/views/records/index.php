@@ -11,7 +11,7 @@ use kartik\date\DatePicker;
 /* @var $searchModel frontend\models\RecordsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Записи';
+$this->title = 'График';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="records-index">
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => [
                     'class'=>'col-sm-3'
                 ],                
-                'format' => ['datetime', 'dd-MM-Y H:i'],
+//                'format' => ['datetime', 'dd-MM-Y H:i'],
                 'filter' => DatePicker::widget([
                     'model' => $searchModel,
                     'attribute' => 'start_time',
