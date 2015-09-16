@@ -79,8 +79,14 @@ class RequestsController extends Controller
     {
         $model = new Requests();
         $model->record_id = $id;
+        
+        $isReserved = FALSE;
+        if (Requests::findOne(['record_id' => $id]))
+        {
+            $isReserved = TRUE;
+        }
 
-        if ($model->load(Yii::$app->request->post())) {
+        if (!$isReserved && $model->load(Yii::$app->request->post())) {
             $record = Records::findOne($id);
             $record->reserved = 1;
             $record->save();
@@ -124,7 +130,15 @@ class RequestsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $record = $this->findModel($id)->record;
+//        $record = $request->record;
+        
+        if ($this->findModel($id)->delete())
+        {
+            $record->reserved = 0;
+            $record->save();
+        }
+        
 
         return $this->redirect(['index']);
     }
