@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\RequestsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Requests';
+$this->title = 'Заявки пациентов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requests-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Requests', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить заявку', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -24,16 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'record_id',
             'name',
             'phone',
             'email:email',
-            // 'visited',
-            // 'created_at',
-            // 'updated_at',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
