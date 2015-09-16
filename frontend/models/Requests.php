@@ -53,11 +53,11 @@ class Requests extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'record_id' => 'Record ID',
-            'name' => 'Name',
-            'phone' => 'Phone',
-            'email' => 'Email',
+            'name' => 'Фамилия, имя, отчество пациента',
+            'phone' => 'Номер телефона',
+            'email' => 'Email (электронная почта)',
             'visited' => 'Visited',
-            'created_at' => 'Created At',
+            'created_at' => 'Создано',
             'updated_at' => 'Updated At',
         ];
     }
