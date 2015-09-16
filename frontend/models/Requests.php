@@ -55,7 +55,7 @@ class Requests extends \yii\db\ActiveRecord
             'name' => 'Фамилия, имя, отчество пациента',
             'phone' => 'Номер телефона',
             'email' => 'Email (электронная почта)',
-            'visited' => 'Visited',
+            'visited' => 'Посетил',
             'created_at' => 'Создано',
             'updated_at' => 'Updated At',
         ];
