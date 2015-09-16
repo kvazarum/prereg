@@ -5,11 +5,11 @@ use frontend\models\Records;
 use frontend\models\Specialists;
 use frontend\models\Doctors;
 use yii\helpers\Url;
-//use dosamigos\datepicker\DatePicker;
+use dosamigos\datepicker\DatePicker;
 use yii\helpers\ArrayHelper;
 use frontend\models\Occupations;
 use kartik\select2\Select2;
-use kartik\date\DatePicker;
+//use kartik\date\DatePicker;
 
     $specialists = Specialists::findAll(['occupation_id' => $occupation_id]);
     $occupation = Occupations::findOne($occupation_id);
@@ -49,30 +49,30 @@ use kartik\date\DatePicker;
                 Дата приёма
             </label> 
         <?php
-//            echo DatePicker::widget([
-//            'id' => 'date',
-//            'name' => 'date',
-//            'language' => 'ru',
-//            'value' => date('d-m-Y', time()),
-//            'template' => '{addon}{input}',
-//                'clientOptions' => [
-//                    'autoclose' => true,
-//                    'format' => 'dd-mm-yyyy'
-//                ]
-//            ]);
-            
             echo DatePicker::widget([
-                'id' => 'date',
-                'name' => 'date', 
-                'language' => 'ru',
-                'value' => date('d-m-Y', time()),
-                'options' => ['placeholder' => 'Выберите дату ...'],
-                'pluginOptions' => [
-                    'format' => 'dd-mm-yyyy',
+            'id' => 'date',
+            'name' => 'date',
+            'language' => 'ru',
+            'value' => date('d-m-Y', time()),
+            'template' => '{addon}{input}',
+                'clientOptions' => [
                     'autoclose' => true,
-                    'todayHighlight' => true
+                    'format' => 'dd-mm-yyyy'
                 ]
-            ]);            
+            ]);
+            
+//            echo DatePicker::widget([
+//                'id' => 'date',
+//                'name' => 'date', 
+//                'language' => 'ru',
+//                'value' => date('d-m-Y', time()),
+//                'options' => ['placeholder' => 'Выберите дату ...'],
+//                'pluginOptions' => [
+//                    'format' => 'dd-mm-yyyy',
+//                    'autoclose' => true,
+//                    'todayHighlight' => true
+//                ]
+//            ]);            
         ?>        
             <label for="start_time">
                 Начало рабочего дня, (чч:мм)
