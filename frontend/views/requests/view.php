@@ -21,6 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'record.specialist.doctor.name',
+            'record.start_time',
             'name',
             'phone',
             'email:email',
