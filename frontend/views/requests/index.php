@@ -15,9 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
+<!--    <p>
         <?= Html::a('Добавить заявку', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </p>-->
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -25,9 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'record_id',
+            'record.specialist.doctor.name',
+            'record.start_time',
             'name',
             'phone',
             'email:email',
+            'visited',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
