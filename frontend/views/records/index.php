@@ -59,6 +59,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'start_time',
+                'headerOptions' => [
+                    'class'=>'col-sm-3'
+                ],                
                 'format' => ['datetime', 'dd-MM-Y H:i'],
                 'filter' => DatePicker::widget([
                     'model' => $searchModel,
@@ -76,7 +79,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ])                
             ],
-            'name',
             [
                 'attribute'=>'reserved',
                 'filter'=>array(
