@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         echo '<div class="page-header">';
             echo '<h3>'.Html::encode($this->title).'</h3>';
             echo '<h2>'.$doctor->name.'</h2>';
+            echo '<h4>'.$doctor->description.'</h4>';
         echo '</div>';
 
 ?>

@@ -7,7 +7,6 @@ use frontend\models\Specialists;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use dosamigos\datepicker\DatePicker;
-use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 

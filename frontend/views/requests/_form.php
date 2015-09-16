@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\captcha\Captcha;
+use kartik\switchinput\SwitchInput;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Requests */
@@ -18,6 +19,14 @@ use yii\captcha\Captcha;
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    
+    <?php 
+        if ( !Yii::$app->user->isGuest ) {
+            echo $form->field($model, 'visited')->widget(SwitchInput::classname(), [
+             'type' => SwitchInput::CHECKBOX
+            ]);  
+        }
+    ?>
 
     <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',

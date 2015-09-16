@@ -20,8 +20,8 @@ use kartik\select2\Select2;
     
     $this->title = "Создание графика";
     ?>
-    
-    <div class="panel panel-info" style="width: 300px; float: left;">
+    <div class="col-md-3">
+    <div class="panel panel-info" style="">
         <div class="panel-heading">
             <h4 class="panel-title">
                 Заполните начальные данные
@@ -44,14 +44,13 @@ use kartik\select2\Select2;
                 'data' => $list,
                 'options' => ['multiple' => false, 'placeholder' => 'Выберите врача ...']
             ]);            
-            ?>
-            <label for="date">
-                Дата приёма
-            </label> 
-        <?php
+
+            echo '<p /><label for="date_from">
+                Дата приёма с:
+            </label>';
             echo DatePicker::widget([
-            'id' => 'date',
-            'name' => 'date',
+            'id' => 'date_from',
+            'name' => 'date_from',
             'language' => 'ru',
             'value' => date('d-m-Y', time()),
             'template' => '{addon}{input}',
@@ -60,6 +59,34 @@ use kartik\select2\Select2;
                     'format' => 'dd-mm-yyyy'
                 ]
             ]);
+            echo '<p /><label for="date_to">
+                Дата приёма по:
+            </label>';
+            echo DatePicker::widget([
+            'id' => 'date_to',
+            'name' => 'date_to',
+            'language' => 'ru',
+            'value' => date('d-m-Y', time()),
+            'template' => '{addon}{input}',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd-mm-yyyy'
+                ]
+            ]);
+            
+?>
+            <p /><p />
+<!--            <a class="btn btn-default" href="">Показать</a>-->
+            <div class="form-group form-inline">
+                
+                <div class="checkbox">
+                    <input id="one_day"  type="checkbox" class=”form-control”/>
+                    <span>одним днём</span>
+                </div>
+            </div>            
+            
+        <?php
+           
             
 //            echo DatePicker::widget([
 //                'id' => 'date',
@@ -92,10 +119,11 @@ use kartik\select2\Select2;
         <div class="panel-footer">
         </div>
     </div> <!-- panel-info -->
+     </div>
     
     <!-- График приёмов -->
-    
-    <div class="panel panel-info" style="width: 600px; float: right;">
+    <div class="col-md-9">
+    <div class="panel panel-info" style="">
         <div class="panel-heading">
             <h4 class="panel-title">
                 График
@@ -111,6 +139,7 @@ use kartik\select2\Select2;
             <button id="create" class="btn btn-info" disabled="true">Сохранить</button>
         </div>
     </div>
+    </div>
 <!--    <script type="text/javascript" src="/css/create.js" />-->
 <?php
 
@@ -119,7 +148,7 @@ use kartik\select2\Select2;
  */
 $scriptSave = <<< JS
     $("#create").click(function(){
-        var date = $('#date').val();
+        var date = $('#date_from').val();
         var spec = $('#specialist').val();
         $('#records').fadeOut();        
             
@@ -165,87 +194,146 @@ $this->registerJs($scriptDateChange);
  * При нажатии на кнопку генерации графика
  */
 $scriptCreateTimetable = <<< JS
-    $("#generate").click(function(){
-        $('#records').fadeIn();  
-        $(this).attr('disabled', true);
-        var period = $("#period").val();
-        var start = $("#start_time").val(); //время начала рабочего дня
-        var end = $("#end_time").val(); //время конца рабочего дня
         
-        start = start.split(":");
-        end = end.split(":");
+/**
+*   При изменении checkbox "одним днём"
+*/    
+$("#one_day").change(function(){
+    if ($(this).prop('checked') == true)
+    {
+        $('#date_to').attr('disabled', true);
+    }
+        else
+    {
+        $('#date_to').attr('disabled', false);
+    }
+   });
+       
+/**
+*   При изменении даты "от" меняем дату "до"
+*/       
+$("#date_from").change(function(){
+    if ($('#one_day').prop('checked') == true)
+    {
+        $('#date_to').val($('#date_from').val());
+    }
+    $('#generate').prop('disabled', false);
+});      
         
-        var start_hour=Number(start[0]);
-        var start_minute=Number(start[1]);
-        var end_hour=Number(end[0]);
-        var end_minute=Number(end[1]);
+/**
+*   Разница между двумя датами
+*/    
+    function getCountOfDays(data_start, data_end)
+    {
+        return (new Date(data_end).getTime() - new Date(data_start).getTime())/1000/60/60/24;            
+    }
         
-        var strtime = Number(start[0])*60 + Number(start[1]);   //начальное время работы в минутах
+/**
+*   Прорисовка одной ячейки таблицы
+**/
+    function drawCell(strtime, strtime2)
+    {
+        var data = '<div class="" style="display: inline-block; font-size: smaller; margin: 2px; white-space: nowrap; width: 105px;">';
+        data += '<div style="display: inline-block;">';
+            var text = '<input class="tag" type="checkbox" checked value="' + strtime + '" />';
+            data += text;
+        data += '</div>';
+        data += '<div class="" style="display: inline-block; margin-left: 5px; width: 96%; text-align="left">';
+            data += '<span>' + getHour(strtime) + ':' + getMinute(strtime) + ' - ' + getHour(strtime2) + ':' + getMinute(strtime2) + '</span>';
+        data += '</div>';
+        data += '</div>';
         
-        var interval = (end_hour*60 + end_minute) - strtime;    //кол-во минут в рабочем дне
-        var rest = interval%period; 
+        return data;
+    }
         
-        var count;          //кол-во приёмов больных в рабочем дне
+    function getHour(data)
+    {
+        data = Number(data);
+        var rest = data%60;
+        result = 0;
+
         if (rest == 0)
         {
-            count = interval/period;
+            result = data/60;
         }
         else
         {
-            count = (interval - rest)/period;
-        }
-        
-        $('#records').empty();  //  убираем предыдущие графики
-        
-        for (i = 0; i < count; i++)
-        {
-            var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
-            
-            var data = '<li class="list-group-item" style="white-space: nowrap;">';
-            data += '<div style="display: inline-block;">';
-                var text = '<input class="tag" type="checkbox" checked value="' + strtime + '" />';
-                data += text;
-            data += '</div>';
-            data += '<div class="btn btn-info" style="display: inline-block; margin-left: 5px; width: 96%; text-align="left">';
-                data += '<span>' + getHour(strtime) + ':' + getMinute(strtime) + ' - ' + getHour(strtime2) + ':' + getMinute(strtime2) + '</span>';
-            data += '</div>';
-            data += '</li>';
+            result = (data - rest)/60;
+        } 
+        return result;
+    }
 
-            $("#records").append(data);
-        
-            strtime += Number(period);
-        }
-        
-        $("#create").attr('disabled', false);
-        
-        function getHour(data)
+    function getMinute(data)
+    {
+        data = Number(data);
+        var result = data%60;
+        if (result < 10)
         {
-            data = Number(data);
-            var rest = data%60;
-            result = 0;
+            result = '0' + result;
+        }
+        return result;
+    }        
+        
+        
+$("#generate").click(function(){
+        
+    $('#records').fadeIn();  
+    $(this).attr('disabled', true);
+        
+    var period = $("#period").val();
+    var start = $("#start_time").val(); //время начала рабочего дня
+    var end = $("#end_time").val(); //время конца рабочего дня
+        
+    var data_start = $("#date_from").val(); // начальный день периода графика
+    var data_end = $("#date_to").val(); // последний день периода графика
+        
+    var countDay = getCountOfDays(data_start, data_end); // количество дней в графике
 
-            if (rest == 0)
-            {
-                result = data/60;
-            }
-            else
-            {
-                result = (data - rest)/60;
-            } 
-            return result;
-        }
+    start = start.split(":");
+    end = end.split(":");
+
+    var start_hour=Number(start[0]);
+    var start_minute=Number(start[1]);
+    var end_hour=Number(end[0]);
+    var end_minute=Number(end[1]);
+
+    var strtime = Number(start[0])*60 + Number(start[1]);   //начальное время работы в минутах
+
+    var interval = (end_hour*60 + end_minute) - strtime;    //кол-во минут в рабочем дне
+    var rest = interval%period; 
+
+    var count;          //кол-во приёмов больных в рабочем дне
+    if (rest == 0)
+    {
+        count = interval/period;
+    }
+    else
+    {
+        count = (interval - rest)/period;
+    }
+
+    $('#records').empty();  //  убираем предыдущие графики
+       
+    for (j = 0; j< countDay; j++)    
+    {
         
-        function getMinute(data)
-        {
-            data = Number(data);
-            var result = data%60;
-            if (result < 10)
-            {
-                result = '0' + result;
-            }
-            return result;
+    data = '<li class="list-group-item success" >';
+    for (i = 0; i < count; i++)
+    {
+        
+        var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
+
+        data = drawCell(strtime, strtime2);
+
+        $("#records").append(data);
+
+        strtime += Number(period);
+        
+    }
+    data += '</li>';
         }
-    });
+    $("#create").attr('disabled', false);
+});
 JS;
 
 $this->registerJs($scriptCreateTimetable);
@@ -327,7 +415,9 @@ $("#specialist").change(function(){
         data = $.parseJSON(data);
         getII(data);
     })
-});        
+});  
+
+
        ';
 
 $this->registerJs($script);
