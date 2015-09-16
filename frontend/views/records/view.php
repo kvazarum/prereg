@@ -22,8 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'id',
             'specialist.doctor.name',
-            'start_time',
+            [
+                'attribute' => 'start_time',
+                'format' => ['datetime', 'dd-MM-Y H:i']                
+            ],            
             'name',
             'phone',
             
