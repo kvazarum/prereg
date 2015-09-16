@@ -253,18 +253,34 @@ $this->registerJs($scriptCreateTimetable);
  */
 $script = '
     
+function getHours(data)
+{
+    minutes = data%60;
+    hours = (data - minutes)/60;
+    var result = [minutes, hours];
+    return result;    
+}
+    
 function getII(data)
     {
-        getOccupation(data.occupation_id);
+        setPeriod(data.occupation_id);
         
-        $.get("/doctors/get-data", {id : data.id}, function(data){
+        $.get("/doctors/get-data", {id : data.doctor_id}, function(data){
             data = $.parseJSON(data);
-            var ds = new Date(data.start_time);
-            var de = new Date(data.end_time);
-            var sh = ds.getHours();
-            var sm = ds.getMinutes();
-            var eh = de.getHours();
-            var em = de.getMinutes();
+//            var ds = new Date(data.start_time);
+//            var de = new Date(data.end_time);
+            var ds = data.start_time;
+            var de = data.end_time;
+            
+            var arr = getHours(ds);
+            
+            var sh = arr[1];
+            var sm = arr[0];
+            
+            arr = getHours(de);
+            
+            var eh = arr[1];
+            var em = arr[0];
             if (sh < 10)
             {
                 sh = "0" + sh;
@@ -285,13 +301,11 @@ function getII(data)
             $("#end_time").attr("value",eh  + ":"+ em);
            
             $("#name").attr("html", data.name);
-            $("#start_time").attr("value", "9:00");
-            $("#end_time").attr("value", "12:00");
         })
     };
     
 
-function getOccupation(id)
+function setPeriod(id)
 {
     $.get("/occupations/get-data", {id : id}, function(data){
         data = $.parseJSON(data);
@@ -309,7 +323,6 @@ $("#specialist").change(function(){
         
     $.get("/specialists/get-data", {id : id}, function(data){
         data = $.parseJSON(data);
-        //getII(data.doctor_id);
         getII(data);
     })
 });        
