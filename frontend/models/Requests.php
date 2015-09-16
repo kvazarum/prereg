@@ -15,7 +15,6 @@ use Yii;
  * @property integer $visited
  * @property string $created_at
  * @property string $updated_at
- *
  * @property Records $record
  */
 class Requests extends \yii\db\ActiveRecord
