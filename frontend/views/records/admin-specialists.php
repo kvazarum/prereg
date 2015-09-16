@@ -62,12 +62,14 @@ use kartik\date\DatePicker;
 //            ]);
             
             echo DatePicker::widget([
+                'id' => 'date',
                 'name' => 'date', 
                 'language' => 'ru',
                 'value' => date('d-M-Y', time()),
                 'options' => ['placeholder' => 'Выберите дату ...'],
                 'pluginOptions' => [
                     'format' => 'dd-mm-yyyy',
+                    'autoclose' => true,
                     'todayHighlight' => true
                 ]
             ]);            
