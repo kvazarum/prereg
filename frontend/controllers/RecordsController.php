@@ -230,7 +230,10 @@ class RecordsController extends Controller
             $hour = ($time - $minute)/60;
 
             $strTime = explode('-', $date);
-            $strTime = mktime($hour, $minute, 0, $strTime[1], $strTime[0],  $strTime[2]);
+            $year = $strTime[0];
+            $month = $strTime[1];
+            $day = $strTime[2];
+            $strTime = mktime($hour, $minute, 0, $month, $day,  $year);
             $strTime = date('Y-m-d H:i:s', $strTime);
             $record->start_time = $strTime;
 

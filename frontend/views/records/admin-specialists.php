@@ -52,11 +52,11 @@ use kartik\select2\Select2;
             'id' => 'date_from',
             'name' => 'date_from',
             'language' => 'ru',
-            'value' => date('d-m-Y', time()),
+            'value' => date('Y-m-d', time()),
             'template' => '{addon}{input}',
                 'clientOptions' => [
                     'autoclose' => true,
-                    'format' => 'dd-mm-yyyy'
+                    'format' => 'yyyy-mm-dd'
                 ]
             ]);
             echo '<p /><label for="date_to">
@@ -66,11 +66,11 @@ use kartik\select2\Select2;
             'id' => 'date_to',
             'name' => 'date_to',
             'language' => 'ru',
-            'value' => date('d-m-Y', time()),
+            'value' => date('Y-m-d', time()),
             'template' => '{addon}{input}',
                 'clientOptions' => [
                     'autoclose' => true,
-                    'format' => 'dd-mm-yyyy'
+                    'format' => 'yyyy-mm-dd'
                 ]
             ]);
             
@@ -154,13 +154,16 @@ $scriptSave = <<< JS
             
         $('.tag:checked').each(function()
         {
-            time = $(this).val();
+            data = $(this).val();
+            data = data.split('&');
+            time = data[1];
+            date = data[0];
+        
             $(this).prop('checked', false);
         
             $('#create').attr('disabled', true);
         
-            $.get("/records/save-record", {date : date, spec : spec, time: time}, function(data){
-                
+            $.get("/records/save-record", {date : date, spec : spec, time: time}, function(data){        
                 
             });
         })
@@ -218,29 +221,38 @@ $("#date_from").change(function(){
         $('#date_to').val($('#date_from').val());
     }
     $('#generate').prop('disabled', false);
-});      
+});
         
+/**
+*   При изменении даты "до" устанавливаем доступность кнопки "генерировать"
+*/       
+$("#date_to").change(function(){
+    $('#generate').prop('disabled', false);
+});
+
 /**
 *   Разница между двумя датами
 */    
     function getCountOfDays(data_start, data_end)
     {
-        return (new Date(data_end).getTime() - new Date(data_start).getTime())/1000/60/60/24;            
+        var result = (new Date(data_end).getTime() - new Date(data_start).getTime())/1000/60/60/24;
+        return result;
     }
         
 /**
 *   Прорисовка одной ячейки таблицы
 **/
-    function drawCell(strtime, strtime2)
+    function drawCell(strtime, strtime2, date)
     {
+        var val = date + '&' + strtime;
         var data = '<div class="" style="display: inline-block; font-size: smaller; margin: 2px; white-space: nowrap; width: 105px;">';
-        data += '<div style="display: inline-block;">';
-            var text = '<input class="tag" type="checkbox" checked value="' + strtime + '" />';
-            data += text;
-        data += '</div>';
-        data += '<div class="" style="display: inline-block; margin-left: 5px; width: 96%; text-align="left">';
-            data += '<span>' + getHour(strtime) + ':' + getMinute(strtime) + ' - ' + getHour(strtime2) + ':' + getMinute(strtime2) + '</span>';
-        data += '</div>';
+            data += '<div style="display: inline-block;">';
+                var text = '<input class="tag" type="checkbox" checked value="' + val + '" />';
+                data += text;
+            data += '</div>';
+            data += '<div class="" style="display: inline-block; margin-left: 5px; width: 96%; text-align="left">';
+                data += '<span>' + getHour(strtime) + ':' + getMinute(strtime) + ' - ' + getHour(strtime2) + ':' + getMinute(strtime2) + '</span>';
+            data += '</div>';
         data += '</div>';
         
         return data;
@@ -288,7 +300,6 @@ $("#generate").click(function(){
     var data_end = $("#date_to").val(); // последний день периода графика
         
     var countDay = getCountOfDays(data_start, data_end); // количество дней в графике
-
     start = start.split(":");
     end = end.split(":");
 
@@ -297,9 +308,9 @@ $("#generate").click(function(){
     var end_hour=Number(end[0]);
     var end_minute=Number(end[1]);
 
-    var strtime = Number(start[0])*60 + Number(start[1]);   //начальное время работы в минутах
+    var strtime_main = Number(start[0])*60 + Number(start[1]);   //начальное время работы в минутах
 
-    var interval = (end_hour*60 + end_minute) - strtime;    //кол-во минут в рабочем дне
+    var interval = (end_hour*60 + end_minute) - strtime_main;    //кол-во минут в рабочем дне
     var rest = interval%period; 
 
     var count;          //кол-во приёмов больных в рабочем дне
@@ -313,25 +324,35 @@ $("#generate").click(function(){
     }
 
     $('#records').empty();  //  убираем предыдущие графики
-       
-    for (j = 0; j< countDay; j++)    
-    {
+    
+    var data = '';
+    for (j = 0; j<= countDay; j++)    
+    {   
+        var strtime = strtime_main;
+        data += '<b>'+data_start + '</b>';
+        data += '<div class="list-group-item success" >';
+        for (i = 0; i < count; i++)
+        {
+            var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
+
+            data += drawCell(strtime, strtime2, data_start);
+            strtime += Number(period);
+
+        }
+        data += '</div>';
         
-    data = '<li class="list-group-item success" >';
-    for (i = 0; i < count; i++)
-    {
-        
-        var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
-
-        data = drawCell(strtime, strtime2);
-
-        $("#records").append(data);
-
-        strtime += Number(period);
+        var D = new Date(data_start);
+        D.setDate(D.getDate() + 1);
+        var month = D.getMonth()+1;
+        if (month < 10)
+        {
+            month = '0' + month;
+        }
+        newDate = [D.getFullYear(), month, D.getDate()];
+        data_start = newDate.join('-');
         
     }
-    data += '</li>';
-        }
+    $("#records").append(data);    
     $("#create").attr('disabled', false);
 });
 JS;
@@ -357,8 +378,7 @@ function getII(data)
         
         $.get("/doctors/get-data", {id : data.doctor_id}, function(data){
             data = $.parseJSON(data);
-//            var ds = new Date(data.start_time);
-//            var de = new Date(data.end_time);
+
             var ds = data.start_time;
             var de = data.end_time;
             
