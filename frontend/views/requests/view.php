@@ -7,7 +7,10 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Requests */
 
 $this->title = 'Запись к врачу';
-//$this->params['breadcrumbs'][] = ['label' => 'Requests', 'url' => ['index']];
+if (!Yii::$app->user->isGuest)
+{
+    $this->params['breadcrumbs'][] = ['label' => 'Заявки', 'url' => ['index']];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requests-view">
