@@ -45,7 +45,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'Отчёты', 
             "items" => [
-//                ['label' => 'Кабинеты', 'url' => ['/cabinets']],
+                ['label' => 'Отчёт по специалистам', 'url' => ['/requests/specialist-report']],
 //                ['label' => 'Специальности', 'url' => ['/occupations']],
 //                ['label' => 'Врачи', 'url' => ['/doctors']],
 //                ['label' => 'Специалисты', 'url' => ['/specialists']],
