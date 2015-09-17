@@ -52,11 +52,11 @@ use kartik\select2\Select2;
             'id' => 'date_from',
             'name' => 'date_from',
             'language' => 'ru',
-            'value' => date('d-m-Y', time()),
+            'value' => date('Y-m-d', time()),
             'template' => '{addon}{input}',
                 'clientOptions' => [
                     'autoclose' => true,
-                    'format' => 'dd-mm-yyyy'
+                    'format' => 'yyyy-mm-dd'
                 ]
             ]);
             echo '<p /><label for="date_to">
@@ -66,11 +66,11 @@ use kartik\select2\Select2;
             'id' => 'date_to',
             'name' => 'date_to',
             'language' => 'ru',
-            'value' => date('d-m-Y', time()),
+            'value' => date('Y-m-d', time()),
             'template' => '{addon}{input}',
                 'clientOptions' => [
                     'autoclose' => true,
-                    'format' => 'dd-mm-yyyy'
+                    'format' => 'yyyy-mm-dd'
                 ]
             ]);
             
@@ -288,7 +288,6 @@ $("#generate").click(function(){
     var data_end = $("#date_to").val(); // последний день периода графика
         
     var countDay = getCountOfDays(data_start, data_end); // количество дней в графике
-
     start = start.split(":");
     end = end.split(":");
 
@@ -313,25 +312,27 @@ $("#generate").click(function(){
     }
 
     $('#records').empty();  //  убираем предыдущие графики
-       
-    for (j = 0; j< countDay; j++)    
-    {
-        
-    data = '<li class="list-group-item success" >';
-    for (i = 0; i < count; i++)
-    {
-        
-        var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
+    
+    var data = '';
+    for (j = 0; j<= countDay; j++)    
+    {   
+        data += '<b>'+data_start + '</b>';
+        data += '<div class="list-group-item success" >';
+        for (i = 0; i < count; i++)
+        {
 
-        data = drawCell(strtime, strtime2);
+            var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
 
-        $("#records").append(data);
+            data += drawCell(strtime, strtime2);
 
-        strtime += Number(period);
-        
-    }
-    data += '</li>';
+            
+
+            strtime += Number(period);
+
         }
+        data += '</div>';
+    }
+    $("#records").append(data);    
     $("#create").attr('disabled', false);
 });
 JS;
