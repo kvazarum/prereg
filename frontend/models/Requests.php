@@ -40,6 +40,7 @@ class Requests extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 150],
             [['phone'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 50],
+            ['verifyCode', 'captcha'],
             [['record_id'], 'exist', 'skipOnError' => true, 'targetClass' => Records::className(), 'targetAttribute' => ['record_id' => 'id']],
         ];
     }
