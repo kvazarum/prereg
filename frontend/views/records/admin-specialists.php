@@ -441,4 +441,3 @@ $("#specialist").change(function(){
        ';
 
 $this->registerJs($script);
-
