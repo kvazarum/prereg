@@ -57,11 +57,13 @@ class RequestsSearch extends Requests
             return $dataProvider;
         }
         $query->joinWith('record.specialist.doctor');
+        $query->joinWith('record');
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'record_id' => $this->record_id,
+            'records.start_time' => $this->record_id,
             'requests.visited' => $this->visited,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -69,6 +71,7 @@ class RequestsSearch extends Requests
 
         $query->andFilterWhere(['like', 'requests.name', $this->name])
             ->andFilterWhere(['like', 'doctors.name', $this->record_id])
+            ->andFilterWhere(['like', 'records.start_time', $this->record_id])
             ->andFilterWhere(['like', 'requests.phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email]);
 
