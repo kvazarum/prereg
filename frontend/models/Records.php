@@ -67,8 +67,8 @@ public static $days = array(
             [['specialist_id', 'start_time', 'reserved', 'visited', 'created_at', 'updated_at'], 'required'],
             [['specialist_id', 'reserved', 'visited'], 'integer'],
             [['start_time', 'created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 100],
-            [['phone'], 'string', 'max' => 15],
+//            [['name'], 'string', 'max' => 100],
+//            [['phone'], 'string', 'max' => 15],
         ];
     }
 
@@ -80,13 +80,13 @@ public static $days = array(
         return [
             'id' => 'ID',
             'specialist_id' => 'Специалист',
-            'cabinet_id' => 'Кабинет',
+//            'cabinet_id' => 'Кабинет',
             'start_time' => 'Время начала приёма',
             'reserved' => 'Зарезервировано',
             'visited' => 'Посещено',
             'sum' => 'Сумма',
-            'name' => 'Фамилия Имя Отчество пациента',
-            'phone' => '№ телефона',
+//            'name' => 'Фамилия Имя Отчество пациента',
+//            'phone' => '№ телефона',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
         ];
