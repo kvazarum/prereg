@@ -42,6 +42,11 @@ class RequestsController extends Controller
             ],
         ];
     }    
+    
+    public function actionSpecialistReport()
+    {
+        return $this->render('specialist-report');
+    }
 
     /**
      * Lists all Requests models.
