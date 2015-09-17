@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use frontend\models\Doctors;
+use frontend\models\Occupations;
 use yii\helpers\Json;
 use frontend\models\Records;
 
@@ -135,6 +136,10 @@ class SpecialistsController extends Controller
         }
     }
     
+/**
+ * Получение набора <option> с данными врачей по заданной специальности <b>id</b>
+ * @param type $id
+ */    
     public function actionLists($id)
     {
         $count = Specialists::find()
@@ -163,8 +168,7 @@ class SpecialistsController extends Controller
     
     public function actionGetD($id)
     {
-        //Yii::$app->response->format = 'json';
-        $sql ='SELECT `dc`.`start_time`, `dc`.`end_time`, `dc`.`period` FROM `specialists` as `sp`, `doctors` as `dc` WHERE `sp`.`id` = "'.$id.'" AND `sp`.`doctor_id` =  `dc`.`id`';
+        $sql ='SELECT `dc`.`start_time`, `dc`.`end_time` FROM `specialists` as `sp`, `doctors` as `dc` WHERE `sp`.`id` = "'.$id.'" AND `sp`.`doctor_id` =  `dc`.`id`';
         $result = Records::findBySql($sql)->one();
         echo Json::encode($result);
     }
