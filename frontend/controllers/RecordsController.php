@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use frontend\models\Doctors;
 use frontend\models\Occupations;
 use yii\helpers\Json;
+use frontend\models\Requests;
 
 /**
  * RecordsController implements the CRUD actions for Records model.
@@ -111,8 +112,14 @@ class RecordsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = date('Y-m-d H:i:s');
             $model->save();
+            
+            $model2 = Requests::find()->where(['record_id' => $id])->one();
+//            $model2->visited = $model->visited;
+            $model2->save();
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        }
+        else 
+        {
             if ($model->name == 'не указано')
             {
                 $model->name = '';
@@ -288,5 +295,43 @@ class RecordsController extends Controller
                 'MONTH(start_time)' => $month, 'YEAR(start_time)' => $year])->all();
         
         return Json::encode($result);
+    }   
+    
+    public static function actionGetRequest($date_from, $date_to, $specialist_id)
+    {
+//        $strTime = explode('-', $date);
+//        $year = $strTime[2];
+//        $month = $strTime[1];
+//        $day = $strTime[0];
+        //$strTime = mktime(0, 0, 0, $strTime[1], $strTime[0],  $strTime[2]);
+        //$strTime = date('Y-m-d H:i:s', $strTime);  
+        
+        $result = Records::find()->where(['specialist_id' => $specialist_id, 'DAY(start_time)' => $day,
+                'MONTH(start_time)' => $month, 'YEAR(start_time)' => $year])->all();
+        
+        return Json::encode($result);
+    }   
+    
+/**
+ * Получение отчёта о заказах у выбранного врача за период
+ * с <b>date_from</b> по <b>date_to</b>
+ * @param integer $specialist_id номер специалиста в базе 
+ * @param date $date_from дата начала отчёта
+ * @param date $date_to дата конца отчёта
+ * @return mixed набор данных
+ */    
+    public function getReportBySpecialist($specialist_id, $date_from, $date_to)
+    {
+        
+//        SELECT `rd`.`start_time`, `rd`.`specialist_id`, `dc`.`name` FROM `records` as `rd`, 
+//        `specialists` as `sp`, `doctors` as `dc` WHERE `sp`.`id` = "21" AND `sp`.`doctor_id` = `dc`.`id` 
+//        AND `rd`.`specialist_id` = `sp`.`id` AND DATE(`rd`.`start_time`) >= "2015-09-17"
+//         AND DATE(`rd`.`start_time`) <= "2015-09-18"
+        $sql ='SELECT `rd`.`start_time`, `rd`.`end_time`, `rd`.`specialist_id` FROM `records` as `rd`, `specialists` as `sp`, `doctors` as `dc` '
+                . 'WHERE `sp`.`id` = "'.$specialist_id.'" AND `sp`.`doctor_id` =  `dc`.`id`'
+                . 'AND `rd`.`specialist_id` = `sp`.`id` '
+                . 'AND `rd`.`start_time` > '.$date_from;
+        $result = Records::findBySql($sql)->one();
+        echo Json::encode($result);
     }    
 }
