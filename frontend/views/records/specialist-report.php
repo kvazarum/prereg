@@ -28,10 +28,10 @@ $this->title = 'Отчёт по специалистам';
                             'id' => 'date_from',
                             'name' => 'date_from', 
                             'language' => 'ru',
-                            'value' => date('d-m-Y', time()),
+                            'value' => date('Y-m-d', time()),
                             'options' => ['placeholder' => 'Выберите дату ...'],
                             'pluginOptions' => [
-                                'format' => 'dd-mm-yyyy',
+                                'format' => 'yyyy-mm-dd',
                                 'autoclose' => true,
                                 'todayHighlight' => true
                             ]
@@ -46,10 +46,10 @@ $this->title = 'Отчёт по специалистам';
                             'id' => 'date_to',
                             'name' => 'date_to', 
                             'language' => 'ru',
-                            'value' => date('d-m-Y', time()),
+                            'value' => date('Y-m-d', time()),
                             'options' => ['placeholder' => 'Выберите дату ...'],
                             'pluginOptions' => [
-                                'format' => 'dd-mm-yyyy',
+                                'format' => 'yyyy-mm-dd',
                                 'autoclose' => true,
                                 'todayHighlight' => true
                             ]
@@ -72,37 +72,58 @@ $this->title = 'Отчёт по специалистам';
                         ?>
                     </td>
                     <td>
-                        <!--<select id="specialist" class="form-control"></select>-->
+                        <select id="specialist" class="form-control"></select>
                         <?php
-                            echo Select2::widget([
+//                            echo Select2::widget([
 //                            'class' => "form-control",
-                            'id' => "specialist",
-                            'name' => "specialist",
-                            'value' => '',
-    //                        'data' => $list,
-                            'options' => [
-                                'multiple' => false,
-                                'placeholder' => 'Выберите врача ...'
-                            ]
-                        ]);
+//                            'id' => "specialist",
+//                            'name' => "specialist",
+//                            'value' => '',
+//    //                        'data' => $list,
+//                            'options' => [
+//                                'multiple' => false,
+//                                'placeholder' => 'Выберите врача ...'
+//                            ]
+//                        ]);
                         ?>
                     </td>                
                 </tr>
                 </table>
             </div>
-            <div class="panel-body">
-                <table class="table" id="report">
-                    <tr>
-                        
-                    </tr>
-                </table>
+            <div class="panel-body" id="body">
+
             </div>
         </div>
     </div>
     <?php
     
 $script = '
+//  при изменении врача    
+    $("#specialist").change(function(){
+        var occupation_id = $("#occupation").val();
+        var date_from = $("#date_from").val();
+        var date_to = $("#date_to").val();
+        
+        $.get("/records/get-report-by-specialist", {occupation_id : occupation_id, date_from: date_from, date_to:date_to}, function(data){
+            data = $.parseJSON(data);
+            $("#body").empty();
+            data.forEach(function(item)
+            {
+//                var class="panel panel-heading";
+                var text = "<div>";
+                    text += "<h3>"+item.oname+"</h3>";
+                    text += "<div>";
+                        text += "<h4>"+item.dname+"</h4>";
+                    text += "</div>";
+                text += "</div>";
+                $("#body").append(text);
+            });
+            
+            
+        });
+    });
 
+//  добавление <option> с данными заданного специалиста
     function getSpecList(doctor_id, specialist_id)
     {
         // получаем имя врача по заданному id
@@ -114,6 +135,7 @@ $script = '
         });    
     }
 
+//  при изменении специальности
     $("#occupation").change(function(){
         $("#specialist").empty();   // очищаем старый список специалистов
         var occupation_id = $(this).val();
@@ -123,6 +145,11 @@ $script = '
             data = $.parseJSON(data);
             var text = "";
             var count = data.length;
+            if (count > 0)
+            {
+                text = "<option selected disabled>Выберите врача ...</option>";
+                $("#specialist").append(text);            
+            }
             data.forEach( function(item)
             {
                 doctor_id = item.doctor_id; // id доктора

@@ -100,15 +100,16 @@ class RequestsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+//        $model = $this->findModel($id);
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        } else {
+//            return $this->render('update', [
+//                'model' => $model,
+//            ]);
+//        }
+            return $this->render('/site/index');
     }
 
     /**
@@ -119,10 +120,10 @@ class RequestsController extends Controller
      */
     public function actionDelete($id)
     {  
-        $model = $this->findModel($id);
-        $model->reserved = 0;
-        $model->visited = 0;
-        $model->save();
+//        $model = $this->findModel($id);
+//        $model->reserved = 0;
+//        $model->visited = 0;
+//        $model->save();
 
         return $this->redirect(['index']);
     }

@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+//use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Doctors */
@@ -27,16 +28,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
+        'condensed'=>true,
+        'hover'=>true,
+        'enableEditMode' => false,
+        'mode'=>DetailView::MODE_VIEW,
+        'panel'=>[
+            'heading'=>'Врач # ' . $model->name,
+//                'type'=>DetailView::PANEL_INFO,
+        ],        
         'attributes' => [
-            'id',
+            [
+                'attribute' => 'id',
+//                'label' => 'Лечащий врач',
+                'displayOnly' => true,
+            ],
             'name',
             'number',
             'description:ntext',
             'phone',
             'price_initial',
             'price_secondary',
-            'start_time',
-            'end_time',
+            [
+                'attribute' => 'start_time',
+                'displayOnly' => true,
+            ],
+            [
+                'attribute' => 'end_time',
+                'displayOnly' => true,
+            ],
             'created_at',
             'updated_at',
         ],
