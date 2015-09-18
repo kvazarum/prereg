@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
 use yii\widgets\Pjax;
 //use dosamigos\datepicker\DatePicker;
 use kartik\date\DatePicker;
-
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\RecordsSearch */
@@ -16,19 +16,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="records-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<!--    <p>
-        <?= Html::a('Create Records', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>-->
         <?php 
-            echo '<a class ="btn btn-success" href="/records/admin-occupations">';
-                echo 'Добавить график';
-            echo '</a>';
             Pjax::begin();
         ?>
-
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-calendar"></i> Графики</h3>
+        </div>
+    </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -47,6 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
+                'class' => 'yii\grid\CheckboxColumn',
+                'checkboxOptions' => function($model){
+                    return [$model->id];
+                },
+            ],
+            [
                 'attribute' => 'specialist_id',
                 'value' => 'specialist.doctor.name',
                 'format' => 'text',
@@ -59,8 +62,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'start_time',
+//                'value' => function($model){
+//                    $result = Yii::$app->formatter->asDatetime($model->start_time, 'd-MM-Y H:i');
+//                    return $result;
+//                },                
                 'headerOptions' => [
-                    'class'=>'col-sm-3'
+                    'class'=>'col-lg-2'
                 ],                
 //                'format' => ['datetime', 'dd-MM-Y H:i'],
                 'filter' => DatePicker::widget([
@@ -80,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])                
             ],
             'name',
-            'phone',
+//            'phone',
             'email',
             [
                 'attribute'=>'reserved',

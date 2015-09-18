@@ -13,6 +13,8 @@ use kartik\select2\Select2;
 
     $specialists = Specialists::findAll(['occupation_id' => $occupation_id]);
     $occupation = Occupations::findOne($occupation_id);
+    $this->registerJsFile('@app/views/records/records.js', ['yii\web\JqueryAsset', 'yii\web\YiiAsset',
+                    'yii\bootstrap\BootstrapAsset']);    
     
     echo '<div class="page-header">';
         echo '<h2>'.$occupation->name.'<span id="name"></span>'.', создание графика приёма</h2>';
