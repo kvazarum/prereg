@@ -83,18 +83,42 @@ $this->params['breadcrumbs'][] = $this->title;
             'phone',
             'email',
             [
-                'attribute'=>'reserved',                
+                'attribute'=>'reserved',
+                'format' => 'html',
                 'filter'=>array(
                     "1" => "Занято",
                     "0" =>"Свободно"
-                    ),
+                ),
+                'value' => function($model){
+                    if ($model->reserved == 0)
+                    {
+                        $result = '<span class="glyphicon glyphicon-remove text-danger"></span>';
+                    }
+                    else
+                    {
+                        $result = '<span class="glyphicon glyphicon-ok text-success"></span>';
+                    }
+                    return $result;
+                }                
             ], 
             [
                 'attribute'=>'visited',
+                'format' => 'html',
                 'filter'=>array(
                     "1" => "Явился",
                     "0" =>"Не явился"
-                    ),
+                ),
+                'value' => function($model){
+                    if ($model->visited == 0)
+                    {
+                        $result = '<span class="glyphicon glyphicon-remove text-danger"></span>';
+                    }
+                    else
+                    {
+                        $result = '<span class="glyphicon glyphicon-ok text-success"></span>';
+                    }
+                    return $result;
+                }
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
