@@ -111,6 +111,14 @@ class RecordsController extends Controller
         
         if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = date('Y-m-d H:i:s');
+            if ($model->visited == true)
+            {
+                $model->reserved = TRUE;
+            }
+//            if ($model->reserved == FALSE)
+//            {
+//                $model->visited = FALSE;
+//            }
             $model->save();            
             return $this->redirect(['view', 'id' => $model->id]);
         }
