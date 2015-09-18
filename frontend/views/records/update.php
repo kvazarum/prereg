@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Изменить запись.';
 
 $this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+//$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="records-update">

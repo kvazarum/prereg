@@ -8,7 +8,6 @@ use frontend\models\RequestsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use frontend\models\Records;
 
 /**
  * RequestsController implements the CRUD actions for Requests model.
@@ -41,11 +40,6 @@ class RequestsController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
-    }    
-    
-    public function actionSpecialistReport()
-    {
-        return $this->render('specialist-report');
     }
 
     /**
@@ -82,22 +76,12 @@ class RequestsController extends Controller
      */
     public function actionCreate($id)
     {
-        $model = new Requests();
-        $model->record_id = $id;
-        
-        $isReserved = FALSE;
-        if (Requests::findOne(['record_id' => $id]))
-        {
-            $isReserved = TRUE;
-        }
+        //$model = new Requests();
+        $model = $this->findModel($id);
 
-        if (!$isReserved && $model->load(Yii::$app->request->post())) {
-            $record = Records::findOne($id);
-            $record->reserved = 1;
-            $record->save();
-            
-            $model->created_at = date('Y-m-d H:i:s');
+        if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = date('Y-m-d H:i:s');
+            $model->reserved = 1;
             $model->visited = 0;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
@@ -134,16 +118,11 @@ class RequestsController extends Controller
      * @return mixed
      */
     public function actionDelete($id)
-    {
-        $record = $this->findModel($id)->record;
-//        $record = $request->record;
-        
-        if ($this->findModel($id)->delete())
-        {
-            $record->reserved = 0;
-            $record->save();
-        }
-        
+    {  
+        $model = $this->findModel($id);
+        $model->reserved = 0;
+        $model->visited = 0;
+        $model->save();
 
         return $this->redirect(['index']);
     }

@@ -8,14 +8,13 @@ use Yii;
  * This is the model class for table "requests".
  *
  * @property integer $id
- * @property string $record_id
  * @property string $name
  * @property string $phone
  * @property string $email
- * @property integer $visited
+ * @property integer $reserved
  * @property string $created_at
  * @property string $updated_at
- * @property Records $record
+* @property Specialists $specialist
  */
 class Requests extends \yii\db\ActiveRecord
 {
@@ -25,7 +24,7 @@ class Requests extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'requests';
+        return 'records';
     }
 
     /**
@@ -34,14 +33,13 @@ class Requests extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['record_id', 'name', 'phone', 'email'], 'required'],
-            [['record_id', 'visited'], 'integer'],
+            [['name', 'phone', 'email'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 150],
             [['phone'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 50],
-            ['verifyCode', 'captcha'],
-            [['record_id'], 'exist', 'skipOnError' => true, 'targetClass' => Records::className(), 'targetAttribute' => ['record_id' => 'id']],
+//            ['email', 'email'],
+            ['verifyCode', 'captcha']
         ];
     }
 
@@ -52,21 +50,20 @@ class Requests extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'record_id' => 'Record ID',
             'name' => 'Фамилия, имя, отчество пациента',
             'phone' => 'Номер телефона',
             'email' => 'Email (электронная почта)',
-            'visited' => 'Посетил',
+            'reserved' => 'Зарезервировано',
             'created_at' => 'Создано',
             'updated_at' => 'Updated At',
         ];
     }
-
+    
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRecord()
+    * @return \yii\db\ActiveQuery
+    */
+    public function getSpecialist()
     {
-        return $this->hasOne(Records::className(), ['id' => 'record_id']);
-    }
+        return $this->hasOne(Specialists::className(), ['id' => 'specialist_id']);
+    }    
 }

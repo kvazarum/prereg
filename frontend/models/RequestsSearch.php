@@ -18,7 +18,7 @@ class RequestsSearch extends Requests
     public function rules()
     {
         return [
-            [['id', 'record_id', 'visited'], 'integer'],
+            [['id'], 'integer'],
             [['name', 'phone', 'email', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -56,23 +56,20 @@ class RequestsSearch extends Requests
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->joinWith('record.specialist.doctor');
-        $query->joinWith('record');
+        $query->joinWith('specialist.doctor');
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'record_id' => $this->record_id,
-            'records.start_time' => $this->record_id,
-            'requests.visited' => $this->visited,
+            'start_time' => $this->start_time,
+            'visited' => $this->visited,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'requests.name', $this->name])
-            ->andFilterWhere(['like', 'doctors.name', $this->record_id])
-            ->andFilterWhere(['like', 'records.start_time', $this->record_id])
-            ->andFilterWhere(['like', 'requests.phone', $this->phone])
+        $query->andFilterWhere(['like', 'doctors.name', $this->specialist_id])            
+            ->andFilterWhere(['like', 'start_time', $this->start_time])
+            ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;

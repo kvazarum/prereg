@@ -20,12 +20,13 @@ use kartik\switchinput\SwitchInput;
 
 
     
-    <?php //echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?php //echo $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    
+    <?php echo $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
     
     <?php
-//        echo Html::activeCheckbox($model, 'reserved');
         
         echo $form->field($model, 'reserved')->widget(SwitchInput::classname(), [
              'type' => SwitchInput::CHECKBOX

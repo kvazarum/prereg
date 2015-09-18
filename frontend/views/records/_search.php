@@ -19,17 +19,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'specialist_id') ?>
 
-    <?php // echo $form->field($model, 'reserved') ?>
+    <?php echo $form->field($model, 'reserved') ?>
 
-    <?php // echo $form->field($model, 'visited') ?>
+    <?php echo $form->field($model, 'visited') ?>
 
-    <?php // echo $form->field($model, 'name') ?>
+    <?php echo $form->field($model, 'name') ?>
 
-    <?php // echo $form->field($model, 'phone') ?>
+    <?php echo $form->field($model, 'phone') ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
+    <?php echo $form->field($model, 'created_at') ?>
 
-    <?php // echo $form->field($model, 'updated_at') ?>
+    <?php echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

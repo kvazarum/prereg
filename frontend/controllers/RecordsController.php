@@ -11,7 +11,6 @@ use yii\filters\VerbFilter;
 use frontend\models\Doctors;
 use frontend\models\Occupations;
 use yii\helpers\Json;
-use frontend\models\Requests;
 
 /**
  * RecordsController implements the CRUD actions for Records model.
@@ -108,26 +107,14 @@ class RecordsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        
         if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = date('Y-m-d H:i:s');
-            $model->save();
-            
-            $model2 = Requests::find()->where(['record_id' => $id])->one();
-//            $model2->visited = $model->visited;
-            $model2->save();
+            $model->save();            
             return $this->redirect(['view', 'id' => $model->id]);
         }
         else 
-        {
-            if ($model->name == 'не указано')
-            {
-                $model->name = '';
-            }
-            if ($model->phone == 'не указано')
-            {
-                $model->phone = '';
-            }            
+        {          
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -230,8 +217,6 @@ class RecordsController extends Controller
             $record->visited = 0;
             $record->updated_at = date('Y-m-d H:i:s');
             $record->created_at = date('Y-m-d H:i:s');
-            $record->name = 'не указано';
-            $record->phone = 'не указано';
 
             $minute = $time%60;
             $hour = ($time - $minute)/60;
@@ -320,18 +305,27 @@ class RecordsController extends Controller
  * @param date $date_to дата конца отчёта
  * @return mixed набор данных
  */    
-    public function getReportBySpecialist($specialist_id, $date_from, $date_to)
+    public function actionGetReportBySpecialist($specialist_id, $date_from, $date_to)
     {
         
-//        SELECT `rd`.`start_time`, `rd`.`specialist_id`, `dc`.`name` FROM `records` as `rd`, 
-//        `specialists` as `sp`, `doctors` as `dc` WHERE `sp`.`id` = "21" AND `sp`.`doctor_id` = `dc`.`id` 
-//        AND `rd`.`specialist_id` = `sp`.`id` AND DATE(`rd`.`start_time`) >= "2015-09-17"
-//         AND DATE(`rd`.`start_time`) <= "2015-09-18"
-        $sql ='SELECT `rd`.`start_time`, `rd`.`end_time`, `rd`.`specialist_id` FROM `records` as `rd`, `specialists` as `sp`, `doctors` as `dc` '
-                . 'WHERE `sp`.`id` = "'.$specialist_id.'" AND `sp`.`doctor_id` =  `dc`.`id`'
-                . 'AND `rd`.`specialist_id` = `sp`.`id` '
-                . 'AND `rd`.`start_time` > '.$date_from;
+//SELECT COUNT(`rd`.`id`) AS `cnt`, `dc`.`name`, `sp`.`id`  FROM `records` as `rd`, `specialists` as `sp`, `doctors` as `dc`
+//                WHERE `sp`.`doctor_id` =  `dc`.`id`
+//                AND `rd`.`specialist_id` = `sp`.`id` 
+//                AND DATE(`rd`.`start_time`) >= "2015-09-17"
+//                AND DATE(`rd`.`start_time`) <= "2015-09-18"
+//                GROUP BY `specialist_id`
+
+        $sql ='SELECT `rd`.`start_time`, `specialist_id` FROM `records` as `rd`, `specialists` as `sp`, `doctors` as `dc` '
+                . ' WHERE `sp`.`id` = "'.$specialist_id.'" AND `sp`.`doctor_id` =  `dc`.`id`'
+                . ' AND `rd`.`specialist_id` = `sp`.`id` '
+                . ' AND DATE(`rd`.`start_time`) >= "'.$date_from.'"'
+                .' AND DATE(`rd`.`start_time`) <= "'.$date_to.'"';
         $result = Records::findBySql($sql)->one();
         echo Json::encode($result);
+    }    
+    
+    public function actionSpecialistReport()
+    {
+        return $this->render('specialist-report');
     }    
 }

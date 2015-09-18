@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Records', ['create'], ['class' => 'btn btn-success']) ?>
     </p>-->
         <?php 
-            echo '<a class ="btn btn-success" href="">';
-                echo 'Добавить запись';
+            echo '<a class ="btn btn-success" href="/records/admin-occupations">';
+                echo 'Добавить график';
             echo '</a>';
             Pjax::begin();
         ?>
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             if ($model->visited)
             {
-                $class = 'warning';
+                $class = 'info';
             }
             return ['class' => $class];
         },
@@ -79,8 +79,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ])                
             ],
+            'name',
+            'phone',
+            'email',
             [
-                'attribute'=>'reserved',
+                'attribute'=>'reserved',                
                 'filter'=>array(
                     "1" => "Занято",
                     "0" =>"Свободно"

@@ -19,7 +19,7 @@ class RecordsSearch extends Records
     {
         return [
             [['id',  'cabinet_id', 'reserved', 'visited', 'sum'], 'integer'],
-            [['start_time', 'created_at', 'updated_at', 'specialist_id'], 'safe'],
+            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id'], 'safe'],
         ];
     }
 
@@ -74,7 +74,10 @@ class RecordsSearch extends Records
         ]);
 
         $query->andFilterWhere(['like', 'records.start_time', $this->start_time])            
-            ->andFilterWhere(['like', 'doctors.name', $this->specialist_id]);
+            ->andFilterWhere(['like', 'doctors.name', $this->specialist_id])
+            ->andFilterWhere(['like', 'records.name', $this->name])
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }

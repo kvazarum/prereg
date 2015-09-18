@@ -3,7 +3,6 @@
 namespace frontend\models;
 
 use Yii;
-use frontend\models\Doctors;
 use frontend\models\Records;
 
 /**
@@ -11,13 +10,14 @@ use frontend\models\Records;
  *
  * @property string $id
  * @property integer $specialist_id
+ * @property string $name
+ * @property string $phone
+ * @property string $email
  * @property integer $cabinet_id
  * @property string $start_time
  * @property integer $reserved
  * @property integer $visited
  * @property integer $sum
- * @property string $name
- * @property string $phone
  * @property string $created_at
  * @property string $updated_at
  * @property Specialists $specialist
@@ -66,9 +66,10 @@ public static $days = array(
         return [
             [['specialist_id', 'start_time', 'reserved', 'visited', 'created_at', 'updated_at'], 'required'],
             [['specialist_id', 'reserved', 'visited'], 'integer'],
-            [['start_time', 'created_at', 'updated_at'], 'safe'],
-//            [['name'], 'string', 'max' => 100],
-//            [['phone'], 'string', 'max' => 15],
+            [['start_time', 'created_at', 'updated_at', 'name', 'phone', 'email'], 'safe'],
+            [['name'], 'string', 'max' => 100],
+            [['phone'], 'string', 'max' => 20],
+            [['email'], 'string', 'max' => 50],
         ];
     }
 
@@ -85,8 +86,9 @@ public static $days = array(
             'reserved' => 'Зарезервировано',
             'visited' => 'Посещено',
             'sum' => 'Сумма',
-//            'name' => 'Фамилия Имя Отчество пациента',
-//            'phone' => '№ телефона',
+            'name' => 'Фамилия Имя Отчество пациента',
+            'phone' => '№ телефона',
+            'email' => 'Email (электронная почта)',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
         ];

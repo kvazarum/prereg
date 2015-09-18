@@ -45,7 +45,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'Отчёты', 
             "items" => [
-                ['label' => 'Отчёт по специалистам', 'url' => ['/requests/specialist-report']],
+                ['label' => 'Отчёт по специалистам', 'url' => ['/records/specialist-report']],
 //                ['label' => 'Специальности', 'url' => ['/occupations']],
 //                ['label' => 'Врачи', 'url' => ['/doctors']],
 //                ['label' => 'Специалисты', 'url' => ['/specialists']],
@@ -63,7 +63,6 @@ AppAsset::register($this);
             "items" => [
                 ['label' => 'Генерация графиков', 'url' => ['/records/admin-occupations']],
                 ['label' => 'Графики врачей', 'url' => ['/records/index']],
-                ['label' => 'Заявки пациентов', 'url' => ['/requests/index']]
             ]];        
         $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
         $menuItems[] = [

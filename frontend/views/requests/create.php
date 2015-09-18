@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requests-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php echo '<h3>Время приёма: '.$model->record->start_time.'</h3>'; ?>
+    <h1><?= Html::encode($this->title).' '.$model->specialist->doctor->name ?></h1>
+    <?php echo '<h3>Время приёма: '.$model->start_time.'</h3>'; ?>
 
     <?= $this->render('_form', [
         'model' => $model,
