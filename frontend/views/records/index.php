@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\grid\GridView;
+use yii\grid\GridView;
 use yii\widgets\Pjax;
 //use dosamigos\datepicker\DatePicker;
 use kartik\date\DatePicker;
-use kartik\grid\GridView;
+//use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\RecordsSearch */
@@ -18,15 +18,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-        <?php 
-            Pjax::begin();
-        ?>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-calendar"></i> Графики</h3>
-        </div>
-    </div>
-    <?= GridView::widget([
+    <?php 
+        Pjax::begin();
+
+    echo Html::beginTag('div', ['class' => 'panel panel-info']);
+        $content = Html::tag('h3', '<i class="glyphicon glyphicon-calendar"></i> Графики', ['class' => "panel-title"]);
+        echo Html::tag('div', $content, ['class' => "panel-heading"]);
+    echo Html::endTag('div');
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'rowOptions' => function($model){
@@ -56,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Врач'
             ],
             [
+                'attribute' => 'occupationName',
                 'value' => 'specialist.occupation.name',
                 'format' => 'text',
                 'label' => 'Специальность',
@@ -88,7 +88,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'name',
 //            'phone',
-            'email',
+            [
+                'attribute'=>'email',
+                'format' => 'html',
+                'value' => function($model){
+                    return Html::mailto($model->email);
+                }
+            ],
             [
                 'attribute'=>'reserved',
                 'format' => 'html',

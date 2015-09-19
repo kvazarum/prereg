@@ -12,6 +12,7 @@ use frontend\models\Records;
  */
 class RecordsSearch extends Records
 {
+    public $occupationName;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class RecordsSearch extends Records
     {
         return [
             [['id',  'cabinet_id', 'reserved', 'visited', 'sum'], 'integer'],
-            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id'], 'safe'],
+            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id', 'occupationName'], 'safe'],
         ];
     }
 
@@ -47,7 +48,21 @@ class RecordsSearch extends Records
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'specialist_id' => SORT_DESC,
+//                    'occupationName' => SORT_DESC,
+                    'start_time' => SORT_ASC, 
+                ]
+            ]
         ]);
+        
+//        $dataProvider->setSort([        
+//            'attributes' => [
+//                'start_time',
+//                'occupationName',
+//            ]
+//        ]);
 
         $this->load($params);
 
@@ -63,7 +78,6 @@ class RecordsSearch extends Records
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'specialist.occupation.name' => $this->specialist_id,
             'cabinet_id' => $this->cabinet_id,
 //            'start_time' => $this->start_time,
             'reserved' => $this->reserved,
@@ -74,9 +88,9 @@ class RecordsSearch extends Records
         ]);
 
         $query->andFilterWhere(['like', 'records.start_time', $this->start_time])            
-            ->andFilterWhere(['like', 'doctors.name', $this->specialist_id])
-            ->andFilterWhere(['like', 'occupations.name', $this->specialist_id])
-            ->andFilterWhere(['like', 'records.name', $this->name])
+            ->orFilterWhere(['like', 'doctors.name', $this->specialist_id])
+            ->orFilterWhere(['like', 'occupations.name', $this->occupationName])
+            ->orFilterWhere(['like', 'records.name', $this->name])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email]);
 
