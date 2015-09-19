@@ -21,11 +21,12 @@ use frontend\models\Records;
  * @property string $created_at
  * @property string $updated_at
  * @property Specialists $specialist
+ * @property Occupation $occupation
  */
 class Records extends \yii\db\ActiveRecord
 {
     
-public static $days = array(
+    public static $days = array(
         'Вс',
         'Пн',
         'Вт',
@@ -81,6 +82,7 @@ public static $days = array(
         return [
             'id' => 'ID',
             'specialist_id' => 'Специалист',
+            'occupationName' => 'Специальность',
 //            'cabinet_id' => 'Кабинет',
             'start_time' => 'Время начала приёма',
             'reserved' => 'Заказ',
@@ -113,5 +115,10 @@ public static $days = array(
     public function getSpecialist()
     {
         return $this->hasOne(Specialists::className(), ['id' => 'specialist_id']);
+    }
+    
+    public function getOccupationName()
+    {
+        return $this->specialist->occupation->name;
     }    
 }
