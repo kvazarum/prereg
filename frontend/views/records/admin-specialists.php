@@ -9,25 +9,31 @@ use dosamigos\datepicker\DatePicker;
 use yii\helpers\ArrayHelper;
 use frontend\models\Occupations;
 use kartik\select2\Select2;
+use yii\bootstrap\Modal;
 //use kartik\date\DatePicker;
 
     $specialists = Specialists::findAll(['occupation_id' => $occupation_id]);
-    $occupation = Occupations::findOne($occupation_id);
-    $this->registerJsFile('@app/views/records/records.js', ['yii\web\JqueryAsset', 'yii\web\YiiAsset',
-                    'yii\bootstrap\BootstrapAsset']);    
+    $occupation = Occupations::findOne($occupation_id);  
     
     echo '<div class="page-header">';
-        echo '<h2>'.$occupation->name.'<span id="name"></span>'.', создание графика приёма</h2>';
+        $content = $occupation->name.'<span id="name"></span>'.', создание графика приёма';
+        echo Html::tag('h2', $content);
     echo '</div>';
     
     $this->title = "Создание графика";
+    
+    Modal::begin([
+//        'header' => '<h4>Ошибка</h4>',
+        'id' => 'modal',
+        'size' => 'modal-sm'
+    ]);
+    
+    Modal::end();
     ?>
-    <div class="col-md-3">
-    <div class="panel panel-info" style="">
+    <div class="col-lg-3">
+    <div class="panel panel-info">
         <div class="panel-heading">
-            <h4 class="panel-title">
-                Заполните начальные данные
-            </h4>
+            <?= Html::tag('h4', 'Заполните начальные данные', ['class' => "panel-title"]) ?>
         </div><!-- panel-heading -->    
         
 <!-- Панель настройки графика -->
@@ -116,7 +122,7 @@ use kartik\select2\Select2;
             </label>                         
             <input id="period" placeholder="Длительность приёма" class="form-control">
             <br />
-            <button id='generate' class="btn btn-info" onclick="">Создать график</button>
+            <button id='generate' class="btn btn-info" onclick="" disabled="true">Создать график</button>
         </div><!-- panel-body -->
         <div class="panel-footer">
         </div>
@@ -132,9 +138,9 @@ use kartik\select2\Select2;
             </h4>
         </div><!-- panel-heading -->
         <div id="main" class="panel-body">
-            <div class="container" style="width: 100%;">
-                <ul class="list-group" id="records">
-                </ul>
+            <div class="container" id="records" style="width: 100%;">
+<!--                <ul class="list-group" >
+                </ul>-->
             </div>
         </div><!-- panel-body -->
         <div class="panel-footer">
@@ -180,18 +186,16 @@ $this->registerJs($scriptSave);
  */
 
 $scriptDateChange = <<< JS
-    function changeTimeTable()
-    {
-        $("#create").attr('disabled', false);
-        $('#records').empty();
-        $("#generate").attr('disabled', false); 
-    }        
-        
-    
-        
-    $('#date').change(function(){
-        changeTimeTable();
-   });
+function changeTimeTable()
+{
+    $("#create").attr('disabled', false);
+    $('#records').empty();
+    $("#generate").attr('disabled', false); 
+}        
+     
+$('#date').change(function(){
+    changeTimeTable();
+});
 JS;
 $this->registerJs($scriptDateChange);
 
@@ -199,7 +203,7 @@ $this->registerJs($scriptDateChange);
  * При нажатии на кнопку генерации графика
  */
 $scriptCreateTimetable = <<< JS
-        
+
 /**
 *   При изменении checkbox "одним днём"
 */    
@@ -229,7 +233,20 @@ $("#date_from").change(function(){
 *   При изменении даты "до" устанавливаем доступность кнопки "генерировать"
 */       
 $("#date_to").change(function(){
-    $('#generate').prop('disabled', false);
+    var old_value = $("#date_from").val();
+    var from = new Date($("#date_from").val()).valueOf();
+    var to = new Date($(this).val()).valueOf();
+    if (to >= from)
+    {
+        $('#generate').prop('disabled', false);
+    }
+    else
+    {
+        $(this).val(old_value);
+        $(".modal-content").addClass('alert-danger');
+        $("div.modal-body").html('<div>Дата конца диапазона не может быть меньше даты начала.</div>');
+        $("#modal").modal('show');
+    }
 });
 
 /**
@@ -244,53 +261,55 @@ $("#date_to").change(function(){
 /**
 *   Прорисовка одной ячейки таблицы
 **/
-    function drawCell(strtime, strtime2, date)
-    {
-        var val = date + '&' + strtime;
-        var data = '<div class="" style="display: inline-block; font-size: smaller; margin: 2px; white-space: nowrap; width: 105px;">';
-            data += '<div style="display: inline-block;">';
-                var text = '<input class="tag" type="checkbox" checked value="' + val + '" />';
-                data += text;
-            data += '</div>';
-            data += '<div class="" style="display: inline-block; margin-left: 5px; width: 96%; text-align="left">';
-                data += '<span>' + getHour(strtime) + ':' + getMinute(strtime) + ' - ' + getHour(strtime2) + ':' + getMinute(strtime2) + '</span>';
-            data += '</div>';
+function drawCell(strtime, strtime2, date)
+{
+    var val = date + '&' + strtime;
+    var data = '<div class="" style="display: inline-block; font-size: smaller; margin: 2px; white-space: nowrap; width: 105px;">';
+        data += '<div style="display: inline-block;">';
+            var text = '<input class="tag" type="checkbox" checked value="' + val + '" />';
+            data += text;
         data += '</div>';
-        
-        return data;
-    }
-        
-    function getHour(data)
-    {
-        data = Number(data);
-        var rest = data%60;
-        result = 0;
+        data += '<div class="" style="display: inline-block; margin-left: 5px; width: 96%; text-align="left">';
+            data += '<span>' + getHour(strtime) + ':' + getMinute(strtime) + ' - ' + getHour(strtime2) + ':' + getMinute(strtime2) + '</span>';
+        data += '</div>';
+    data += '</div>';
 
-        if (rest == 0)
-        {
-            result = data/60;
-        }
-        else
-        {
-            result = (data - rest)/60;
-        } 
-        return result;
-    }
+    return data;
+}
+          
+function getHour(data)
+{
+    data = Number(data);
+    var rest = data%60;
+    result = 0;
 
-    function getMinute(data)
+    if (rest == 0)
     {
-        data = Number(data);
-        var result = data%60;
-        if (result < 10)
-        {
-            result = '0' + result;
-        }
-        return result;
-    }        
+        result = data/60;
+    }
+    else
+    {
+        result = (data - rest)/60;
+    } 
+    return result;
+}
+
+function getMinute(data)
+{
+    data = Number(data);
+    var result = data%60;
+    if (result < 10)
+    {
+        result = '0' + result;
+    }
+    return result;
+}
+       
+function dayTitle()
+    {alert();}
         
-        
-$("#generate").click(function(){
-        
+$("#generate").click(function()
+{       
     $('#records').fadeIn();  
     $(this).attr('disabled', true);
         
@@ -324,25 +343,46 @@ $("#generate").click(function(){
     {
         count = (interval - rest)/period;
     }
-
+    
     $('#records').empty();  //  убираем предыдущие графики
     
     var data = '';
+    var days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
     for (j = 0; j<= countDay; j++)    
     {   
         var strtime = strtime_main;
-        data += '<b>'+data_start + '</b>';
-        data += '<div class="list-group-item success" >';
-        for (i = 0; i < count; i++)
-        {
-            var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
-
-            data += drawCell(strtime, strtime2, data_start);
-            strtime += Number(period);
-
-        }
-        data += '</div>';
+        var date = new Date(data_start);
+        var number = date.getDay();
+        var dayOfWeek = days[number];
         
+        var text;
+        
+        if (number == 0 || number == 6)
+        {
+            text='panel-danger';
+        }
+        else
+        {
+            text='panel-info';
+        }
+        data += '<div class="panel ' + text + '">';
+            data += '<div class="panel-heading">';
+                data += '<div class="panel-title">'
+                    data += '<input onclick="dayTitle()" value="' + data_start + '" class="dayTitle" type="checkbox" checked>&nbsp' + dayOfWeek + '<span style="margin-left: 10px;"><b>'+data_start + '</span></b>';
+                data += '</div>';
+            data += '</div>';
+            data += '<div class="panel-body" >';
+            for (i = 0; i < count; i++)
+            {
+                var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
+
+                data += drawCell(strtime, strtime2, data_start);
+                strtime += Number(period);
+
+            }
+            data += '</div>';
+            
+        data += '</div>';
         var D = new Date(data_start);
         D.setDate(D.getDate() + 1);
         var month = D.getMonth()+1;
@@ -354,7 +394,7 @@ $("#generate").click(function(){
         data_start = newDate.join('-');
         
     }
-    $("#records").append(data);    
+    $("#records").append(data);
     $("#create").attr('disabled', false);
 });
 JS;
@@ -432,14 +472,17 @@ $("#specialist").change(function(){
         
     var id = $(this).val();
     var doctor_id;
+
+//    $.get("/specialists/get-name", {id : id}, function(data){
+//        data = $.parseJSON(data);
+//        $("#name").text(data);
+//    });
         
     $.get("/specialists/get-data", {id : id}, function(data){
         data = $.parseJSON(data);
         getII(data);
-    })
-});  
-
-
-       ';
+    });
+});
+';
 
 $this->registerJs($script);
