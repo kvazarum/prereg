@@ -87,7 +87,7 @@ $("#one_day").change(function(){
  * @param {type} date дата, за которую составляется график
  * @returns {String} html-код одного приёма пациента
  */
-function drawCell(strtime, strtime2, date)
+function renderCell(strtime, strtime2, date)
 {
     var val = date + '&' + strtime;
     var data = '<div class="" style="display: inline-block; font-size: smaller; margin: 2px; white-space: nowrap; width: 105px;">';
@@ -330,7 +330,7 @@ $("#generate").click(function()
             {
                 var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
 
-                data += drawCell(strtime, strtime2, data_start);
+                data += renderCell(strtime, strtime2, data_start);
                 strtime += Number(period);
 
             }
