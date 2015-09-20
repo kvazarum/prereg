@@ -178,4 +178,12 @@ class SpecialistsController extends Controller
         $result = Specialists::find()->where(['occupation_id' => $id])->all();
         return Json::encode($result);
     }
+    
+    public function actionGetName($id)
+    {
+        $result = Specialists::findOne($id);
+        
+        $result = Doctors::findOne($result->doctor_id);
+        return $result->name;
+    }
 }
