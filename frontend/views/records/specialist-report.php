@@ -16,11 +16,9 @@ $this->title = 'Отчёт по специалистам';
 ?>
 <div class="specialist-report">
     <div class="container">
-        <div class="panel-default panel-info">
-            <div class="panel panel-heading">
-                <table class="table">
-                    <tr>
-                <td class="col-lg-3">
+        <div class="panel panel-info">
+            <div class="panel panel-heading row">
+                <div class="col-lg-5">
                     <label for="date_from">
                         Дата начала отчёта
                     </label>
@@ -36,10 +34,11 @@ $this->title = 'Отчёт по специалистам';
                                 'todayHighlight' => true
                             ]
                         ])
-                    ?>
-                </td>
-                <td class="col-lg-3">
-                    <label for="date_to">
+                    ?>                    
+                </div>
+                
+                <div class="col-lg-5">                
+                 <label for="date_to">
                         Дата конца отчёта
                     </label>
                         <?= DatePicker::widget([
@@ -55,24 +54,19 @@ $this->title = 'Отчёт по специалистам';
                             ]
                         ])
                     ?>
-                </td>
-            </tr>
-            <tr>
-                    <td>
+                </div>
                         <?php
-                            $list = ArrayHelper::map(Occupations::find()->all(), 'id' , 'name');
-                            echo Select2::widget([
-                            'class' => "form-control",
-                            'id' => "occupation",
-                            'name' => "occupation",
-                            'value' => '',
-                            'data' => $list,
-                            'options' => ['multiple' => false, 'placeholder' => 'Выберите специальность ...']
-                        ]);
+//                            $list = ArrayHelper::map(Occupations::find()->all(), 'id' , 'name');
+//                            echo Select2::widget([
+//                            'class' => "form-control",
+//                            'id' => "occupation",
+//                            'name' => "occupation",
+//                            'value' => '',
+//                            'data' => $list,
+//                            'options' => ['multiple' => false, 'placeholder' => 'Выберите специальность ...']
+//                        ]);
                         ?>
-                    </td>
-                    <td>
-                        <select id="specialist" class="form-control"></select>
+                        <!--<select id="specialist" class="form-control"></select>-->
                         <?php
 //                            echo Select2::widget([
 //                            'class' => "form-control",
@@ -86,9 +80,9 @@ $this->title = 'Отчёт по специалистам';
 //                            ]
 //                        ]);
                         ?>
-                    </td>                
-                </tr>
-                </table>
+                <div class="col-lg-2">
+                    <input id="report" type="button" class="btn btn-success" value="Сформировать">
+                </div>
             </div>
             <div class="panel-body" id="body">
 
@@ -98,30 +92,6 @@ $this->title = 'Отчёт по специалистам';
     <?php
     
 $script = '
-//  при изменении врача    
-    $("#specialist").change(function(){
-        var occupation_id = $("#occupation").val();
-        var date_from = $("#date_from").val();
-        var date_to = $("#date_to").val();
-        
-        $.get("/records/get-report-by-specialist", {occupation_id : occupation_id, date_from: date_from, date_to:date_to}, function(data){
-            data = $.parseJSON(data);
-            $("#body").empty();
-            data.forEach(function(item)
-            {
-//                var class="panel panel-heading";
-                var text = "<div>";
-                    text += "<h3>"+item.oname+"</h3>";
-                    text += "<div>";
-                        text += "<h4>"+item.dname+"</h4>";
-                    text += "</div>";
-                text += "</div>";
-                $("#body").append(text);
-            });
-            
-            
-        });
-    });
 
 //  добавление <option> с данными заданного специалиста
     function getSpecList(doctor_id, specialist_id)
