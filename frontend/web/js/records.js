@@ -3,11 +3,18 @@
 *  при изменении даты "от" меняем дату "до"
 */       
 $("#date_from").change(function(){
-    if ($('#one_day').prop('checked') == true)
+    if (compareDates())
     {
-        $('#date_to').val($('#date_from').val());
+        if ($('#one_day').prop('checked') == true)
+        {
+            $('#date_to').val($('#date_from').val());
+        }
+        $('#generate').prop('disabled', false);
     }
-    $('#generate').prop('disabled', false);
+    else
+    {
+        showAlert('<div>Дата начала диапазона не может быть больше даты конца.</div>');
+    }
 });
 
 /**
@@ -15,9 +22,8 @@ $("#date_from").change(function(){
 */       
 $("#date_to").change(function(){
     var old_value = $("#date_from").val();
-    var from = new Date($("#date_from").val()).valueOf();
-    var to = new Date($(this).val()).valueOf();
-    if (to >= from)
+    
+    if (compareDates())
     {
         $('#generate').prop('disabled', false);
     }
@@ -29,6 +35,26 @@ $("#date_to").change(function(){
         $("#modal").modal('show');
     }
 });
+
+function showAlert(text)
+{
+    $(".modal-content").addClass('alert-danger');
+    $("div.modal-body").html(text);
+    $("#modal").modal('show');    
+}
+
+function compareDates()
+{
+    var result = true;
+    var from = new Date($("#date_from").val()).valueOf();
+    var to = new Date($("#date_to").val()).valueOf();    
+    if (to < from)
+    {
+        result = false;
+        showAlert('<div>Дата конца диапазона не может быть меньше даты начала.</div>');
+    }
+    return result;
+}
 
 /**
 *   При изменении checkbox "одним днём"
@@ -161,7 +187,7 @@ function getII(data)
             $("#end_time").attr("value",eh  + ":"+ em);
            
             $("#name").attr("html", data.name);
-        })
+        });
 };
 
 function setPeriod(id)
@@ -203,4 +229,95 @@ $("#create").click(function(){
 
         });
     })
+});
+
+
+$("#generate").click(function()
+{       
+    $('#records').fadeIn();  
+    $(this).attr('disabled', true);
+        
+    var period = $("#period").val();
+    var start = $("#start_time").val(); //время начала рабочего дня
+    var end = $("#end_time").val(); //время конца рабочего дня
+        
+    var data_start = $("#date_from").val(); // начальный день периода графика
+    var data_end = $("#date_to").val(); // последний день периода графика
+        
+    var countDay = getCountOfDays(data_start, data_end); // количество дней в графике
+    start = start.split(":");
+    end = end.split(":");
+
+    var start_hour=Number(start[0]);
+    var start_minute=Number(start[1]);
+    var end_hour=Number(end[0]);
+    var end_minute=Number(end[1]);
+
+    var strtime_main = Number(start[0])*60 + Number(start[1]);   //начальное время работы в минутах
+
+    var interval = (end_hour*60 + end_minute) - strtime_main;    //кол-во минут в рабочем дне
+    var rest = interval%period; 
+
+    var count;          //кол-во приёмов больных в рабочем дне
+    if (rest === 0)
+    {
+        count = interval/period;
+    }
+    else
+    {
+        count = (interval - rest)/period;
+    }
+    
+    $('#records').empty();  //  убираем предыдущие графики
+    
+    var data = '';
+    var days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+    for (j = 0; j<= countDay; j++)    
+    {   
+        var strtime = strtime_main;
+        var date = new Date(data_start);
+        var number = date.getDay();
+        var dayOfWeek = days[number];
+        
+        var text;
+        
+        if (number == 0 || number == 6)
+        {
+            text='panel-danger';
+        }
+        else
+        {
+            text='panel-info';
+        }
+        data += '<div class="panel ' + text + '">';
+            data += '<div class="panel-heading">';
+                data += '<div class="panel-title">'
+                    data += '<input onclick="dayTitle()" value="' + data_start + '" class="dayTitle" type="checkbox" checked>&nbsp' + dayOfWeek + '<span style="margin-left: 10px;"><b>'+data_start + '</span></b>';
+                data += '</div>';
+            data += '</div>';
+            data += '<div class="panel-body" >';
+            for (i = 0; i < count; i++)
+            {
+                var strtime2 = Number(strtime) + Number(period);    // время конца приёма больного
+
+                data += drawCell(strtime, strtime2, data_start);
+                strtime += Number(period);
+
+            }
+            data += '</div>';
+            
+        data += '</div>';
+        var D = new Date(data_start);
+        D.setDate(D.getDate() + 1);
+        var month = D.getMonth()+1;
+        if (month < 10)
+        {
+            month = '0' + month;
+        }
+        newDate = [D.getFullYear(), month, D.getDate()];
+        data_start = newDate.join('-');
+        
+    }
+    $("#records").append(data);
+    $("#create").attr('disabled', false);
 });
