@@ -88,13 +88,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'name',
 //            'phone',
-            [
-                'attribute'=>'email',
-                'format' => 'html',
-                'value' => function($model){
-                    return Html::mailto($model->email);
-                }
-            ],
+//            [
+//                'attribute'=>'email',
+//                'format' => 'html',
+//                'value' => function($model){
+//                    return Html::mailto($model->email);
+//                }
+//            ],
             [
                 'attribute'=>'reserved',
                 'format' => 'html',

@@ -50,8 +50,11 @@ class DoctorsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $this->changeTimeFormat($model); // форматируем время начала и конца работы
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -97,7 +100,7 @@ class DoctorsController extends Controller
             {
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма!');              
             }            
-            $this->changeTimeFormat($model);           
+            $this->changeTimeFormat($model);
             
             $model->updated_at = date('Y-m-d H:i:s');
             $model->save();
@@ -159,13 +162,45 @@ class DoctorsController extends Controller
     private function changeTimeFormat(&$model)
     {
         $start_time = explode(':', $model->start_time);
-        $start_hour = $start_time[0];
-        $start_minute = $start_time[1];
-        $model->start_time = $start_hour*60+$start_minute;
+        if (count($start_time) == 2)
+        {
+            $model->start_time = $this->timeToInt($model->start_time);
+           
+            $model->end_time = $this->timeToInt($model->end_time);
+        }
+        else
+        {
+            $model->start_time = $this->intToTime($model->start_time);
+            $model->end_time = $this->intToTime($model->end_time);
+        }
+    }
+    
+/**
+ * Преобразование числа минут во время в формате чч:мм
+ * @param string $string
+ * @return string время в формате чч:мм
+ */    
+    private function intToTime($string)
+    {
+        $minute = $string%60;
+        $hour = ($string - $minute)/60;
+        if ($minute < 10)
+        {
+            $minute = '0'.$minute;
+        }
+        return $hour.':'.$minute;
+    }
 
-        $end_time = explode(':', $model->end_time);
-        $end_hour = $end_time[0];
-        $end_minute = $end_time[1];           
-        $model->end_time = $end_hour*60+$end_minute;        
+/**
+ * Преобразование времени в формате чч:мм в число минут
+ * @param string $string
+ * @return int количество минут
+ */        
+    private function timeToInt($string)
+    {
+        $string = explode(':', $string);
+        $hour = $string[0];
+        $minute = $string[1];
+        return $hour*60+$minute;
     }
 }

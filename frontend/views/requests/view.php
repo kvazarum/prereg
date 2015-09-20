@@ -60,20 +60,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     'displayOnly' => true,
                     'value'=> $model->start_time
                 ],
-                [
-                    'attribute' => 'visited',
-                    'label' => 'Посещение',
-                    'displayOnly' => true,
-//                    'type'=>DetailView::INPUT_SWITCH,
-                    'format'=>'raw',
-                    'value'=>$model->visited ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>',
-                    'widgetOptions' => [
-                        'pluginOptions' => [
-                            TRUE => 'Yes',
-                            0 => 'No',
-                        ]
-                    ],
-                ],                
+//                [
+//                    'attribute' => 'visited',
+//                    'label' => 'Посещение',
+//                    'displayOnly' => true,
+////                    'type'=>DetailView::INPUT_SWITCH,
+//                    'format'=>'raw',
+//                    'value'=>$model->visited ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>',
+//                    'widgetOptions' => [
+//                        'pluginOptions' => [
+//                            TRUE => 'Yes',
+//                            0 => 'No',
+//                        ]
+//                    ],
+//                ],                
 //                'record.specialist.doctor.name',
 //                'record.start_time',
                 'name',
