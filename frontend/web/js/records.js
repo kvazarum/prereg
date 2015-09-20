@@ -36,6 +36,11 @@ $("#date_to").change(function(){
     }
 });
 
+/**
+ * Показывает модальное окно с текстом ошибки
+ * @param {type} text
+ * @returns {undefined}
+ */
 function showAlert(text)
 {
     $(".modal-content").addClass('alert-danger');
@@ -43,6 +48,11 @@ function showAlert(text)
     $("#modal").modal('show');    
 }
 
+/**
+ * Сравнение даты начала графика и конца
+ * В случае, если дата начала больше даты конца - выводит сообщение об ошибке
+ * @returns {Boolean}
+ */
 function compareDates()
 {
     var result = true;
@@ -71,8 +81,12 @@ $("#one_day").change(function(){
 });
 
 /**
-*   Прорисовка одной ячейки таблицы
-**/
+ * Прорисовка одной ячейки таблицы
+ * @param {date} strtime кол-во минут от начала дня, когда начинается приём
+ * @param {integer} strtime2 кол-во минут от начала дня, когда заканчивается приём
+ * @param {type} date дата, за которую составляется график
+ * @returns {String} html-код одного приёма пациента
+ */
 function drawCell(strtime, strtime2, date)
 {
     var val = date + '&' + strtime;
@@ -89,6 +103,11 @@ function drawCell(strtime, strtime2, date)
     return data;
 }
 
+/**
+ * Возвращает кол-во часов, извлечённое из переданного количества минут
+ * @param {integer} data количество минут
+ * @returns {integer} кол-во часов, извлечённое из переданного количества минут
+ */
 function getHour(data)
 {
     data = Number(data);
@@ -118,12 +137,22 @@ function getMinute(data)
 }
 
 /**
-*   Разница между двумя датами
-*/    
+ * Разница между двумя датами
+ * @param {date} data_start начальная дата в формате <b>YYYY-MM-DD</b>
+ * @param {date} data_end конечная дата
+ * @returns {Number} количество дней между начальной и конечной датами
+ */    
 function getCountOfDays(data_start, data_end)
 {
     var result = (new Date(data_end).getTime() - new Date(data_start).getTime())/1000/60/60/24;
     return result;
+}
+
+function setDoctorNameInTitle(id)
+{
+    $.get("/specialists/get-name", {id : id}, function(data){
+        $("#name").text(data + ',');
+    });    
 }
 
 /**
@@ -135,20 +164,15 @@ $("#specialist").change(function(){
     $("#generate").attr("disabled", false);
         
     var id = $(this).val();
-    var doctor_id;
-
-//    $.get("/specialists/get-name", {id : id}, function(data){
-//        data = $.parseJSON(data);
-//        $("#name").text(data);
-//    });
+    setDoctorNameInTitle(id);
         
     $.get("/specialists/get-data", {id : id}, function(data){
         data = $.parseJSON(data);
-        getII(data);
+        setSpecialistData(data);
     });
 });
 
-function getII(data)
+function setSpecialistData(data)
 {
         setPeriod(data.occupation_id);
         
@@ -248,8 +272,8 @@ $("#generate").click(function()
     start = start.split(":");
     end = end.split(":");
 
-    var start_hour=Number(start[0]);
-    var start_minute=Number(start[1]);
+//    var start_hour=Number(start[0]);
+//    var start_minute=Number(start[1]);
     var end_hour=Number(end[0]);
     var end_minute=Number(end[1]);
 
@@ -289,6 +313,8 @@ $("#generate").click(function()
         {
             text='panel-info';
         }
+        
+        var months = ['Янв', 'Фев', 'Март', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
         data += '<div class="panel ' + text + '">';
             data += '<div class="panel-heading">';
                 data += '<div class="panel-title">'

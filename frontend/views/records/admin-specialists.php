@@ -16,8 +16,8 @@ use yii\bootstrap\Modal;
     $occupation = Occupations::findOne($occupation_id);  
     
     echo '<div class="page-header">';
-        $content = $occupation->name.'<span id="name"></span>'.', создание графика приёма';
-        echo Html::tag('h2', $content);
+        $content = $occupation->name.', <span style="padding-left: 5px;" id="name"></span>'.' создание графика приёма';
+        echo Html::tag('h3', $content);
     echo '</div>';
     
     $this->title = "Создание графика";
