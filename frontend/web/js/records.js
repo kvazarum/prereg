@@ -360,8 +360,8 @@ $("#generate").click(function()
         $.get("/records/get-report-by-specialist", {date_from: date_from, date_to:date_to}, function(data){
             data = $.parseJSON(data);
             $("#body").empty();
-            var text = '<table>';
-            text += '<tr>';
+            var text = '<table class="table table-striped table-bordered">';
+            text += '<thead><tr>';
                 text += '<th>Врач';
                     
                 text += '</th>';
@@ -374,7 +374,7 @@ $("#generate").click(function()
                 text += '<th>Посетило';
                     
                 text += '</th>';                
-            text += '</tr>';
+            text += '</tr></thead>';
 //            $("#body").append(text);
             data.forEach(function(item)
             {
