@@ -314,11 +314,15 @@ $("#generate").click(function()
             text='panel-info';
         }
         
-        var months = ['Янв', 'Фев', 'Март', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+        var months = ['Янв.', 'Фев.', 'Март', 'Ап.р', 'Май', 'Июн.', 'Июл.', 'Авг.', 'Сен.', 'Окт.', 'Ноя.', 'Дек.'];
         data += '<div class="panel ' + text + '">';
             data += '<div class="panel-heading">';
-                data += '<div class="panel-title">'
-                    data += '<input onclick="dayTitle()" value="' + data_start + '" class="dayTitle" type="checkbox" checked>&nbsp' + dayOfWeek + '<span style="margin-left: 10px;"><b>'+data_start + '</span></b>';
+                data += '<div class="panel-title">';
+                    var D = new Date(data_start);
+                    var words = D.getDate() + '&nbsp' + months[D.getMonth()] + '&nbsp' + D.getFullYear();
+                    text = '&nbsp' + dayOfWeek + ',<span style="margin-left: 10px;"><b>'+ words + '</span></b>';
+                    data += '<input onclick="dayTitle()" value="' + data_start + '" class="dayTitle" type="checkbox" checked>';
+                    data += text;
                 data += '</div>';
             data += '</div>';
             data += '<div class="panel-body" >';
@@ -333,7 +337,7 @@ $("#generate").click(function()
             data += '</div>';
             
         data += '</div>';
-        var D = new Date(data_start);
+//        var D = new Date(data_start);
         D.setDate(D.getDate() + 1);
         var month = D.getMonth()+1;
         if (month < 10)
@@ -347,3 +351,51 @@ $("#generate").click(function()
     $("#records").append(data);
     $("#create").attr('disabled', false);
 });
+
+    $("#report").click(function(){
+//        var occupation_id = $("#occupation").val();
+        var date_from = $("#date_from").val();
+        var date_to = $("#date_to").val();
+        
+        $.get("/records/get-report-by-specialist", {date_from: date_from, date_to:date_to}, function(data){
+            data = $.parseJSON(data);
+            $("#body").empty();
+            var text = '<table>';
+            text += '<tr>';
+                text += '<th>Врач';
+                    
+                text += '</th>';
+                text += '<th>Специальность';
+                    
+                text += '</th>';
+                text += '<th>Забронировано';
+                    
+                text += '</th>';
+                text += '<th>Посетило';
+                    
+                text += '</th>';                
+            text += '</tr>';
+//            $("#body").append(text);
+            data.forEach(function(item)
+            {
+                text += '<tr>';
+                    text += '<td>';
+                        text += item.name;
+                    text += "</td>";    
+                    text += '<td>';
+                        text += item.oc_name;
+                    text += '</td>';
+                    text += '<td>';
+                    text += item.res;
+                    text += '</td>';
+                    text += '<td>';
+                    text += item.vis;
+                    text += '</td>';
+                text += "</tr>";
+//                $("#body").append(text);
+            });
+            text += '</table>';
+            $("#body").append(text);
+            
+        });
+    });

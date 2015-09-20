@@ -12,6 +12,7 @@ use frontend\models\Doctors;
 use frontend\models\Occupations;
 use yii\helpers\Json;
 use yii\web\Response;
+use yii\data\SqlDataProvider;
 
 /**
  * RecordsController implements the CRUD actions for Records model.
@@ -159,22 +160,6 @@ class RecordsController extends Controller
         }
     }
     
-    public function actionDayedit()
-    {
-//        $model = new frontend\models\records();
-        $model = new Records();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                // form inputs are valid, do something here
-                return;
-            }
-        }
-
-        return $this->render('dayedit', [
-            'model' => $model,
-        ]);
-    } 
-    
 /**
  * Выбор времени бронирования
  * @return mixed
@@ -314,33 +299,40 @@ class RecordsController extends Controller
  * @param date $date_to дата конца отчёта
  * @return mixed набор данных
  */    
-    public function actionGetReportBySpecialist($occupation_id, $date_from, $date_to)
+    public function actionGetReportBySpecialist($date_from, $date_to)
     {
-        
-//SELECT `dc`.`name`, COUNT(`rd`.`id`) AS `cnt`, `oc`.`name`, `sp`.`id`
-//FROM `records` as `rd`, `specialists` as `sp`, `doctors` as `dc`, `occupations` AS `oc` 
-//WHERE `rd`.`specialist_id` = `sp`.`id`
-//AND `oc`.`id`=`sp`.`occupation_id` AND `sp`.`doctor_id` = `dc`.`id`
-//AND DATE(`rd`.`start_time`) >= "2015-09-18" AND DATE(`rd`.`start_time`) <= "2015-09-25" 
-//GROUP BY `oc`.`name`, `specialist_id`
-//ORDER BY `oc`.`name`, `specialist_id`
+//        $query = Records::find();
 
-        $sql = 'SELECT `dc`.`name`, COUNT(`rd`.`id`) AS `cnt`, `oc`.`name` AS `ddd`, `sp`.`id`
+        // add conditions that should always apply here
+
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => $query,
+//            'sort' => [
+//                'defaultOrder' => [
+//                    'start_time' => SORT_ASC, 
+//                ]
+//            ]
+//        ]);        
+        
+
+        $sql = 'SELECT `dc`.`name`, COUNT(if (`rd`.`reserved` = "1",1,null)) AS `res`, COUNT(IF(`rd`.`visited` = "1",1,null)) AS `vis`, `oc`.`name` AS `oc_name`, `sp`.`id`
             FROM `records` AS `rd`, `specialists` AS `sp`, `doctors` AS `dc`, `occupations` AS `oc` 
             WHERE `rd`.`specialist_id` = `sp`.`id`
             AND `oc`.`id`=`sp`.`occupation_id` AND `sp`.`doctor_id` = `dc`.`id`
             AND DATE(`rd`.`start_time`) >= "'.$date_from.'" 
-            AND DATE(`rd`.`start_time`) <= "'.$date_to.'" 
+            AND DATE(`rd`.`start_time`) <= "'.$date_to.'"
             GROUP BY `oc`.`name`, `specialist_id`
             ORDER BY `oc`.`name`, `specialist_id`';
         
-        $result = Records::findBySql($sql)->all();
-
-//        $result = implode('?', $result);
-        return Json::encode($result);
-//        echo $result[0].$result[1].$result[2];
-//        return $result;
+//        $result = Records::findBySql($sql)->all();
+//        return Json::encode($result);
+        $provider = new SqlDataProvider([
+            'sql' => $sql
+        ]);
+        $models = $provider->getModels();
+        return Json::encode($models);
     }    
+    
     
     public function actionSpecialistReport()
     {
