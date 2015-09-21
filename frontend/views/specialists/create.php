@@ -1,7 +1,6 @@
 <?php
-
 use yii\helpers\Html;
-
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Specialists */
@@ -9,13 +8,36 @@ use yii\helpers\Html;
 $this->title = 'Добавить специалиста';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Специалисты'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+Modal::begin([
+    'id' => 'modal',
+    'size' => 'modal-sm'
+    ]);
+Modal::end();
 ?>
 <div class="specialists-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?php
+        echo $this->render('_form', [
         'model' => $model,
-    ]) ?>
+        ]);
+                
+$script = <<< JS
+$("#specialists-occupation_id").change(function(){
+    var doctor_id = $("#specialists-doctor_id").val();
+    var occupation_id = $("#specialists-occupation_id").val();
+        $.get("/specialists/is-double", {'doctor_id' : doctor_id, 'occupation_id' : occupation_id}, function(data){
+            if (data)
+            {
+                showAlert('Запись с заданными параметрами уже существует!');
+            }
+        });
+
+});
+JS;
+$this->registerJs($script); 
+    ?>
 
 </div>
