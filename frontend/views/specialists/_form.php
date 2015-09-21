@@ -25,7 +25,7 @@ use kartik\select2\Select2;
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ]);    
+    ]);  
     ?>
 
     <?php
