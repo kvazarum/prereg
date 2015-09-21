@@ -12,8 +12,18 @@ $this->params['breadcrumbs'][] = ['label' => 'Врачи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 Modal::begin([
+    'header' => '<b>' . 'Ошибка' . '</b>',    
     'id' => 'modal',
-    'size' => 'modal-sm'
+    'size' => 'modal-sm',
+//    'closeButton' => [
+//        'label' => 'Закрыть',
+//        'aria-hidden' => 'true',
+//        'class' => 'btn close',
+//    ],
+    'footer' => Html::button('Закрыть', [
+        'class' => 'btn btn-default',
+        'data-dismiss' => 'modal'
+        ])
     ]);
 Modal::end();
 ?>
@@ -32,7 +42,7 @@ $script = <<< JS
         $.get("/doctors/is-double", {'name' : name}, function(data){
             if (data)
             {
-                showAlert('Запись с данными "' + name + '" уже добавлена в базу данных!');
+                showAlert('Запись с данными "<b>' + name + '</b>" уже добавлена в базу данных!');
             }
         });
     });
