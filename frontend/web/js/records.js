@@ -43,7 +43,7 @@ $("#date_to").change(function(){
  */
 function showAlert(text)
 {
-    $(".modal-content").addClass('alert-danger');
+//    $(".modal-content").addClass('alert-danger');
     $("div.modal-body").html(text);
     $("#modal").modal('show');    
 }
@@ -357,7 +357,7 @@ $("#generate").click(function()
         var date_from = $("#date_from").val();
         var date_to = $("#date_to").val();
         
-        $.get("/records/get-report-by-specialist", {date_from: date_from, date_to:date_to}, function(data){
+        $.get("/records/get-report-by-specialist", {date_from:date_from, date_to:date_to}, function(data){
             data = $.parseJSON(data);
             $("#body").empty();
             var text = '<table class="table table-striped table-bordered">';
