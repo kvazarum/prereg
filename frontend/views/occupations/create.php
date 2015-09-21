@@ -12,8 +12,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Специальности', 'url'
 $this->params['breadcrumbs'][] = $this->title;
 
 Modal::begin([
+    'header' => '<b>' . 'Ошибка' . '</b>',
     'id' => 'modal',
-    'size' => 'modal-sm'
+    'size' => 'modal-sm',
+    'footer' => Html::button('Закрыть', [
+        'class' => 'btn btn-default',
+        'data-dismiss' => 'modal'
+        ])
     ]);
 Modal::end();
 ?>
