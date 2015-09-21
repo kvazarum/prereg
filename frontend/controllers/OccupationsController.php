@@ -64,10 +64,19 @@ class OccupationsController extends Controller
         $model = new Occupations();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->created_at = date('Y-m-d H:i:s');
-            $model->updated_at = date('Y-m-d H:i:s');
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            if (!$this->actionIsDouble($model->name))
+            {
+                $model->created_at = date('Y-m-d H:i:s');
+                $model->updated_at = date('Y-m-d H:i:s');
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else 
+            {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);                
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -129,5 +138,16 @@ class OccupationsController extends Controller
     {
         $result = Occupations::findOne($id);
         return Json::encode($result);
+    }
+
+    public function actionIsDouble($name)
+    {
+        $result = false;
+        $model = Occupations::findOne(['name' => $name] );
+        if($model)
+        {
+            $result = true;
+        }
+        return $result;
     }    
 }

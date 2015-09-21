@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
@@ -9,6 +10,12 @@ use yii\helpers\Html;
 $this->title = 'Добавить специальность';
 $this->params['breadcrumbs'][] = ['label' => 'Специальности', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+Modal::begin([
+    'id' => 'modal',
+    'size' => 'modal-sm'
+    ]);
+Modal::end();
 ?>
 <div class="occupations-create">
 
@@ -16,6 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-    ]) ?>
-
+    ]); 
+    
+$script = <<< JS
+$("#occupations-name").change(function(){
+    var name = $("#occupations-name").val();
+    
+    $.get("/occupations/is-double", {'name' : name}, function(data){
+        if (data)
+        {
+            showAlert('Специальность "' + name + '" уже существует!');
+        }
+    });
+});
+JS;
+$this->registerJs($script);     
+?>
 </div>
