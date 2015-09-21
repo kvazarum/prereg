@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
@@ -9,6 +10,12 @@ use yii\helpers\Html;
 $this->title = 'Добавить врача';
 $this->params['breadcrumbs'][] = ['label' => 'Врачи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+Modal::begin([
+    'id' => 'modal',
+    'size' => 'modal-sm'
+    ]);
+Modal::end();
 ?>
 <div class="doctors-create">
 
