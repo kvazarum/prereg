@@ -104,5 +104,16 @@ class Specialists extends \yii\db\ActiveRecord
         $result = Records::findBySql($sql)->all();
         
         return $result;
+    }   
+    
+    public static function isDouble($doctor_id, $occupation_id)
+    {
+        $result = false;
+        $model = Specialists::findOne(['doctor_id' => $doctor_id, 'occupation_id' => $occupation_id] );
+        if($model)
+        {
+            $result = true;
+        }
+        return $result;
     }    
 }

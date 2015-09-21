@@ -75,10 +75,19 @@ class SpecialistsController extends Controller
         $model = new Specialists();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->created_at = date('Y-m-d H:i:s');
-            $model->updated_at = date('Y-m-d H:i:s');
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            if (!Specialists::isDouble($model->doctor_id, $model->occupation_id))
+            {
+                $model->created_at = date('Y-m-d H:i:s');
+                $model->updated_at = date('Y-m-d H:i:s');
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else
+            {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);                
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -185,5 +194,10 @@ class SpecialistsController extends Controller
         
         $result = Doctors::findOne($result->doctor_id);
         return $result->name;
+    }
+    
+    public function actionIsDouble($doctor_id, $occupation_id)
+    {
+        return Specialists::isDouble($doctor_id, $occupation_id);
     }
 }
