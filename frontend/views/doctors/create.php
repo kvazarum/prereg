@@ -23,6 +23,21 @@ Modal::end();
 
     <?= $this->render('_form', [
         'model' => $model,
-    ]) ?>
+    ]);
+
+$script = <<< JS
+    $("#doctors-name").change(function(){
+        var name = $("#doctors-name").val();
+
+        $.get("/doctors/is-double", {'name' : name}, function(data){
+            if (data)
+            {
+                showAlert('Запись с данными "' + name + '" уже добавлена в базу данных!');
+            }
+        });
+    });
+JS;
+    $this->registerJs($script);
+    ?>
 
 </div>
