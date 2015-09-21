@@ -88,9 +88,9 @@ class RecordsSearch extends Records
         ]);
 
         $query->andFilterWhere(['like', 'records.start_time', $this->start_time])            
-            ->orFilterWhere(['like', 'doctors.name', $this->specialist_id])
-            ->orFilterWhere(['like', 'occupations.name', $this->occupationName])
-            ->orFilterWhere(['like', 'records.name', $this->name])
+            ->AndFilterWhere(['like', 'doctors.name', $this->specialist_id])
+            ->AndFilterWhere(['like', 'occupations.name', $this->occupationName])
+            ->andFilterWhere(['like', 'records.name', $this->name])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email]);
 
