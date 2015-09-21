@@ -21,11 +21,11 @@ use kartik\switchinput\SwitchInput;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
     
     <?php 
-        if ( !Yii::$app->user->isGuest ) {
-            echo $form->field($model, 'visited')->widget(SwitchInput::classname(), [
-             'type' => SwitchInput::CHECKBOX
-            ]);  
-        }
+//        if ( !Yii::$app->user->isGuest ) {
+//            echo $form->field($model, 'visited')->widget(SwitchInput::classname(), [
+//             'type' => SwitchInput::CHECKBOX
+//            ]);  
+//        }
     ?>
 
     <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
