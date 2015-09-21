@@ -33,7 +33,7 @@ class Requests extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'phone', 'email'], 'required'],
+            [['name', 'phone'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 150],
             [['phone'], 'string', 'max' => 20],
