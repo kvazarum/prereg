@@ -12,6 +12,7 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
+    public $status;
 
     private $_user;
 
@@ -74,5 +75,17 @@ class LoginForm extends Model
         }
 
         return $this->_user;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Пользователь',
+            'password' => 'Пароль',
+            'rememberMe' => 'Помнить меня',
+        ];
     }
 }
