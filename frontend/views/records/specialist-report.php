@@ -81,7 +81,7 @@ $this->title = 'Отчёт по специалистам';
 //                        ]);
                         ?>
                 <div class="col-lg-2">
-                    <input id="report" type="button" class="btn btn-success" value="Сформировать">
+                    <input id="specialist-report" type="button" class="btn btn-success" value="Сформировать">
                 </div>
             </div>
             <div class="panel-body" id="body">
