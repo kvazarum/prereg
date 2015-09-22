@@ -39,17 +39,15 @@ AppAsset::register($this);
         ['label' => 'О нас', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
-    if (Yii::$app->user->isGuest) {
-        
+    if (Yii::$app->user->isGuest)
+    {
         $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
+//        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
     } else {
         $menuItems[] = ['label' => 'Отчёты', 
             "items" => [
-                ['label' => 'Отчёт по специалистам', 'url' => ['/records/specialist-report']],
-//                ['label' => 'Специальности', 'url' => ['/occupations']],
-//                ['label' => 'Врачи', 'url' => ['/doctors']],
-//                ['label' => 'Специалисты', 'url' => ['/specialists']],
-//                ['label' => 'Пользователи', 'url' => ['/user']],
+                ['label' => 'Отчёт по специалистам за период', 'url' => ['/records/specialist-report']],
+                ['label' => 'Перечень записавшихся пациентов', 'url' => ['/records/day-report']],
             ]];        
         $menuItems[] = ['label' => 'Справочники', 
             "items" => [
@@ -64,7 +62,7 @@ AppAsset::register($this);
                 ['label' => 'Генерация графиков', 'url' => ['/records/admin-occupations']],
                 ['label' => 'Графики врачей', 'url' => ['/records/index']],
             ]];        
-        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+//        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
         $menuItems[] = [
             'label' => 'Выход (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
@@ -89,7 +87,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; ГБУЗ ОКБ, г. Тверь <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

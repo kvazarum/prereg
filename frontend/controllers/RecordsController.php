@@ -13,7 +13,9 @@ use frontend\models\Occupations;
 use yii\helpers\Json;
 use yii\web\Response;
 use yii\data\SqlDataProvider;
+use yii\data\ActiveDataProvider;
 use yii\data\Sort;
+use yii\db\Query;
 
 /**
  * RecordsController implements the CRUD actions for Records model.
@@ -343,5 +345,72 @@ class RecordsController extends Controller
     public function actionSpecialistReport()
     {
         return $this->render('specialist-report');
-    }    
+    }
+
+/**
+ *
+ * @return type
+ */
+    public function actionDayReport()
+    {
+        $model = new Records();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                // form inputs are valid, do something here
+                return;
+            }
+        }
+
+        return $this->render('day-report', [
+            'model' => $model,
+        ]);
+    }
+
+/**
+ * Получение данных о заявках на приём к заданному специалисту <b>$specialist_id</b>
+ * в заданный день <b>$date_</b>
+ * @param date $date_ дата отчёта
+ * @param integer $specialist_id <b>id</b> специалиста
+ * @return mixed
+ */
+    public function actionGetDayReportDetail($date_, $specialist_id)
+    {
+        $sql = 'SELECT *
+            FROM `records`
+            WHERE DATE(`start_time`) = "'.$date_.'"
+            AND `reserved` = "1"
+            AND `visited` = "0"
+            AND `specialist_id` = "'.$specialist_id.'"
+            ORDER BY (`start_time`)';
+
+        $provider = new SqlDataProvider([
+            'sql' => $sql,
+        ]);
+        $models = $provider->getModels();
+        return Json::encode($models);
+    }
+
+/**
+ * Получение id специалистов, у который есть заявки на приём на заданный день $date_
+ * @param date $date_ дата приёма
+ * @return mixed
+ */
+    public function actionGetDayReportMain($date_)
+    {
+        $sql = 'SELECT `rd`.`specialist_id`, `oc`.`name` AS `oname`, `dr`.`name` AS `dname`, `rd`.`start_time`
+            FROM `records` AS `rd`, `occupations` AS `oc`, `specialists` AS `sp`, `doctors` AS `dr`
+            WHERE DATE(`rd`.`start_time`) = "'.$date_.'"
+            AND `rd`.`reserved` = "1"
+            AND `rd`.`visited` = "0"
+            AND `rd`.`specialist_id` = `sp`.`id` AND `sp`.`occupation_id` = `oc`.`id`
+            AND `sp`.`doctor_id` = `dr`.`id`
+            GROUP BY `specialist_id`
+            ORDER BY `dname`';
+        $provider = new SqlDataProvider([
+            'sql' => $sql,
+        ]);
+        $models = $provider->getModels();
+        return Json::encode($models);
+    }
 }
