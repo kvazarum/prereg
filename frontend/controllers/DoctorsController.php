@@ -67,7 +67,7 @@ class DoctorsController extends Controller
     {
         $model = new Doctors();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && !$this->actionIsDouble($model->name)) {
             if (count(explode(':', $model->start_time)) != 2)
             {
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма!');                
@@ -202,5 +202,21 @@ class DoctorsController extends Controller
         $hour = $string[0];
         $minute = $string[1];
         return $hour*60+$minute;
+    }
+
+/**
+ * Проверка на наличие совпадающих записей
+ * @param type $name ФИО доктора
+ * @return boolean
+ */
+    public function actionIsDouble($name)
+    {
+        $result = false;
+        $model = Doctors::findOne(['name' => $name] );
+        if($model)
+        {
+            $result = true;
+        }
+        return $result;
     }
 }
