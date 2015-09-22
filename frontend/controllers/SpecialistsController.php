@@ -12,6 +12,7 @@ use frontend\models\Doctors;
 use frontend\models\Occupations;
 use yii\helpers\Json;
 use frontend\models\Records;
+use yii\filters\AccessControl;
 
 /**
  * SpecialistsController implements the CRUD actions for Specialists model.
@@ -21,6 +22,20 @@ class SpecialistsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete', 'view', 'index', 'get-data', 'get-by-occup', 'get-d', 'get-data', 'get-name'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]
+                ]
+            ],            
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
