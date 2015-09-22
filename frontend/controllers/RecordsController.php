@@ -13,6 +13,7 @@ use frontend\models\Occupations;
 use yii\helpers\Json;
 use yii\web\Response;
 use yii\data\SqlDataProvider;
+use yii\data\Sort;
 
 /**
  * RecordsController implements the CRUD actions for Records model.
@@ -324,10 +325,15 @@ class RecordsController extends Controller
             GROUP BY `oc`.`name`, `specialist_id`
             ORDER BY `oc`.`name`, `specialist_id`';
         
-//        $result = Records::findBySql($sql)->all();
-//        return Json::encode($result);
+        $sort = new Sort([
+            'attributes' => [
+                'oc_name',
+                'name'
+            ]
+        ]);
         $provider = new SqlDataProvider([
-            'sql' => $sql
+            'sql' => $sql,
+            'sort' => $sort
         ]);
         $models = $provider->getModels();
         return Json::encode($models);
