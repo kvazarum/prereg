@@ -352,50 +352,110 @@ $("#generate").click(function()
     $("#create").attr('disabled', false);
 });
 
-    $("#report").click(function(){
-//        var occupation_id = $("#occupation").val();
-        var date_from = $("#date_from").val();
-        var date_to = $("#date_to").val();
-        
-        $.get("/records/get-report-by-specialist", {date_from:date_from, date_to:date_to}, function(data){
-            data = $.parseJSON(data);
-            $("#body").empty();
-            var text = '<table class="table table-striped table-bordered">';
-            text += '<thead><tr>';
-                text += '<th>Врач';
-                    
-                text += '</th>';
-                text += '<th>Специальность';
-                    
-                text += '</th>';
-                text += '<th>Забронировано';
-                    
-                text += '</th>';
-                text += '<th>Посетило';
-                    
-                text += '</th>';                
-            text += '</tr></thead>';
+$("#specialist-report").click(function(){
+    var date_from = $("#date_from").val();
+    var date_to = $("#date_to").val();
+
+    $.get("/records/get-report-by-specialist", {date_from:date_from, date_to:date_to}, function(data){
+        data = $.parseJSON(data);
+        $("#body").empty();
+        var text = '<table class="table table-striped table-bordered">';
+        text += '<thead><tr>';
+            text += '<th>Врач';
+
+            text += '</th>';
+            text += '<th>Специальность';
+
+            text += '</th>';
+            text += '<th>Забронировано';
+
+            text += '</th>';
+            text += '<th>Посетило';
+
+            text += '</th>';                
+        text += '</tr></thead>';
 //            $("#body").append(text);
-            data.forEach(function(item)
-            {
-                text += '<tr>';
-                    text += '<td>';
-                        text += item.name;
-                    text += "</td>";    
-                    text += '<td>';
-                        text += item.oc_name;
-                    text += '</td>';
-                    text += '<td>';
-                    text += item.res;
-                    text += '</td>';
-                    text += '<td>';
-                    text += item.vis;
-                    text += '</td>';
-                text += "</tr>";
+        data.forEach(function(item)
+        {
+            text += '<tr>';
+                text += '<td>';
+                    text += item.name;
+                text += "</td>";    
+                text += '<td>';
+                    text += item.oc_name;
+                text += '</td>';
+                text += '<td>';
+                text += item.res;
+                text += '</td>';
+                text += '<td>';
+                text += item.vis;
+                text += '</td>';
+            text += "</tr>";
 //                $("#body").append(text);
-            });
-            text += '</table>';
+        });
+        text += '</table>';
+        $("#body").append(text);
+
+    });
+});
+
+function renderSpecialistDayTable(report_date, specialist_id, item)
+{
+    $.get("/records/get-day-report-detail", {date_:report_date, specialist_id: specialist_id}, function(data2){
+        data2 = $.parseJSON(data2);
+        var stime = item.start_time.split(' ');
+        stime = stime[0].split('-');
+        fullDate = stime[2] + '-' + stime[1]+ '-' + stime[0]
+        text = '<div class="row">'
+        text += '<h3>' + item.dname + '</h3>';
+        text += '<h4>' + item.oname + ' ' + fullDate + '</h4>';
+        text += '<table class="table table-striped table-bordered">';
+            text += '<tr>';
+                text += '<th class="col-lg-5">';
+                    text += 'ФИО пациента';
+                text += '</th>';
+                text += '<th>';
+                        text += 'Время приёма';
+                text += '</th>';
+                text += '<th>';
+                        text += '№ телефона';
+                text += '</th>';
+            text += '</tr>';
+        data2.forEach(function(item2){
+            text += '<tr>';
+                text += '<td class="col-lg-5">';
+                    text += '<a target="_blank" href="/records/view?id=' + item2.id + '">'+item2.name + '</a>';
+                text += '</td>';
+                text += '<td>';
+                        var stime = item2.start_time.split(' ');
+                        stime = stime[1].split(':');
+                        text += stime[0] + ':' + stime[1];
+                text += '</td>';
+                text += '<td>';
+                        text += item2.phone;
+                text += '</td>';
+            text += '</tr>';
+        });
+        text += '</table>';
+        text += '</div>';
+        $("#body").append(text);
+      });
+}
+
+$("#day-report-submit").click(function(){
+    var report_date = $("#report_date").val();
+    $.get("/records/get-day-report-main", {date_:report_date}, function(data){
+        data = $.parseJSON(data);
+        $("#body").empty();
+
+        data.forEach(function(item)
+        {
+            var text = '';
+
+                
+                $("#body").append(text);
+                    renderSpecialistDayTable(report_date, item.specialist_id, item);
             $("#body").append(text);
-            
         });
     });
+});
