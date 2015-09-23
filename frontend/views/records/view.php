@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use frontend\models\Specialists;
+use frontend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Records */
@@ -49,14 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'phone',
             ],
             [
-                'attribute' => 'user_id',
-//                'format'=>'raw',
-//                'value' => function($model)
-//                {
-//                    return 'skljdf';
-//                }
-            ],
-            [
                 'attribute' => 'email',
             ],            
             [
@@ -68,7 +61,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'reserved',
                 'format'=>'raw',
                 'value'=>$model->reserved ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>',
-            ]
+            ],
+            [
+                'attribute' => 'user_id',
+                'format'=>'html',
+                'value' => $model->user_id ? User::findOne($model->user_id)->name: 'Интернет-пользователь'
+            ],
         ],
     ]) ?>
 
