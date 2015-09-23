@@ -48,13 +48,13 @@ class RequestsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RequestsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+//        $searchModel = new RequestsSearch();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
     }
 
     /**
@@ -83,6 +83,10 @@ class RequestsController extends Controller
             $model->updated_at = date('Y-m-d H:i:s');
             $model->reserved = 1;
             $model->visited = 0;
+            if (!Yii::$app->user->isGuest)
+            {
+                $model->user_id = Yii::$app->user->id;
+            }
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
