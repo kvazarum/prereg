@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\data\Sort;
 
 /**
  * OccupationsController implements the CRUD actions for Occupations model.
@@ -35,10 +36,16 @@ class OccupationsController extends Controller
     {
         $searchModel = new OccupationsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $sort = new Sort([
+            'attributes' => [
+                'name'
+            ]
+        ]);
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'sort' => $sort,
         ]);
     }
 
