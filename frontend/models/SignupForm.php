@@ -11,6 +11,7 @@ use Yii;
 class SignupForm extends Model
 {
     public $username;
+    public $name;
     public $email;
     public $password;
 
@@ -33,6 +34,23 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+
+            ['name', 'required'],
+            ['name', 'string', 'min' => 6, 'max' => 100],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Фамилия имя отчество',
+            'username' => 'Логин',
+            'email' => 'Email',
+            'password' => 'Пароль',
         ];
     }
 
@@ -47,6 +65,7 @@ class SignupForm extends Model
             $user = new User();
             $user->username = $this->username;
             $user->email = $this->email;
+            $user->name = $this->name;
             $user->setPassword($this->password);
             $user->generateAuthKey();
             if ($user->save()) {
