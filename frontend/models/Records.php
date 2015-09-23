@@ -127,7 +127,7 @@ class Records extends \yii\db\ActiveRecord
         return $this->specialist->occupation->name;
     }
 
-    public function getRegistrstorName()
+    public function getRegistratorName()
     {
         
     }
