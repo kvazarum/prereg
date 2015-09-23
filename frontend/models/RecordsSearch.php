@@ -20,7 +20,7 @@ class RecordsSearch extends Records
     {
         return [
             [['id',  'cabinet_id', 'reserved', 'visited', 'sum'], 'integer'],
-            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id', 'occupationName'], 'safe'],
+            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id', 'occupationName', 'user_id'], 'safe'],
         ];
     }
 
