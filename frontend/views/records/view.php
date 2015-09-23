@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'specialist.occupation.name',
-                'value' => 'Специальность'
+                'label' => 'Специальность'
             ],
             [
                 'attribute' => 'start_time',
