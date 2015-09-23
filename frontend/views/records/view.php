@@ -40,6 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',               
             ],
             [
+                'attribute' => 'specialist.occupation.name',
+                'value' => 'Специальность'
+            ],
+            [
                 'attribute' => 'start_time',
                 'format' => ['datetime', 'dd-MM-Y H:i']                
             ],
