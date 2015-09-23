@@ -20,6 +20,12 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    const STATUS_DELETED = 0;
+    const STATUS_NOT_ACTIVE = 1;
+    const STATUS_ACTIVE = 10;
+
+    public $password;
+
     /**
      * @inheritdoc
      */
@@ -34,9 +40,14 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['username', 'password', 'email'], 'filter', 'filter' => 'trim'],
+            [['username', 'email', 'created_at', 'updated_at', 'status'], 'required'],
+            ['email', 'email'],
+            [ 'password', 'required', 'on' => 'create'],
+            ['username', 'unique', 'message' => 'Это имя занято.'],
             [['role', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'email'], 'string', 'max' => 128],
+            [['username', 'email'], 'string', 'max' => 3, 'max' => 255],
+
             [['auth_key'], 'string', 'max' => 30],
             [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
             [['username'], 'unique'],
@@ -50,9 +61,9 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'Имя пользователя',
             'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
+            'password' => 'Пароль',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'role' => 'Role',

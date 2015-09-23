@@ -51,7 +51,7 @@ AppAsset::register($this);
             ]];        
         $menuItems[] = ['label' => 'Справочники', 
             "items" => [
-                ['label' => 'Кабинеты', 'url' => ['/cabinets']],
+//                ['label' => 'Кабинеты', 'url' => ['/cabinets']],
                 ['label' => 'Специальности', 'url' => ['/occupations']],
                 ['label' => 'Врачи', 'url' => ['/doctors']],
                 ['label' => 'Специалисты', 'url' => ['/specialists']],

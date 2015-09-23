@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php 
     Pjax::begin();
-        
+
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'period',
             'created_at',
             'updated_at',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);

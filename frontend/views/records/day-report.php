@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 
+$this->title = 'Перечень записавшихся пациентов';
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Records */
 /* @var $form ActiveForm */
