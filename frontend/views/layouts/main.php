@@ -37,7 +37,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Выбор специальности', 'url' => ['/site/index']],
         ['label' => 'О нас', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+//        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest)
     {
@@ -61,9 +61,9 @@ AppAsset::register($this);
             "items" => [
                 ['label' => 'Генерация графиков', 'url' => ['/records/admin-occupations']],
                 ['label' => 'Графики врачей', 'url' => ['/records/index']],
-                ['label' => 'Регистрация пользователя', 'url' => ['/site/signup']]
-            ]];        
-//        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+                ['label' => 'Регистрация пользователя', 'url' => ['/site/signup']],
+                ['label' => 'Список пользователей', 'url' => ['/user/index']]
+            ]];
         $menuItems[] = [
             'label' => 'Выход (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
