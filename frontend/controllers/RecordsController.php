@@ -110,6 +110,10 @@ class RecordsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->created_at = date('Y-m-d H:i:s');
             $model->updated_at = date('Y-m-d H:i:s');
+            if (!Yii::$app->user->isGuest)
+            {
+                Yii::$app->user->id;
+            }
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -133,14 +137,14 @@ class RecordsController extends Controller
         
         if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = date('Y-m-d H:i:s');
+            if (!Yii::$app->user->isGuest)
+            {
+                $model->user_id = Yii::$app->user->id;
+            }
             if ($model->visited == true)
             {
                 $model->reserved = TRUE;
             }
-//            if ($model->reserved == FALSE)
-//            {
-//                $model->visited = FALSE;
-//            }
             $model->save();            
             return $this->redirect(['view', 'id' => $model->id]);
         }

@@ -16,6 +16,7 @@ use frontend\models\Records;
  * @property integer $cabinet_id
  * @property string $start_time
  * @property integer $reserved
+ * @property integer $user_id
  * @property integer $visited
  * @property integer $sum
  * @property string $created_at
@@ -67,7 +68,7 @@ class Records extends \yii\db\ActiveRecord
         return [
             [['specialist_id', 'start_time', 'reserved', 'visited', 'created_at', 'updated_at'], 'required'],
             [['specialist_id', 'reserved', 'visited'], 'integer'],
-            [['start_time', 'created_at', 'updated_at', 'name', 'phone', 'email'], 'safe'],
+            [['start_time', 'created_at', 'updated_at', 'name', 'phone', 'email', 'user_id'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 50],
@@ -83,7 +84,7 @@ class Records extends \yii\db\ActiveRecord
             'id' => 'ID',
             'specialist_id' => 'Специалист',
             'occupationName' => 'Специальность',
-//            'cabinet_id' => 'Кабинет',
+            'user_id' => 'Регистратор',
             'start_time' => 'Время начала приёма',
             'reserved' => 'Заказ',
             'visited' => 'Посещение',
@@ -116,9 +117,18 @@ class Records extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Specialists::className(), ['id' => 'specialist_id']);
     }
-    
+
+/**
+ * Получение название специальности текущего врача
+ * @return type
+ */
     public function getOccupationName()
     {
         return $this->specialist->occupation->name;
-    }    
+    }
+
+    public function getRegistrstorName()
+    {
+        
+    }
 }

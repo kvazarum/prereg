@@ -49,6 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'phone',
             ],
             [
+                'attribute' => 'user_id',
+//                'format'=>'raw',
+//                'value' => function($model)
+//                {
+//                    return 'skljdf';
+//                }
+            ],
+            [
                 'attribute' => 'email',
             ],            
             [
