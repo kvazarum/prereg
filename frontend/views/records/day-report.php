@@ -9,10 +9,13 @@ $this->title = 'Перечень записавшихся пациентов';
 /* @var $model frontend\models\Records */
 /* @var $form ActiveForm */
 ?>
+<style type="text/css" media="print"> 
+  div.no_print {display: none; } 
+</style>
 <div class="day-report">
     <div class="container">
         <div class="panel panel-info">
-                <div class="panel-heading">
+                <div class="panel-heading no_print">
                <div class="col-lg-5">
 <!--                    <label for="date_from">
                         Дата начала отчёта
@@ -32,6 +35,9 @@ $this->title = 'Перечень записавшихся пациентов';
                     ?>
                 </div>
                 <input id="day-report-submit" type="button" class="btn btn-success" value="Сформировать">
+                <div class='no_print' style="display: inline-block;">
+                    <a class="btn btn-success" href=# onClick="window.print();">Печать</a> 
+                </div>
             </div><!-- panel-heading -->
             <div class="panel-body" id="body">
 
