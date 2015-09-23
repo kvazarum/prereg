@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\data\Sort;
+use yii\filters\AccessControl;
 
 /**
  * OccupationsController implements the CRUD actions for Occupations model.
@@ -19,6 +20,20 @@ class OccupationsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete', 'view', 'get-data', 'index'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]                    
+                ]
+            ],            
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

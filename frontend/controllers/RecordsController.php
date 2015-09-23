@@ -16,6 +16,7 @@ use yii\data\SqlDataProvider;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
 use yii\db\Query;
+use yii\filters\AccessControl;
 
 /**
  * RecordsController implements the CRUD actions for Records model.
@@ -25,6 +26,23 @@ class RecordsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete', 'view', 'get-data', 'get-day-report-detail', 
+                    'get-day-report-main', 'get-report-by-specialist', 'get-request', 'save-record',
+                    'specialist-record', 'request', 'register'
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]                    
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -230,7 +248,13 @@ class RecordsController extends Controller
             {
                 $record->save();
             }
+            $result = true;
         }
+        else
+        {
+            $result = false;
+        }
+        return $result;
     }
     
 /**

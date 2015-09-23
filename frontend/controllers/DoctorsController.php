@@ -10,15 +10,30 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\db\Query;
+use yii\filters\AccessControl;
 
 /**
  * DoctorsController implements the CRUD actions for Doctors model.
  */
 class DoctorsController extends Controller
 {
-    public function ebhaviors()
+    public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete', 'view', 'index'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]                    
+                ]
+            ],            
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
