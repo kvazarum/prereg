@@ -248,7 +248,13 @@ class RecordsController extends Controller
             {
                 $record->save();
             }
+            $result = true;
         }
+        else
+        {
+            $result = false;
+        }
+        return $result;
     }
     
 /**
