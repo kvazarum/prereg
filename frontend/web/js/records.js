@@ -420,6 +420,9 @@ function renderSpecialistDayTable(report_date, specialist_id, item)
                 text += '<th>';
                         text += '№ телефона';
                 text += '</th>';
+                text += '<th>';
+                        text += 'Регистратор';
+                text += '</th>';
             text += '</tr>';
         data2.forEach(function(item2){
             text += '<tr>';
@@ -427,12 +430,22 @@ function renderSpecialistDayTable(report_date, specialist_id, item)
                     text += '<a target="_blank" href="/records/view?id=' + item2.id + '">'+item2.name + '</a>';
                 text += '</td>';
                 text += '<td>';
-                        var stime = item2.start_time.split(' ');
-                        stime = stime[1].split(':');
-                        text += stime[0] + ':' + stime[1];
+                    var stime = item2.start_time.split(' ');
+                    stime = stime[1].split(':');
+                    text += stime[0] + ':' + stime[1];
                 text += '</td>';
                 text += '<td>';
-                        text += item2.phone;
+                    text += item2.phone;
+                text += '</td>';
+                text += '<td>';
+                    if (item2.user_id == 0)
+                    {
+                          text += 'Интернет-регистрация';
+                    }
+                    else
+                    {
+                        text += item2.user_id;
+                    }
                 text += '</td>';
             text += '</tr>';
         });
