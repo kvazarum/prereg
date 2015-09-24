@@ -24,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php
         if ( !Yii::$app->user->isGuest ) {
-            echo Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+            echo Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary no_print']);
             echo Html::a('Удалить', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
+                'class' => 'btn btn-danger no_print',
                 'data' => [
                     'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                     'method' => 'post',
