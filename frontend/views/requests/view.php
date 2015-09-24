@@ -14,6 +14,9 @@ if (!Yii::$app->user->isGuest)
 }
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style type="text/css" media="print">
+  .no_print {display: none; }
+</style>
 <div class="requests-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -31,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
         }
         ?>
+        <input type="button" class="btn btn-success no_print" value="Печать заявки" onclick="window.print();" />
     </p>    
 
     <?php
@@ -78,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'record.start_time',
                 'name',
                 'phone',
-                'email:email',
+                'email',
 //                'created_at'
             ]
         ]);    
