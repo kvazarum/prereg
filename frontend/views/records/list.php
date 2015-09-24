@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            $url = Url::to(['records/register', 'id' => $records[$i]->id]);
             $url = Url::to(['requests/create', 'id' => $records[$i]->id]);
             $text = strtotime($records[$i]->start_time);
-            $text = date("d-m-Yг. H:i", $text);
+            $text = date("H:i d-m-Yг.", $text);
             $classes = 'btn btn-lg btn-info';
             echo '<p><a style="width: 400px;" class="'.$classes.'" href="'.$url.'">'.$text.'</a></p>';
         }    
