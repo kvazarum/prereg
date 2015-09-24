@@ -75,7 +75,7 @@ use frontend\models\Records;
                         {
                             $type = '';
                             $class = 'btn-primary btn-lg';
-                            $text = '9:00-14:00<br/ >приёмов - '.$count;
+                            $text = '9:00-14:00<br/ >приёмов:<br />'.$count;
                         }
                         else
                         {
