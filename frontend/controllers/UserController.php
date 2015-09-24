@@ -118,4 +118,23 @@ class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+/**
+ * Получение ФИО пользователя
+ * @param integer $id
+ * @return mixed
+ */
+    public function actionGetName($id)
+    {
+        $model = User::findOne($id);
+        if ($model !== null)
+        {
+            $result = $model->name;
+        }
+        else
+        {
+            $result = false;
+        }
+        return $result;
+    }
 }
