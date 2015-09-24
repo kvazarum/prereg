@@ -411,13 +411,13 @@ function renderSpecialistDayTable(report_date, specialist_id, item)
         text += '<h4>' + item.oname + ' ' + fullDate + '</h4></div>';
         text += '<table class="table table-striped table-bordered">';
             text += '<tr>';
-                text += '<th class="col-lg-5">';
+                text += '<th class="col-lg-3">';
                     text += 'ФИО пациента';
                 text += '</th>';
-                text += '<th>';
+                text += '<th class="col-lg-2">';
                         text += 'Время приёма';
                 text += '</th>';
-                text += '<th>';
+                text += '<th  class="col-lg-2">';
                         text += '№ телефона';
                 text += '</th>';
                 text += '<th>';
