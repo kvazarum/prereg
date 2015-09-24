@@ -460,15 +460,21 @@ $("#day-report-submit").click(function(){
     $.get("/records/get-day-report-main", {date_:report_date}, function(data){
         data = $.parseJSON(data);
         $("#body").empty();
-
-        data.forEach(function(item)
+        if (data.length > 0)
         {
-            var text = '';
-
-                
+            data.forEach(function(item)
+            {
+                var text = '';
+                    $("#body").append(text);
+                        renderSpecialistDayTable(report_date, item.specialist_id, item);
                 $("#body").append(text);
-                    renderSpecialistDayTable(report_date, item.specialist_id, item);
+        //TODO сделать разрыв страницы про достижении определённого числа строк ()
+            });
+        }
+        else
+        {
+            var text = report_date + ' нет заявок.';
             $("#body").append(text);
-        });
+        }
     });
 });
