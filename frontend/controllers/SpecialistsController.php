@@ -121,9 +121,19 @@ class SpecialistsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->updated_at = date('Y-m-d H:i:s');
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            if (!Specialists::isDouble($model->doctor_id, $model->occupation_id))
+            {
+                $model->updated_at = date('Y-m-d H:i:s');
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', 'Такая запись уже существует.');
+                return $this->render('update', [
+                    'model' => $model,
+            ]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
