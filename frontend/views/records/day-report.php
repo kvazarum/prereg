@@ -10,7 +10,12 @@ $this->title = 'Перечень записавшихся пациентов';
 /* @var $form ActiveForm */
 ?>
 <style type="text/css" media="print"> 
-  div.no_print {display: none; } 
+    div.no_print {display: none; }
+    a:link:after,
+    a:visited:after {
+    content: "";
+    font-size: 90%;
+}
 </style>
 <div class="day-report">
     <div class="container">
