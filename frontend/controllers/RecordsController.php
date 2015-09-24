@@ -308,14 +308,7 @@ class RecordsController extends Controller
     }   
     
     public static function actionGetRequest($date_from, $date_to, $specialist_id)
-    {
-//        $strTime = explode('-', $date);
-//        $year = $strTime[2];
-//        $month = $strTime[1];
-//        $day = $strTime[0];
-        //$strTime = mktime(0, 0, 0, $strTime[1], $strTime[0],  $strTime[2]);
-        //$strTime = date('Y-m-d H:i:s', $strTime);  
-        
+    {        
         $result = Records::find()->where(['specialist_id' => $specialist_id, 'DAY(start_time)' => $day,
                 'MONTH(start_time)' => $month, 'YEAR(start_time)' => $year])->all();
         
@@ -332,20 +325,6 @@ class RecordsController extends Controller
  */    
     public function actionGetReportBySpecialist($date_from, $date_to)
     {
-//        $query = Records::find();
-
-        // add conditions that should always apply here
-
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//            'sort' => [
-//                'defaultOrder' => [
-//                    'start_time' => SORT_ASC, 
-//                ]
-//            ]
-//        ]);        
-        
-
         $sql = 'SELECT `dc`.`name`, COUNT(if (`rd`.`reserved` = "1",1,null)) AS `res`, COUNT(IF(`rd`.`visited` = "1",1,null)) AS `vis`, `oc`.`name` AS `oc_name`, `sp`.`id`
             FROM `records` AS `rd`, `specialists` AS `sp`, `doctors` AS `dc`, `occupations` AS `oc` 
             WHERE `rd`.`specialist_id` = `sp`.`id`
@@ -404,12 +383,13 @@ class RecordsController extends Controller
  */
     public function actionGetDayReportDetail($date_, $specialist_id)
     {
-        $sql = 'SELECT *
-            FROM `records`
+        $sql = 'SELECT `records`.`name`, `records`.`phone`, `records`.`start_time`, `records`.`id`, `user`.`name` AS `uname`
+            FROM `records`, `user`
             WHERE DATE(`start_time`) = "'.$date_.'"
             AND `reserved` = "1"
             AND `visited` = "0"
             AND `specialist_id` = "'.$specialist_id.'"
+            AND `records`.`user_id` = `user`.`id`
             ORDER BY (`start_time`)';
 
         $provider = new SqlDataProvider([

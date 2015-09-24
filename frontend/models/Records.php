@@ -67,6 +67,7 @@ class Records extends \yii\db\ActiveRecord
     {
         return [
             [['specialist_id', 'start_time', 'reserved', 'visited', 'created_at', 'updated_at'], 'required'],
+            ['name', 'filter', 'filter' => 'trim'],
             [['specialist_id', 'reserved', 'visited'], 'integer'],
             [['start_time', 'created_at', 'updated_at', 'name', 'phone', 'email', 'user_id'], 'safe'],
             [['name'], 'string', 'max' => 100],

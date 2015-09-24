@@ -424,7 +424,7 @@ function renderSpecialistDayTable(report_date, specialist_id, item)
                         text += 'Регистратор';
                 text += '</th>';
             text += '</tr>';
-        data2.forEach(function(item2){
+            data2.forEach(function(item2){
             text += '<tr>';
                 text += '<td class="col-lg-5">';
                     text += '<a target="_blank" href="/records/view?id=' + item2.id + '">'+item2.name + '</a>';
@@ -438,17 +438,10 @@ function renderSpecialistDayTable(report_date, specialist_id, item)
                     text += item2.phone;
                 text += '</td>';
                 text += '<td>';
-                    if (item2.user_id == 0)
-                    {
-                          text += 'Интернет-регистрация';
-                    }
-                    else
-                    {
-                        text += item2.user_id;
-                    }
+                    text += item2.uname;
                 text += '</td>';
             text += '</tr>';
-        });
+            });
         text += '</table>';
         text += '</div>';
         $("#body").append(text);
