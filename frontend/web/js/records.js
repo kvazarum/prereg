@@ -407,8 +407,8 @@ function renderSpecialistDayTable(report_date, specialist_id, item)
         stime = stime[0].split('-');
         fullDate = stime[2] + '-' + stime[1]+ '-' + stime[0]
         text = '<div class="row">'
-        text += '<h3>' + item.dname + '</h3>';
-        text += '<h4>' + item.oname + ' ' + fullDate + '</h4>';
+        text += '<div style="padding-left: 15px;"><h3>' + item.dname + '</h3>';
+        text += '<h4>' + item.oname + ' ' + fullDate + '</h4></div>';
         text += '<table class="table table-striped table-bordered">';
             text += '<tr>';
                 text += '<th class="col-lg-5">';
