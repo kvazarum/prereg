@@ -473,8 +473,11 @@ $("#day-report-submit").click(function(){
         }
         else
         {
-            var text = report_date + ' нет заявок.';
-            $("#body").append(text);
+            var text = '<div id="w2-success-0" class="alert-warning alert fade in">';
+                    text += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                    text += report_date + ' нет заявок.';
+                text += '</div>';
+             $("#body").append(text);
         }
     });
 });
