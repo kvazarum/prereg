@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-
+use frontend\models\Records;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Requests */
@@ -23,10 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         $hours = $str_time[0];
         $minutes = $str_time[1];
         $date = explode('-', $date);
-        $day = $date[2];
-        $month = $date[1];
+        $day = $date[2];    
+        $month = Records::$monthsFull[(int)$date[1]];
         $year = $date[0];
-        $str_time = $day.'-'.$month.'-'.$year.'г. '.$hours.'ч.'.' '.$minutes.' мин.';
+        $str_time = $day.' '.$month.' '.$year.'г. '.$hours.'ч.'.' '.$minutes.' мин.';
         
         echo '<h3>Время приёма: '.$str_time.'</h3>'; 
     ?>
