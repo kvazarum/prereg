@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\captcha\Captcha;
 use kartik\switchinput\SwitchInput;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Requests */
@@ -16,7 +17,9 @@ use kartik\switchinput\SwitchInput;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'phone')->
+            widget(MaskedInput::className(), ['mask' => '8 (999) 999-99-99'])
+    ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
     
