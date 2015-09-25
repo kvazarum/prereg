@@ -2,18 +2,19 @@
  * Если установлен признак "одним днём", то
 *  при изменении даты "от" меняем дату "до"
 */       
-$("#date_from").change(function(){
-    if (compareDates())
+$("#date_from").change(function()
+{
+    if ($('#one_day').prop('checked') == true)
     {
-        if ($('#one_day').prop('checked') == true)
-        {
-            $('#date_to').val($('#date_from').val());
-        }
-        $('#generate').prop('disabled', false);
+        $('#date_to').val($('#date_from').val());
     }
     else
     {
-        showAlert('<div>Дата начала диапазона не может быть больше даты конца.</div>');
+        if (!compareDates())
+        {
+            $('#date_from').val($('#date_to').val());
+        }
+        
     }
 });
 
@@ -38,7 +39,7 @@ $("#date_to").change(function(){
 
 /**
  * Показывает модальное окно с текстом ошибки
- * @param {type} text
+ * @param string text
  * @returns {undefined}
  */
 function showAlert(text)
@@ -51,6 +52,7 @@ function showAlert(text)
 /**
  * Сравнение даты начала графика и конца
  * В случае, если дата начала больше даты конца - выводит сообщение об ошибке
+ * и возвращает false
  * @returns {Boolean}
  */
 function compareDates()
