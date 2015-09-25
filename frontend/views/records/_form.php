@@ -2,10 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\models\Doctors;
-use frontend\models\Specialists;
-use frontend\models\Occupations;
 use kartik\switchinput\SwitchInput;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Records */
@@ -18,11 +16,11 @@ use kartik\switchinput\SwitchInput;
     
     ?>
 
-
-    
     <?php echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'phone')->
+            widget(MaskedInput::className(), ['mask' => '8 (999) 999-99-99'])
+    ?>
     
     <?php echo $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
     
