@@ -207,8 +207,8 @@ function setSpecialistData(data)
             {
                 em = "0" + em;
             }             
-            $("#start_time").attr("value",sh  + ":"+ sm);
-            $("#end_time").attr("value",eh  + ":"+ em);
+            $("#start_time").prop("value",sh  + ":"+ sm);
+            $("#end_time").prop("value",eh  + ":"+ em);
            
             $("#name").attr("html", data.name);
         });
@@ -218,7 +218,7 @@ function setPeriod(id)
 {
     $.get("/occupations/get-data", {id : id}, function(data){
         data = $.parseJSON(data);
-        $("#period").attr("value", data.period);   
+        $("#period").prop("value", data.period);
     });
 }
 
