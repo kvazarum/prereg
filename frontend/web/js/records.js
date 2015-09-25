@@ -257,6 +257,19 @@ $("#create").click(function(){
     })
 });
 
+function dayTitleClick(chk)
+{
+    $('.tag').each(function()
+    {
+        data = $(this).val();
+        data = data.split('&');
+        date = data[0];
+        if(date == chk.value)
+        {
+            $(this).prop('checked', chk.checked);
+        }
+    })
+}
 
 $("#generate").click(function()
 {       
@@ -323,7 +336,7 @@ $("#generate").click(function()
                     var D = new Date(data_start);
                     var words = D.getDate() + '&nbsp' + months[D.getMonth()] + '&nbsp' + D.getFullYear();
                     text = '&nbsp' + dayOfWeek + ',<span style="margin-left: 10px;"><b>'+ words + '</span></b>';
-                    data += '<input onclick="dayTitle()" value="' + data_start + '" class="dayTitle" type="checkbox" checked>';
+                    data += '<input onclick="dayTitleClick(this)" value="' + data_start + '" class="dayTitle" type="checkbox" checked>';
                     data += text;
                 data += '</div>';
             data += '</div>';
