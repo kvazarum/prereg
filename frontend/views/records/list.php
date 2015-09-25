@@ -7,6 +7,7 @@ use frontend\models\Specialists;
 use frontend\models\Occupations;
 use frontend\models\Records;
 use yii\helpers\Url;
+//use Yii;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\RecordsSearch */
@@ -21,12 +22,15 @@ $this->title = 'Выбор времени приёма';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Выбор даты'), 'url' => ['specialists/viewss', 'id' => $spec->occupation_id]];
 $this->params['breadcrumbs'][] = $this->title;
 
-    echo '<div class="jumbotron">';
-        echo '<div class="page-header">';
-            echo '<h3>'.Html::encode($this->title).'</h3>';
-            echo '<h2>'.$doctor->name.'</h2>';
-            echo '<h4>'.$doctor->description.'</h4>';
-        echo '</div>';
+    echo Html::beginTag('div', ['class' => "jumbotron"]);
+        echo Html::beginTag('div', ['class' => "page-header"]);
+            echo Html::tag('h3', Html::encode($this->title));
+            echo Html::tag('h2', $doctor->name);
+            echo Html::tag('h4',$doctor->description);
+
+            $month = Records::$monthsFull[(int)date('m', $date)];
+            echo '<p><strong>'.date("d", $date).' '.$month.' '.date('Y', $date).'</strong></p>';
+        echo Html::endTag('div');
 
 ?>
 <div class="records-list">
@@ -37,14 +41,22 @@ $this->params['breadcrumbs'][] = $this->title;
         echo '<div class="jumbotron">';
         for ($i = 0; $i <count($records); $i++)
         {
-//            $url = Url::to(['records/register', 'id' => $records[$i]->id]);
-            $url = Url::to(['requests/create', 'id' => $records[$i]->id]);
+            if (Yii::$app->user->isGuest)
+            {
+                $url = Url::to(['requests/create', 'id' => $records[$i]->id]);
+            }
+            else
+            {
+                $url = Url::to(['records/update', 'id' => $records[$i]->id]);
+            }
             $text = strtotime($records[$i]->start_time);
-            $text = date("H:i d-m-Yг.", $text);
+            $text = date("H:i", $text);
             $classes = 'btn btn-lg btn-info';
-            echo '<p><a style="width: 400px;" class="'.$classes.'" href="'.$url.'">'.$text.'</a></p>';
+            echo Html::beginTag('p');
+                echo Html::a($text, $url, ['class' => $classes]);
+            echo Html::endTag('p');
         }    
-        echo '</div>';
+        echo Html::endTag('div');
     ?>
 </div>
 </div>
