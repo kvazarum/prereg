@@ -239,6 +239,7 @@ class RecordsController extends Controller
             $record->visited = 0;
             $record->updated_at = date('Y-m-d H:i:s');
             $record->created_at = date('Y-m-d H:i:s');
+            $record->user_id = Yii::$app->user->id;
 
             $minute = $time%60;
             $hour = ($time - $minute)/60;
@@ -278,7 +279,11 @@ class RecordsController extends Controller
         $hour = ($time - $minute)/60;
         
         $strTime = explode('-', $date);
-        $strTime = mktime($hour, $minute, 0, $strTime[1], $strTime[0],  $strTime[2]);
+        $year = $strTime[0];
+        $month = $strTime[1];
+        $day = $strTime[2];
+        //$strTime = mktime($hour, $minute, 0, $strTime[1], $strTime[0],  $strTime[2]);
+        $strTime = mktime($hour, $minute, 0, $month, $day,  $year);
         $strTime = date('Y-m-d H:i:s', $strTime);
         
         $result = Records::find()->where(['specialist_id'=> $spec, 'start_time' => $strTime])->one();
