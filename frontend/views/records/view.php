@@ -37,7 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'specialist.doctor.name',
-                'format' => 'raw',               
+                'label' => 'Врач',
+                'format' => 'raw',
+                'value' => Html::a($model->specialist->doctor->name,['/specialists/view', 'id' => $model->specialist_id])
             ],
             [
                 'attribute' => 'specialist.occupation.name',
