@@ -25,7 +25,11 @@ use yii\widgets\MaskedInput;
     Modal::begin([
 //        'header' => '<h4>Ошибка</h4>',
         'id' => 'modal',
-        'size' => 'modal-sm'
+        'size' => 'modal-sm',
+        'footer' => Html::button('Закрыть', [
+            'class' => 'btn btn-default',
+            'data-dismiss' => 'modal'
+        ])
     ]);
     
     Modal::end();
