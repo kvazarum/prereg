@@ -74,6 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'html',
                 'value' => $model->user_id ? User::findOne($model->user_id)->name: 'Интернет-пользователь'
             ],
+            'created_at',
+            'updated_at'
         ],
     ]) ?>
 
