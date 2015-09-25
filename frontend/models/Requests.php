@@ -57,6 +57,7 @@ class Requests extends \yii\db\ActiveRecord
             'reserved' => 'Зарезервировано',
             'created_at' => 'Создано',
             'updated_at' => 'Updated At',
+            'verifyCode' => 'введите код'
         ];
     }
     
