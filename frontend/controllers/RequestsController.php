@@ -80,15 +80,24 @@ class RequestsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->updated_at = date('Y-m-d H:i:s');
-            $model->reserved = 1;
-            $model->visited = 0;
-            if (!Yii::$app->user->isGuest)
+            
+            if (!$model->reserved)
             {
-                $model->user_id = Yii::$app->user->id;
+                $model->updated_at = date('Y-m-d H:i:s');
+                $model->reserved = 1;
+                $model->visited = 0;
+                if (!Yii::$app->user->isGuest)
+                {
+                    $model->user_id = Yii::$app->user->id;
+                }
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            else
+            {
+                Yii::$app->session->setFlash('error', 'Запись на указанное время уже осуществлена. Выберите другое время.');
+                return $this->redirect(['/specialists/viewss', 'id' => $model->specialist->occupation_id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
