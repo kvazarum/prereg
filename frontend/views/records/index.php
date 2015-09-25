@@ -62,10 +62,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'start_time',
-//                'value' => function($model){
-//                    $result = Yii::$app->formatter->asDatetime($model->start_time, 'd-MM-Y H:i');
-//                    return $result;
-//                },                
+                'value' => function($model){
+                    $text = Yii::$app->formatter->asDatetime($model->start_time, 'd-MM-Y H:i');
+                    $result = Yii::t('app', $text);
+                    return $result;
+                },                
                 'headerOptions' => [
                     'class'=>'col-lg-2'
                 ],                
