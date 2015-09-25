@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
 use frontend\models\Occupations;
 use kartik\select2\Select2;
 use yii\bootstrap\Modal;
-//use kartik\date\DatePicker;
+use yii\widgets\MaskedInput;
 
     $specialists = Specialists::findAll(['occupation_id' => $occupation_id]);
     $occupation = Occupations::findOne($occupation_id);  
@@ -95,15 +95,38 @@ use yii\bootstrap\Modal;
             <label for="start_time">
                 Начало рабочего дня, (чч:мм)
             </label> 
-            <input id="start_time" onchange="changeTimeTable()" placeholder="Время начала дня" class="form-control">
+            <!--<input id="start_time" onchange="changeTimeTable()" placeholder="Время начала дня" class="form-control">-->
+            <?php
+                echo MaskedInput::widget([
+                    'name' => "start_time",
+                    'mask' => '99:99',
+                    'id' => "start_time",
+                    ]);
+            ?>
             <label for="end_time">
                 Конец рабочего дня, (чч:мм)
             </label>             
-            <input id="end_time" placeholder="Время окончания дня" class="form-control">
+<!--            <input id="end_time" placeholder="Время окончания дня" class="form-control">-->
+            <?php
+                echo MaskedInput::widget([
+                    'type' => 'text',
+                    'name' => "end_time",
+                    'mask' => '99:99',
+                    'id' => "end_time",
+                    ]);
+            ?>
             <label for="period">
                 Время одного приёма, (мин.)
             </label>                         
-            <input id="period" placeholder="Длительность приёма" class="form-control">
+            <!--<input id="period" placeholder="Длительность приёма" class="form-control">-->
+            <?php
+                echo MaskedInput::widget([
+                    'type' => 'text',
+                    'name' => "period",
+                    'mask' => '99',
+                    'id' => "period",
+                    ]);
+            ?>
         </div><!-- panel-body -->
         <div class="panel-footer">
             <button id='generate' class="btn btn-info" onclick="" disabled="true">Создать график</button>            
