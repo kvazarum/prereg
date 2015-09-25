@@ -58,16 +58,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'email',
-            ],            
-            [
-                'attribute' => 'visited',
-                'format'=>'raw',
-                'value'=>$model->visited ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>',
             ],
             [
                 'attribute' => 'reserved',
                 'format'=>'raw',
                 'value'=>$model->reserved ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>',
+            ],
+            [
+                'attribute' => 'visited',
+                'format'=>'raw',
+                'value'=>$model->visited ? '<span class="label label-success">Да</span>' : '<span class="label label-danger">Нет</span>',
             ],
             [
                 'attribute' => 'user_id',
