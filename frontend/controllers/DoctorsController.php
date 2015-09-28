@@ -174,14 +174,14 @@ class DoctorsController extends Controller
         $start_time = explode(':', $model->start_time);
         if (count($start_time) == 2)
         {
-            $model->start_time = $this->timeToInt($model->start_time);
+            $model->start_time = Doctors::timeToInt($model->start_time);
            
-            $model->end_time = $this->timeToInt($model->end_time);
+            $model->end_time = Doctors::timeToInt($model->end_time);
         }
         else
         {
-            $model->start_time = $this->intToTime($model->start_time);
-            $model->end_time = $this->intToTime($model->end_time);
+            $model->start_time = Doctors::timeToString($model->start_time);
+            $model->end_time = Doctors::timeToString($model->end_time);
         }
     }
     
@@ -190,33 +190,33 @@ class DoctorsController extends Controller
  * @param string $string
  * @return string время в формате чч:мм
  */    
-    private function intToTime($string)
-    {
-        $minute = $string%60;
-        $hour = ($string - $minute)/60;
-        if ($minute < 10)
-        {
-            $minute = '0'.$minute;
-        }
-        if ($hour < 10)
-        {
-            $hour = '0'.$hour;
-        }
-        return $hour.':'.$minute;
-    }
+//    private function intToTime($string)
+//    {
+//        $minute = $string%60;
+//        $hour = ($string - $minute)/60;
+//        if ($minute < 10)
+//        {
+//            $minute = '0'.$minute;
+//        }
+//        if ($hour < 10)
+//        {
+//            $hour = '0'.$hour;
+//        }
+//        return $hour.':'.$minute;
+//    }
 
 /**
  * Преобразование времени в формате чч:мм в число минут
  * @param string $string
  * @return int количество минут
  */        
-    private function timeToInt($string)
-    {
-        $string = explode(':', $string);
-        $hour = $string[0];
-        $minute = $string[1];
-        return $hour*60+$minute;
-    }
+//    private function timeToInt($string)
+//    {
+//        $string = explode(':', $string);
+//        $hour = $string[0];
+//        $minute = $string[1];
+//        return $hour*60+$minute;
+//    }
 
 /**
  * Проверка на наличие совпадающих записей
