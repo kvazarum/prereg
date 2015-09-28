@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Сен 18 2015 г., 10:50
+-- Время создания: Сен 25 2015 г., 14:14
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -19,15 +19,11 @@ SET time_zone = "+00:00";
 --
 -- База данных: `prereg`
 --
-CREATE DATABASE IF NOT EXISTS `prereg` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `prereg`;
 
 -- --------------------------------------------------------
 
 --
 -- Структура таблицы `cabinets`
---
--- Создание: Сен 07 2015 г., 10:07
 --
 
 CREATE TABLE IF NOT EXISTS `cabinets` (
@@ -38,13 +34,10 @@ CREATE TABLE IF NOT EXISTS `cabinets` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
 -- --------------------------------------------------------
 
 --
 -- Структура таблицы `doctors`
---
--- Создание: Сен 15 2015 г., 11:58
 --
 
 CREATE TABLE IF NOT EXISTS `doctors` (
@@ -62,11 +55,19 @@ CREATE TABLE IF NOT EXISTS `doctors` (
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+--
+-- Структура таблицы `insurers`
+--
+
+CREATE TABLE IF NOT EXISTS `insurers` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `occupations`
---
--- Создание: Сен 15 2015 г., 11:59
 --
 
 CREATE TABLE IF NOT EXISTS `occupations` (
@@ -75,14 +76,22 @@ CREATE TABLE IF NOT EXISTS `occupations` (
   `period` smallint(6) unsigned NOT NULL COMMENT 'Длительность приёма',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Структура таблицы `payments`
+--
 
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(11) NOT NULL,
+  `insurer_id` int(11) unsigned DEFAULT NULL,
+  `record_id` int(11) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `records`
---
--- Создание: Сен 18 2015 г., 04:44
 --
 
 CREATE TABLE IF NOT EXISTS `records` (
@@ -91,21 +100,20 @@ CREATE TABLE IF NOT EXISTS `records` (
   `cabinet_id` smallint(5) unsigned NOT NULL COMMENT 'Кабинет',
   `start_time` datetime NOT NULL COMMENT 'Время начала приёма',
   `reserved` tinyint(1) NOT NULL COMMENT 'Зарезервировано',
+  `user_id` int(11) unsigned NOT NULL COMMENT 'Номер пользователя, который зарегистрировал заявку',
   `visited` tinyint(1) NOT NULL COMMENT 'Посещено',
   `sum` int(10) unsigned NOT NULL COMMENT 'Сумма',
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Фамилия Имя Отчество',
-  `phone` varchar(15) COLLATE utf8_unicode_ci NOT NULL COMMENT '№ телефона',
+  `phone` varchar(17) COLLATE utf8_unicode_ci NOT NULL COMMENT '№ телефона',
   `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT 'Создано',
   `updated_at` datetime NOT NULL COMMENT 'Изменено'
-) ENGINE=InnoDB AUTO_INCREMENT=669 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=794 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `specialists`
---
--- Создание: Сен 16 2015 г., 08:56
 --
 
 CREATE TABLE IF NOT EXISTS `specialists` (
@@ -114,17 +122,18 @@ CREATE TABLE IF NOT EXISTS `specialists` (
   `occupation_id` smallint(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `user`
---
--- Создание: Сен 07 2015 г., 13:08
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
   `username` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
   `auth_key` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -133,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Индексы сохранённых таблиц
@@ -153,11 +162,25 @@ ALTER TABLE `doctors`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `insurers`
+--
+ALTER TABLE `insurers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `occupations`
 --
 ALTER TABLE `occupations`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Индексы таблицы `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `insurer_id` (`insurer_id`),
+  ADD KEY `record_id` (`record_id`);
 
 --
 -- Индексы таблицы `records`
@@ -196,28 +219,45 @@ ALTER TABLE `cabinets`
 ALTER TABLE `doctors`
   MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
+-- AUTO_INCREMENT для таблицы `insurers`
+--
+ALTER TABLE `insurers`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT для таблицы `occupations`
 --
 ALTER TABLE `occupations`
-  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT для таблицы `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `records`
 --
 ALTER TABLE `records`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=669;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=794;
 --
 -- AUTO_INCREMENT для таблицы `specialists`
 --
 ALTER TABLE `specialists`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
+
+--
+-- Ограничения внешнего ключа таблицы `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`insurer_id`) REFERENCES `insurers` (`id`),
+  ADD CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`record_id`) REFERENCES `records` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `records`
