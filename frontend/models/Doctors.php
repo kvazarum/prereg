@@ -84,6 +84,10 @@ class Doctors extends \yii\db\ActiveRecord
         {
             $minute = '0'.$minute;
         }
+        if ($hour < 10)
+        {
+            $hour = '0'.$hour;
+        }
         return (string)$hour.':'.(string)$minute;
     }    
 }
