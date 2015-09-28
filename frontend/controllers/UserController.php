@@ -8,6 +8,7 @@ use frontend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\PasswordChangeForm;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -136,5 +137,21 @@ class UserController extends Controller
             $result = false;
         }
         return $result;
+    }
+
+    public function actionPasswordChange()
+    {
+//        $user = $this->findModel();
+        $id = $_REQUEST['id'];
+//        $model = new PasswordChangeForm($user);
+        $model = new PasswordChangeForm($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->changePassword()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('passwordChange', [
+                'model' => $model,
+            ]);
+        }
     }
 }
