@@ -75,7 +75,12 @@ class Doctors extends \yii\db\ActiveRecord
             'updated_at' => 'Изменено',
         ];
     }
-    
+
+/**
+ * Преобразование числа минут во время в формате чч:мм
+ * @param string $string
+ * @return string время в формате чч:мм
+ */
     public static function timeToString($string)
     {
         $hour = ($string - $string%60)/60;
