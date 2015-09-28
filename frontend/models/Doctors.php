@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "doctors".
@@ -32,11 +33,22 @@ class Doctors extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
             [['name', 'number', 'description', 'phone', 'price_initial', 'price_secondary', 'start_time', 'end_time'], 'required'],
             [['number', 'price_initial', 'price_secondary'], 'integer'],
+            ['number', 'unique', 'targetClass' => self::className(),'message' => 'Этот табельный номер уже используется.'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 100],
