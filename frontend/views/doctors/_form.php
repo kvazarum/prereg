@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Doctors */
@@ -23,14 +24,14 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'price_initial')->textInput()->hint('Сумма в рублях') ?>
 
     <?= $form->field($model, 'price_secondary')->textInput()->hint('Сумма в рублях') ?>
-    
-    <?= $form->field($model, 'start_time')->textInput()->hint('Время в формате чч:мм') ?>
-    
-    <?= $form->field($model, 'end_time')->textInput()->hint('Время в формате чч:мм') ?>
 
+    <?= $form->field($model, 'start_time')->widget(MaskedInput::className(),[
+            'mask' => '99:99',
+        ])->hint('время в формате чч:мм'); ?>
 
-
-
+    <?= $form->field($model, 'end_time')->widget(MaskedInput::className(),[
+            'mask' => '99:99',
+        ])->hint('время в формате чч:мм'); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
