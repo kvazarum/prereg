@@ -9,6 +9,8 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$timezone = "Europe/Moscow";
+date_default_timezone_set($timezone);
 ?>
 <div class="user-view">
 
@@ -23,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Изменить пароль', ['change-password', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Изменить пароль', ['password-change', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -38,8 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             'role',
             'status',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'created_at',
+                'value' => date('d-m-Y H:i:s', $model->created_at)
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => date('d-m-Y H:i:s', $model->updated_at)
+            ]
         ],
     ]) ?>
 
