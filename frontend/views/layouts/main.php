@@ -61,7 +61,7 @@ AppAsset::register($this);
             "items" => [
                 ['label' => 'Генерация графиков', 'url' => ['/records/admin-occupations']],
                 ['label' => 'Графики врачей', 'url' => ['/records/index']],
-                ['label' => 'Регистрация пользователя', 'url' => ['/site/signup']],
+//                ['label' => 'Регистрация пользователя', 'url' => ['/site/signup']],
                 ['label' => 'Список пользователей', 'url' => ['/user/index']]
             ]];
         $menuItems[] = [
