@@ -110,7 +110,7 @@ class DoctorsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if (count(explode(':', $model->start_time)) != 2)
             {
-                throw new \yii\base\ErrorException('Неправильный формат времени приёма!');              
+                throw new \yii\base\ErrorException('Неправильный формат времени приёма! ');
             }            
             $this->changeTimeFormat($model);
             $model->save();
@@ -197,6 +197,10 @@ class DoctorsController extends Controller
         if ($minute < 10)
         {
             $minute = '0'.$minute;
+        }
+        if ($hour < 10)
+        {
+            $hour = '0'.$hour;
         }
         return $hour.':'.$minute;
     }
