@@ -147,6 +147,8 @@ class RecordsController extends Controller
             if ($model->reserved == false)
             {
                 $model->name = '';
+                $model->email = null;
+                $model->phone = null;
             }
             $model->save();            
             return $this->redirect(['view', 'id' => $model->id]);
