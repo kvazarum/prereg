@@ -7,6 +7,7 @@ use frontend\models\Occupations;
 use kartik\select2\Select2;
 use yii\bootstrap\Modal;
 use yii\widgets\MaskedInput;
+use frontend\models\Specialists;
 
     $specialists = Specialists::findAll(['occupation_id' => $occupation_id]);
     $occupation = Occupations::findOne($occupation_id);  
