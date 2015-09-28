@@ -1,10 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use frontend\models\Records;
-use frontend\models\Specialists;
-use frontend\models\Doctors;
-use yii\helpers\Url;
 use dosamigos\datepicker\DatePicker;
 use yii\helpers\ArrayHelper;
 use frontend\models\Occupations;
