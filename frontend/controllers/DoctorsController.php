@@ -88,9 +88,6 @@ class DoctorsController extends Controller
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма!');                
             }
             $this->changeTimeFormat($model);
-
-            $model->created_at = date('Y-m-d H:i:s');
-            $model->updated_at = date('Y-m-d H:i:s');
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -116,8 +113,6 @@ class DoctorsController extends Controller
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма!');              
             }            
             $this->changeTimeFormat($model);
-            
-            $model->updated_at = date('Y-m-d H:i:s');
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
