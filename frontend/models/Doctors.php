@@ -89,5 +89,18 @@ class Doctors extends \yii\db\ActiveRecord
             $hour = '0'.$hour;
         }
         return (string)$hour.':'.(string)$minute;
-    }    
+    }
+
+/**
+ * Преобразование времени в формате чч:мм в число минут
+ * @param string $string
+ * @return int количество минут
+ */
+    public static function timeToInt($string)
+    {
+        $string = explode(':', $string);
+        $hour = $string[0];
+        $minute = $string[1];
+        return $hour*60+$minute;
+    }
 }
