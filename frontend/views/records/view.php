@@ -29,12 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
             if (!$model->visited)
             {
-                echo Html::a('Посещение', ['visits/create'], ['class' => 'btn btn-success']);
-            }
-            else
-            {
-                $id = Visits::findOne(['record_id' => $model->id]);
-                echo Html::a('Посещение', ['visits/update', 'id' => $id], ['class' => 'btn btn-success']);
+                $id = $model->id;
+                echo Html::a('Посещение', ['visits/create', 'record_id' => $id], ['class' => 'btn btn-success']);
             }
         }
         ?>

@@ -29,11 +29,12 @@ use yii\widgets\MaskedInput;
         echo $form->field($model, 'reserved')->widget(SwitchInput::classname(), [
              'type' => SwitchInput::CHECKBOX
             ]);
+
+        echo $form->field($model, 'visited')->hiddenInput()->label(false);
         
-//        echo Html::activeCheckbox($model, 'visited'); 
-        echo $form->field($model, 'visited')->widget(SwitchInput::classname(), [
-             'type' => SwitchInput::CHECKBOX
-            ]);        
+//        echo $form->field($model, 'visited')->widget(SwitchInput::classname(), [
+//             'type' => SwitchInput::CHECKBOX
+//            ]);
     ?>
     
     
