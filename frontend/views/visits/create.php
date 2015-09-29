@@ -44,14 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $model->record->specialist->occupation->name ?>
             </td>
         </tr>
-        <tr>
-            <td>
-                Info
-            </td>
-            <td>
-            <?= ' user_id - ' .$model->user_id. ', record_id - ' .$model->record_id. ' insurer_id - ' .$model->insurer_id. ', type - ' .$model->type?>
-            </td>
-        </tr>
     </table>
 
     <h1><?= Html::encode($this->title) ?></h1>

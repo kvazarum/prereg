@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use frontend\models\Insurers;
+use kartik\select2\Select2;
+use frontend\models\Visits;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Visits */
@@ -14,9 +18,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'record_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'insurer_id')->textInput(['maxlength' => true]) ?>
+    <?php
+        $list = ArrayHelper::map(Insurers::find()->orderBy('name')->all(), 'id' , 'name');
 
-    <?= $form->field($model, 'type')->textInput() ?>
+        echo $form->field($model, 'insurer_id')->widget(Select2::classname(), [
+        'data' => $list,
+        'language' => 'ru',
+        'options' => ['placeholder' => 'Выберите страховщика ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
+
+    <?= $form->field($model, 'type')->radioList([
+            Visits::CASH => 'Наличные',
+            Visits::INSURER => 'Страховая компания',
+        ]) ?>
 
     <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
 
