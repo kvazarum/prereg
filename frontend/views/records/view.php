@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use frontend\models\Specialists;
 use frontend\models\User;
+use frontend\models\Visits;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Records */
@@ -27,6 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'method' => 'post',
                 ],
             ]);
+            if (!$model->visited)
+            {
+                echo Html::a('Посещение', ['visits/create'], ['class' => 'btn btn-success']);
+            }
+            else
+            {
+                $id = Visits::findOne(['record_id' => $model->id]);
+                echo Html::a('Посещение', ['visits/update', 'id' => $id], ['class' => 'btn btn-success']);
+            }
         }
         ?>
     </p>
