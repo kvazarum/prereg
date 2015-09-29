@@ -16,8 +16,13 @@ use frontend\models\Visits;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'record_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'record_id')->hiddenInput()->label(false) ?>
 
+    <?= $form->field($model, 'type')->radioList([
+            Visits::CASH => 'Наличные',
+            Visits::INSURER => 'Страховая компания',
+        ])
+    ?>
     <?php
         $list = ArrayHelper::map(Insurers::find()->orderBy('name')->all(), 'id' , 'name');
 
@@ -31,19 +36,8 @@ use frontend\models\Visits;
     ]);
     ?>
 
-    <?= $form->field($model, 'type')->radioList([
-            Visits::CASH => 'Наличные',
-            Visits::INSURER => 'Страховая компания',
-        ]) ?>
-
-    <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -6,11 +6,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Visits */
 
-$this->title = 'Create Visits';
-$this->params['breadcrumbs'][] = ['label' => 'Visits', 'url' => ['index']];
+$this->title = 'Записать визит';
+$this->params['breadcrumbs'][] = ['label' => 'Визиты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visits-create">
+    <h1><?= Html::encode($this->title) ?></h1>
 <table class="table table-striped table-bordered detail-view">
         <tr>
             <td>
@@ -45,8 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </td>
         </tr>
     </table>
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
