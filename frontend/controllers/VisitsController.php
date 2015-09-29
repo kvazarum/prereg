@@ -86,6 +86,8 @@ class VisitsController extends Controller
             $model->save();
             $record = Records::findOne($model->record_id);
             $record->visited = true;
+            $record->updated_at = date('Y-m-d H:i:s');
+            $record->user_id = Yii::$app->user->id;
             $record->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -128,6 +130,7 @@ class VisitsController extends Controller
         $model = $this->findModel($id);
         $record = Records::findOne($model->record_id);
         $record->visited = false;
+        $record->updated_at = date('Y-m-d H:i:s');
         $record->user_id = Yii::$app->user->id;
         $record->save();
         
