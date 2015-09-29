@@ -18,6 +18,9 @@ use Yii;
  */
 class Visits extends \yii\db\ActiveRecord
 {
+    const CASH = 0;
+    const INSURER = 1;
+
     /**
      * @inheritdoc
      */
