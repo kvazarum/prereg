@@ -8,6 +8,8 @@ use frontend\models\VisitsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use frontend\models\Records;
 
 /**
  * VisitsController implements the CRUD actions for Visits model.
@@ -17,6 +19,20 @@ class VisitsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete', 'view', 'index',],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -58,14 +74,24 @@ class VisitsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($record_id)
     {
         $model = new Visits();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) 
+        {
+            $model->created_at = date('Y-m-d H:i:s');
+            $model->updated_at = date('Y-m-d H:i:s');
+            $model->user_id = Yii::$app->user->id;
+            $model->save();
+            $record = Records::findOne($model->record_id);
+            $record->visited = true;
+            $record->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
+                $model->type = 0,
+                $model->record_id = $record_id,
                 'model' => $model,
             ]);
         }
