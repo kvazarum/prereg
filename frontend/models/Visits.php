@@ -51,7 +51,7 @@ class Visits extends \yii\db\ActiveRecord
             'record_id' => 'Record ID',
             'insurer_id' => 'Страховая компания',
             'type' => 'Тип посещения',
-            'user_id' => 'Пользователь',
+            'user_id' => 'Регистратор',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
         ];

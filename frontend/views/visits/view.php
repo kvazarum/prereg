@@ -2,12 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use frontend\models\Records;
+use frontend\models\Insurers;
+use common\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Visits */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Visits', 'url' => ['index']];
+//$this->title = $model->record->specialist->doctor;
+$this->params['breadcrumbs'][] = ['label' => 'Посещения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visits-view">
@@ -15,8 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,10 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'record_id',
-            'insurer_id',
-            'type',
-            'user_id',
+            'record.name',
+            'record.start_time',
+            [
+               'attribute' => 'insurer_id',
+                'value' => $model->type ? Insurers::findOne($model->insurer_id)->name : 'Не задано'
+            ],
+            [
+                'attribute' => 'type',
+                'value' => $model->type ? 'Страховая компания' : 'Наличные'
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => User::findOne($model->user_id)->name
+            ],
             'created_at',
             'updated_at',
         ],

@@ -125,7 +125,13 @@ class VisitsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $record = Records::findOne($model->record_id);
+        $record->visited = false;
+        $record->user_id = Yii::$app->user->id;
+        $record->save();
+        
+        $model->delete();
 
         return $this->redirect(['index']);
     }

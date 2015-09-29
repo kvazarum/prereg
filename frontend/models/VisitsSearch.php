@@ -18,8 +18,8 @@ class VisitsSearch extends Visits
     public function rules()
     {
         return [
-            [['id', 'record_id', 'insurer_id', 'type', 'user_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['id', 'record_id',], 'integer'],
+            [['created_at', 'updated_at', 'insurer_id', 'type',  'user_id'], 'safe'],
         ];
     }
 
