@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'start_time',
-                'format' => ['datetime', 'dd-MM-Y H:i']                
+//                'format' => ['datetime', 'dd-MM-Y H:i']                
             ],
             [
                 'attribute' => 'name',
