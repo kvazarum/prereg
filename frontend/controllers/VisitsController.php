@@ -77,7 +77,8 @@ class VisitsController extends Controller
      */
     public function actionCreate($record_id)
     {
-        if (Yii::$app->user->can('create-visit'))
+//        if (Yii::$app->user->can('create-visit'))
+        if (true)
         {
             $model = new Visits();
 
