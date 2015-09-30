@@ -315,7 +315,7 @@ $("#generate").click(function()
     {   
         var strtime = strtime_main;
         var date = new Date(data_start);
-        var number = date.getDay();
+        var number = date.getDate();
         var dayOfWeek = days[number];
         
         var text;
@@ -329,7 +329,7 @@ $("#generate").click(function()
             text='panel-info';
         }
         
-        var months = ['Янв.', 'Фев.', 'Март', 'Ап.р', 'Май', 'Июн.', 'Июл.', 'Авг.', 'Сен.', 'Окт.', 'Ноя.', 'Дек.'];
+        var months = ['Янв.', 'Фев.', 'Март', 'Апр.', 'Май', 'Июн.', 'Июл.', 'Авг.', 'Сен.', 'Окт.', 'Ноя.', 'Дек.'];
         data += '<div class="panel ' + text + '">';
             data += '<div class="panel-heading">';
                 data += '<div class="panel-title">';
@@ -352,14 +352,20 @@ $("#generate").click(function()
             data += '</div>';
             
         data += '</div>';
-//        var D = new Date(data_start);
+        var D = new Date(data_start);
         D.setDate(D.getDate() + 1);
-        var month = D.getMonth()+1;
+        var day = D.getDate();
+        var month = D.getMonth() + 1;
         if (month < 10)
         {
             month = '0' + month;
         }
-        newDate = [D.getFullYear(), month, D.getDate()];
+        if (day < 10)
+        {
+            day = '0' + day;
+        }
+        var year = D.getFullYear();
+        newDate = [year, month, day];
         data_start = newDate.join('-');
         
     }
