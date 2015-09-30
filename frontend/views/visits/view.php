@@ -9,7 +9,7 @@ use common\models\User;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Visits */
 
-//$this->title = $model->record->specialist->doctor;
+$this->title = 'Визит';
 $this->params['breadcrumbs'][] = ['label' => 'Посещения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
