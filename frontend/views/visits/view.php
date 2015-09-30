@@ -10,7 +10,7 @@ use common\models\User;
 /* @var $model frontend\models\Visits */
 
 $this->title = 'Визит';
-$this->params['breadcrumbs'][] = ['label' => 'Посещения', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Визиты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visits-view">
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Удалить запись о визите?',
                 'method' => 'post',
             ],
         ]) ?>
