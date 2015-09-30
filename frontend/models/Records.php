@@ -19,6 +19,8 @@ use frontend\models\Records;
  * @property integer $user_id
  * @property integer $visited
  * @property integer $sum
+ * @property integer $visit_type
+ * @property integer $insurer_id
  * @property string $created_at
  * @property string $updated_at
  * @property Specialists $specialist
@@ -26,6 +28,8 @@ use frontend\models\Records;
  */
 class Records extends \yii\db\ActiveRecord
 {
+    const CASH = 0;
+    const INSURER = 1;
     
     public static $days = array(
         'Вс',
@@ -84,7 +88,7 @@ class Records extends \yii\db\ActiveRecord
             [['specialist_id', 'start_time', 'reserved', 'visited', 'created_at', 'updated_at'], 'required'],
             ['name', 'filter', 'filter' => 'trim'],
             [['specialist_id', 'reserved', 'visited'], 'integer'],
-            [['start_time', 'created_at', 'updated_at', 'name', 'phone', 'email', 'user_id'], 'safe'],
+            [['start_time', 'created_at', 'updated_at', 'name', 'phone', 'email', 'user_id', 'insurer_id', 'visit_type'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 50],
@@ -110,6 +114,8 @@ class Records extends \yii\db\ActiveRecord
             'email' => 'Email (электронная почта)',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
+            'insurer_id' => 'Страховая компания',
+            'visit_type' => 'Тип визита'
         ];
     }
     

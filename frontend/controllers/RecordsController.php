@@ -140,17 +140,20 @@ class RecordsController extends Controller
             {
                 $model->user_id = Yii::$app->user->id;
             }
-            if ($model->visited == true)
-            {
-                $model->reserved = TRUE;
-            }
             if ($model->reserved == false)
             {
                 $model->name = '';
                 $model->email = null;
                 $model->phone = null;
+                $model->visited = 0;
+                $model->visit_type = null;
+                $model->insurer_id = null;
             }
-            $model->save();            
+            $result = $model->save();
+            if (!$result)
+            {
+                Yii::info('Model not updated due to validation error.', __METHOD__);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
         else 
@@ -430,5 +433,28 @@ class RecordsController extends Controller
         ]);
         $models = $provider->getModels();
         return Json::encode($models);
+    }
+
+    public function actionAddVisit($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_at = date('Y-m-d H:i:s');
+            if (!Yii::$app->user->isGuest)
+            {
+                $model->user_id = Yii::$app->user->id;
+            }
+            $model->reserved = TRUE;
+            $model->visited = true;
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        else
+        {
+            $model->visit_type = 0;
+            return $this->render('add-visit', [
+                'model' => $model,
+            ]);
+        }
     }
 }

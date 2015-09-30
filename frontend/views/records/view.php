@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php
-        if ( !Yii::$app->user->isGuest ) {
+        if ( !Yii::$app->user->isGuest && $model->reserved ) {
             echo Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
             echo Html::a('Удалить', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             if (!$model->visited)
             {
                 $id = $model->id;
-                echo Html::a('Посещение', ['visits/create', 'record_id' => $id], ['class' => 'btn btn-success']);
+                echo Html::a('Посещение', ['records/add-visit', 'id' => $id], ['class' => 'btn btn-success']);
             }
         }
         ?>
