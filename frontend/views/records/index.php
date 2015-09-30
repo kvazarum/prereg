@@ -63,8 +63,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'start_time',
                 'value' => function($model){
-                    $text = Yii::$app->formatter->asDatetime($model->start_time, 'd-MM-Y H:i');
-                    $result = Yii::t('app', $text);
+                    $day = date('d',strtotime($model->start_time));
+                    $year = date('Y',strtotime($model->start_time));
+                    $month = date('m',strtotime($model->start_time));
+                    $hour = date('H',strtotime($model->start_time));
+                    $minut = date('i',strtotime($model->start_time));
+                    $text = $day.'-'.$month.'-'.$year.' '.$hour.':'.$minut;
+//                    $text = $model->start_time;
+                    $result = $text;
                     return $result;
                 },                
                 'headerOptions' => [
