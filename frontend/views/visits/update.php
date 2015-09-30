@@ -6,12 +6,13 @@ use yii\helpers\Html;
 /* @var $model frontend\models\Visits */
 
 $this->title = 'Изменить';
-$this->params['breadcrumbs'][] = ['label' => 'Visits', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Визиты', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Визит', 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="visits-update">
 <table class="table table-striped table-bordered detail-view">
+    <h1><?= Html::encode($this->title) ?></h1>
         <tr>
             <td>
                 Пациент
@@ -45,9 +46,6 @@ $this->params['breadcrumbs'][] = 'Update';
             </td>
         </tr>
     </table>
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
