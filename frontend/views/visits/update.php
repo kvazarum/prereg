@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Изменить';
 $this->params['breadcrumbs'][] = ['label' => 'Визиты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Визит', 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="visits-update">
 <table class="table table-striped table-bordered detail-view">
