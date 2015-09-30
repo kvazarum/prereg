@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\Records;
+use yii\web\ForbiddenHttpException;
 
 /**
  * VisitsController implements the CRUD actions for Visits model.
@@ -76,27 +77,36 @@ class VisitsController extends Controller
      */
     public function actionCreate($record_id)
     {
-        $model = new Visits();
-
-        if ($model->load(Yii::$app->request->post()) ) 
+        if (Yii::$app->user->can('create-visit'))
         {
-            $model->created_at = date('Y-m-d H:i:s');
-            $model->updated_at = date('Y-m-d H:i:s');
-            $model->user_id = Yii::$app->user->id;
-            $model->save();
-            $record = Records::findOne($model->record_id);
-            $record->visited = true;
-            $record->updated_at = date('Y-m-d H:i:s');
-            $record->user_id = Yii::$app->user->id;
-            $record->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                $model->type = 0,
-                $model->record_id = $record_id,
-                'model' => $model,
-            ]);
+            $model = new Visits();
+
+            if ($model->load(Yii::$app->request->post()) )
+            {
+                $model->created_at = date('Y-m-d H:i:s');
+                $model->updated_at = date('Y-m-d H:i:s');
+                $model->user_id = Yii::$app->user->id;
+                $model->save();
+                $record = Records::findOne($model->record_id);
+                $record->visited = true;
+                $record->reserved = true;
+                $record->updated_at = date('Y-m-d H:i:s');
+                $record->user_id = Yii::$app->user->id;
+                $record->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    $model->type = 0,
+                    $model->record_id = $record_id,
+                    'model' => $model,
+                ]);
+            }
         }
+        else
+        {
+            throw new ForbiddenHttpException;
+        }
+
     }
 
     /**
