@@ -62,7 +62,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'password', 'email'], 'filter', 'filter' => 'trim'],
-            [['username', 'email', 'created_at', 'updated_at', 'status'], 'required'],
+            [['username', 'name', 'email', 'created_at', 'updated_at', 'status'], 'required'],
             ['email', 'email'],
             [ 'password', 'required', 'on' => 'create'],
             ['username', 'unique', 'message' => 'Это имя занято.'],
@@ -83,7 +83,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Имя пользователя',
+            'username' => 'Логин',
+            'name' => 'Фамилия имя отчество',
             'auth_key' => 'Auth Key',
             'password' => 'Пароль',
             'password_reset_token' => 'Password Reset Token',
