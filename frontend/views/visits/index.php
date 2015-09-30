@@ -9,7 +9,7 @@ use frontend\models\Insurers;
 /* @var $searchModel frontend\models\VisitsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Посещения';
+$this->title = 'Визиты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visits-index">
@@ -26,12 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-//            [
-//                'attribute' => 'id',
-//                'headerOptions' => [
-//                    'class' => 'col-lg-1'
-//                ]
-//            ],
             [
                 'attribute' => 'record_id',
                 'format' => 'raw',
@@ -42,20 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => [
                     'class' => 'col-lg-1'
                 ]
-            ],
-            [
-                'attribute' => 'insurer_id',
-                'format' => 'raw',
-                'value' => function ($model){
-                    if ($model->insurer_id != null)
-                    {
-                        return Insurers::findOne($model->insurer_id)->name;
-                    }
-                    else
-                    {
-                        return '';
-                    }
-                },
             ],
             [
                 'attribute' => 'type',
@@ -72,11 +52,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'insurer_id',
+                'format' => 'raw',
+                'value' => function ($model){
+                    if ($model->insurer_id != null)
+                    {
+                        return Insurers::findOne($model->insurer_id)->name;
+                    }
+                    else
+                    {
+                        return '';
+                    }
+                },
+            ],
+            [
                 'attribute' => 'user_id',
                 'value' => function($model){
                     $user = User::findOne($model->user_id);
                     return $user->name;
                 }
+            ],
+            [
+                'attribute' => 'record_id',
+                'label' => 'Время посещения',
+                'value' => 'record.start_time'
             ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
