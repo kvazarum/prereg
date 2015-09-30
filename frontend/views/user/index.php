@@ -12,7 +12,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php
+        echo Html::beginTag('div', ['class' => 'panel panel-info']);
+            $content = Html::tag('h3', '<i class="glyphicon glyphicon-calendar"></i>Пользователи', ['class' => "panel-title"]);
+            echo Html::tag('div', $content, ['class' => "panel-heading"]);
+        echo Html::endTag('div');
+    ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>

@@ -14,9 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visits-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+        echo Html::beginTag('div', ['class' => 'panel panel-info']);
+            $content = Html::tag('h3', '<i class="glyphicon glyphicon-calendar"></i> Визиты', ['class' => "panel-title"]);
+            echo Html::tag('div', $content, ['class' => "panel-heading"]);
+        echo Html::endTag('div');
+    ?>
 <!--    <p>
         <?= Html::a('Create Visits', ['create'], ['class' => 'btn btn-success']) ?>
     </p>-->
