@@ -263,7 +263,11 @@ class RecordsController extends Controller
             {
                 $result = $record->save();
             }
-            $result = true;
+            else
+            {
+                Yii::$app->session->setFlash('error', 'Произошла ошибка при записи данных');
+                $result = false;
+            }            
         }
         else
         {

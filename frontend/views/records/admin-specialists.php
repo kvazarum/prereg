@@ -153,5 +153,12 @@ use frontend\models\Specialists;
             <button id="create" class="btn btn-info" disabled="true">Сохранить</button>
         </div>
     </div>
+        <div id="error-panel" class="panel panel-danger" style="display: none;">
+            
+        </div>
+        <div id="success-panel" class="panel panel-success" style="display: none;">
+            
+        </div>        
+        
     </div>
 <?php
