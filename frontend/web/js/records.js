@@ -252,14 +252,14 @@ $("#create").click(function(){
 
         $('#create').attr('disabled', true);
 
-            $.get("/records/save-record", {date : date, spec : spec, time: time}, function(data){        
-                if (!data && result)
-                {
-                    result = false;
-                    $('#error-panel').html('Запись графика произошла с ошибками.');
-                    $('#error-panel').fadeIn();
-                }
-                
+        $.get("/records/save-record", {date : date, spec : spec, time: time}, function(data){        
+            if (!data && result)
+            {
+                result = false;
+                $('#error-panel').html('Запись графика произошла с ошибками.');
+                $('#error-panel').fadeIn();
+            }
+
         });
     })
 });
@@ -507,6 +507,10 @@ $("#day-report-submit").click(function(){
     });
 });
 
+/**
+ * При изменении страховщика
+ * отмечаем нужный чекбокс
+ */
 $('#records-insurer_id').change(function(){
     if ( $(this).val() > 0)
     {
@@ -518,7 +522,28 @@ $('#records-insurer_id').change(function(){
     }
 })
 
+/**
+ * При выборе метода "Наличные"
+ * очищаем поле "Страховая компания"
+ */
 $('[value=0]').click(function(){
     $('#records-insurer_id :first').attr("selected", "selected");
     $("#select2-records-insurer_id-container").empty();
+})
+
+/**
+ * При нажатии на кнопку "Удалить выбранное"
+ */
+$('#delete-selected').click(function(){
+    var items = new Array();
+    var count = 0;
+    $('input[0]:checked').each(function(){
+        items[count] = $(this).attr('0');
+        count++;     
+    
+    });
+    result = items.join(',')
+    $.get("/records/delete-record", {date_:report_date}, function(data){
+
+    })
 })
