@@ -467,6 +467,16 @@ class RecordsController extends Controller
     public function actionDeleteRecord($items)
     {
         $items = explode(",", $items);
-        $model = Records::findOne($id)->delete();
+        Yii::$app->session->setFlash('success', $items);
+        foreach ($items as $item) {
+            $model = Records::findOne($item)->delete();
+        }
+        $searchModel = new RecordsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);        
     }
 }
