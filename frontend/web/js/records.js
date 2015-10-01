@@ -238,7 +238,7 @@ function getHours(data)
 $("#create").click(function(){
     var date = $('#date_from').val();
     var spec = $('#specialist').val();
-    $('#records').fadeOut();        
+    $('#records').fadeOut();
 
     $('.tag:checked').each(function()
     {
@@ -246,13 +246,20 @@ $("#create").click(function(){
         data = data.split('&');
         time = data[1];
         date = data[0];
-
+        var result = true;
+        
         $(this).prop('checked', false);
 
         $('#create').attr('disabled', true);
 
-        $.get("/records/save-record", {date : date, spec : spec, time: time}, function(data){        
-
+            $.get("/records/save-record", {date : date, spec : spec, time: time}, function(data){        
+                if (!data && result)
+                {
+                    result = false;
+                    $('#error-panel').html('Запись графика произошла с ошибками.');
+                    $('#error-panel').fadeIn();
+                }
+                
         });
     })
 });
@@ -273,8 +280,12 @@ function dayTitleClick(chk)
 
 $("#generate").click(function()
 {       
+    $('#error-panel').empty();
+    $('#error-panel').fadeOut();
+    $('#success-panel').empty();
+    $('#success-panel').fadeOut();    
     $('#records').fadeIn();  
-    $(this).attr('disabled', true);
+//    $(this).attr('disabled', true);
         
     var period = $("#period").val();
     var start = $("#start_time").val(); //время начала рабочего дня
