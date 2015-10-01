@@ -463,4 +463,10 @@ class RecordsController extends Controller
             ]);
         }
     }
+    
+    public function actionDeleteRecord($items)
+    {
+        $items = explode(",", $items);
+        $model = Records::findOne($id)->delete();
+    }
 }
