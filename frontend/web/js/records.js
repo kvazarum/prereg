@@ -315,7 +315,7 @@ $("#generate").click(function()
     {   
         var strtime = strtime_main;
         var date = new Date(data_start);
-        var number = date.getDate();
+        var number = date.getDay();
         var dayOfWeek = days[number];
         
         var text;
