@@ -256,10 +256,12 @@ class RecordsController extends Controller
             $strTime = mktime($hour, $minute, 0, $month, $day,  $year);
             $strTime = date('Y-m-d H:i:s', $strTime);
             $record->start_time = $strTime;
-
+            $record->insurer_id = null;
+            $record->visit_type = null;
+            $result;
             if($record->validate())
             {
-                $record->save();
+                $result = $record->save();
             }
             $result = true;
         }
