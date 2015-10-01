@@ -144,8 +144,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); 
+    echo Html::tag('button', "Удалить выбранное", ['class' => 'btn btn-danger', 'id' => 'delete-selected']);
         Pjax::end();
-        echo Html::tag('button', "Удалить выбранное", ['class' => 'btn btn-danger', 'id' => 'delete-selected']);
+        
     ?>
 
 </div>
