@@ -543,7 +543,7 @@ $('#delete-selected').click(function(){
     
     });
     result = items.join(',')
-    $.get("/records/delete-record", {date_:report_date}, function(data){
-
+    $.get("/records/delete-record", {items:result}, function(){
+        location.reload();
     })
 })
