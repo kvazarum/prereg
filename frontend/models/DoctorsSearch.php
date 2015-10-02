@@ -41,7 +41,7 @@ class DoctorsSearch extends Doctors
      */
     public function search($params)
     {
-        $query = Doctors::find();
+        $query = Doctors::find()->orderBy('name');
 
         // add conditions that should always apply here
 
