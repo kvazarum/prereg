@@ -40,13 +40,13 @@ class OccupationsSearch extends Occupations
      * @return ActiveDataProvider
      */
     public function search($params)
-    {
-        $query = Occupations::find();
+    {        
+        $query = Occupations::find()->orderBy('name');
 
-        // add conditions that should always apply here
-
+        // add conditions that should always apply here        
+        
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $query,         
         ]);
 
         $this->load($params);
