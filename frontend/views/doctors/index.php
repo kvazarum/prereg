@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\models\Doctors;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\DoctorsSearch */
@@ -25,16 +26,48 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'name',
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function ($model){
+                    $url = '/doctors/view?id='.$model->id;
+                    $result = Html::a($model->name, $url, []);
+                    return $result;
+                }
+            ],            
             'number',
             'description:ntext',
             'phone',
-            'price_initial',
-            'price_secondary',
-            'start_time',
-            'end_time',
-            // 'created_at',
-            // 'updated_at',
+            [
+                'attribute' => 'start_time',
+                'format' => 'raw',
+                'value' => function ($model){
+                    if (is_numeric($model->start_time) && $model->start_time > 0)
+                    {
+                        $result = Doctors::timeToString($model->start_time);
+                    }
+                    else
+                    {
+                        $result = '<span class="text-danger">Не задано</span>';
+                    }
+                    return $result;
+                }
+            ],
+            [
+                'attribute' => 'end_time',
+                'format' => 'raw',
+                'value' => function ($model){
+                    if (is_numeric($model->end_time) && $model->end_time > 0)
+                    {
+                        $result = Doctors::timeToString($model->end_time);
+                    }
+                    else
+                    {
+                        $result = '<span class="text-danger">Не задано</span>';
+                    }
+                    return $result;
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
