@@ -28,7 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'name',
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function ($model){
+                    $url = '/occupations/view?id='.$model->id;
+                    $result = Html::a($model->name, $url, ['target' => '_blank']);
+                    return $result;
+                }
+            ],
             'period',
             'created_at',
             'updated_at',
