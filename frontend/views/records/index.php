@@ -5,7 +5,8 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 //use dosamigos\datepicker\DatePicker;
 use kartik\date\DatePicker;
-//use kartik\grid\GridView;
+use frontend\models\Occupations;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\RecordsSearch */
@@ -25,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $content = Html::tag('h3', '<i class="glyphicon glyphicon-calendar"></i> Графики', ['class' => "panel-title"]);
         echo Html::tag('div', $content, ['class' => "panel-heading"]);
     echo Html::endTag('div');
+    $occList = Occupations::getList();
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -59,6 +61,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'specialist.occupation.name',
                 'format' => 'text',
                 'label' => 'Специальность',
+//                'filter' => Select2::widget([
+//                    'attribute' => 'occupationName',
+//                    'name' => 'occupationName',
+//                    'data' => $occList,
+//                    'options' => [
+//                        'placeholder' => 'Выберите специальность ...',
+//                    ],
+//                    'pluginOptions' => [
+//                        'allowClear' => true
+//                    ],                    
+//                ])
             ],
             [
                 'attribute' => 'start_time',
@@ -93,15 +106,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ])                
             ],
-            'name',
-//            'phone',
-//            [
-//                'attribute'=>'email',
-//                'format' => 'html',
-//                'value' => function($model){
-//                    return Html::mailto($model->email);
-//                }
-//            ],
+            [
+                'attribute'=>'name',
+                'format' => 'raw',
+                'value' => function($model){
+                    $url = '/records/view?id='.$model->id;
+                    return Html::a($model->name, $url, ['target' => '_blank']);
+                }
+            ],
             [
                 'attribute'=>'reserved',
                 'format' => 'html',
