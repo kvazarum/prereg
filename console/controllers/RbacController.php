@@ -1,9 +1,11 @@
 <?php
 namespace console\controllers;
+
 use Yii;
 use yii\console\Controller;
 use common\components\rbac\UserRoleRule;
 use yii\rbac\DbManager;
+
 class RbacController extends Controller
 {
     public function actionInit()
@@ -37,3 +39,4 @@ class RbacController extends Controller
         $auth->addChild($admin, $moder);
     }
 }
+?>
