@@ -1,6 +1,8 @@
 <?php
 
 namespace frontend\models;
+use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
 
 use Yii;
 
@@ -49,5 +51,12 @@ class Occupations extends \yii\db\ActiveRecord
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
         ];
+    }
+    
+    public static function getList()
+    {
+        $result = Occupations::find()->select(['id','name'])->all();
+        $result = ArrayHelper::map($result, 'id', 'name');
+        return $result;
     }
 }
