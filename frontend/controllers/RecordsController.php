@@ -14,7 +14,6 @@ use yii\helpers\Json;
 use yii\web\Response;
 use yii\data\SqlDataProvider;
 use yii\data\ActiveDataProvider;
-use yii\data\Sort;
 use yii\db\Query;
 use yii\filters\AccessControl;
 
@@ -353,15 +352,8 @@ class RecordsController extends Controller
             GROUP BY `oc`.`name`, `specialist_id`
             ORDER BY `oc`.`name`, `specialist_id`';
         
-        $sort = new Sort([
-            'attributes' => [
-                'oc_name',
-                'name'
-            ]
-        ]);
         $provider = new SqlDataProvider([
             'sql' => $sql,
-            'sort' => $sort
         ]);
         $models = $provider->getModels();
         return Json::encode($models);
