@@ -30,6 +30,15 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'request'=>[
+
+            'class' => 'common\components\Request',
+
+            'web'=> '/backend/web',
+
+            'adminUrl' => '/admin'
+
+        ],       
     ],
     'params' => $params,
 ];
