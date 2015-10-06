@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\db\Query;
 use yii\filters\AccessControl;
-
+use yii\web\ForbiddenHttpException;
 /**
  * DoctorsController implements the CRUD actions for Doctors model.
  */
@@ -82,7 +82,7 @@ class DoctorsController extends Controller
     {
         $model = new Doctors();
 
-        if ($model->load(Yii::$app->request->post()) && !$this->actionIsDouble($model->name)) {
+        if (Yii::$app->user->can('moder') && $model->load(Yii::$app->request->post()) && !$this->actionIsDouble($model->name)) {
             if (count(explode(':', $model->start_time)) != 2)
             {
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма!');                
@@ -107,7 +107,7 @@ class DoctorsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if (Yii::$app->user->can('moder') && $model->load(Yii::$app->request->post())) {
             if (count(explode(':', $model->start_time)) != 2)
             {
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма! ');
@@ -130,9 +130,16 @@ class DoctorsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        if (Yii::$app->user->can(moder))
+        {
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        else
+        {
+            throw new ForbiddenHttpException();
+        }
+        
     }
 
     /**
