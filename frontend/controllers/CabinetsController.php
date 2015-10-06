@@ -17,6 +17,22 @@ class CabinetsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete',
+                    'view', 'index',
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['moder']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]                    
+                ]
+            ],              
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
