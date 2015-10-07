@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\models\User;
+use backend\models\User;
 use backend\models\AuthAssignment;
 
 /* @var $this yii\web\View */
@@ -25,9 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php
+            if (Yii::$app->user->can('admin'))
+            {   
+                echo Html::a('Изменить пароль', ['password-change', 'id' => $model->id], ['class' => 'btn btn-primary']);
+            }
+        ?>
     </p>
 
-    <?= DetailView::widget([
+    <?php
+        $status = User::getStatusName($model->status);
+        echo DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
@@ -37,7 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'role',
             [
                 'attribute' => 'status',
-                'value' => User::getStatusName($model->status),
+                'format' => 'raw',
+                'value' => $model->status == 10 ? '<span class="label label-success">'.$status.'</span>' : '<span class="label label-danger">'.$status.'</span>',
             ],
             [
                 'attribute' => 'created_at',

@@ -210,4 +210,15 @@ class User extends ActiveRecord implements IdentityInterface
             'updated_at' => 'Updated At',
         ];
     }
+    
+    public static function getStatusName($id)
+    {
+        $status = [
+            0 => 'DELETED',
+            1 => 'NOT_ACTIVE',
+            10 => 'ACTIVE'
+        ];
+        $result;
+        return $status[$id];
+    }    
 }

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\User;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */

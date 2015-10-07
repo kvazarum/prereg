@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
 
@@ -19,7 +19,8 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class User extends \yii\db\ActiveRecord
+//class User extends \yii\db\ActiveRecord
+class User extends \common\models\User
 {
     const STATUS_DELETED = 0;
     const STATUS_NOT_ACTIVE = 1;
@@ -66,16 +67,5 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-    
-    public static function getStatusName($id)
-    {
-        $status = [
-            0 => 'DELETED',
-            1 => 'NOT_ACTIVE',
-            10 => 'ACTIVE'
-        ];
-        $result;
-        return $status[$id];
     }
 }

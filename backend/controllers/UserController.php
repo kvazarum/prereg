@@ -3,12 +3,14 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\User;
+use backend\models\User;
 use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use backend\models\AuthAssignment;
+use frontend\models\PasswordChangeForm;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -20,13 +22,19 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'delete',
+                    'view', 'index', 'password-change'
+                ],
                 'rules' => [
                     [
-//                        'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['admin']
                     ],
-                ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]                    
+                ]
             ],            
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -91,12 +99,16 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $assignments = AuthAssignment::findAll(['user_id' => $id]);
+        $roles = [];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            $this->applyAssignments($roles, $id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'roles' => $assignments,
             ]);
         }
     }
@@ -129,4 +141,47 @@ class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+/**
+ * Сохранение roles и ations юзера
+ * @param array of string $roles
+ * @param User $model
+ */    
+    private function applyAssignments($roles, $user_id)
+    {
+//        $assignments = AuthAssignment::findAll(['user_id' => $user_id]);
+//        foreach ($assignments as $item)
+//        {
+//            if (!in_array($item, $roles))
+//            {
+//                AuthAssignment::findOne($item->id)->delete();
+//            }
+//        }
+//        foreach ($roles as $item)
+//        {
+//            if(!in_array($item, $assignments))
+//            {
+//                $assignment = new AuthAssignment();
+//                $assignment->user_id = $user_id;
+//                $assignment->item_name = $item;
+//                $assignment->save();                
+//            }
+//        }
+    }
+    
+    public function actionPasswordChange()
+    {
+//        $user = $this->findModel();
+        $id = $_REQUEST['id'];
+//        $model = new PasswordChangeForm($user);
+        $model = new PasswordChangeForm($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->changePassword()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('passwordChange', [
+                'model' => $model,
+            ]);
+        }
+    }    
 }

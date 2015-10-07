@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -24,7 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+            [
+                'attribute' => 'id',
+                'headerOptions' =>[
+                    'class' => 'col-md-1',
+                ],
+            ],
             [
                 'attribute' => 'username',
                 'format' => 'raw',
@@ -32,9 +38,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a($model->username, 'user/view?id='.$model->id,['target' => '_blank'])  ;
                 }
             ],
-            'username',
             'name',
-            // 'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($model){
+                    if ($model->status == 10)
+                    {
+                        $class = 'text-success';
+                    }
+                    else
+                    {
+                        $class = 'text-danger';
+                    }
+                    return '<span class="'.$class.'">'.User::getStatusName($model->status).'</span>';
+                }
+            ],                                          
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
