@@ -35,9 +35,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     $url = '/occupations/view?id='.$model->id;
                     $result = Html::a($model->name, $url, ['target' => '_blank']);
                     return $result;
-                }
+                },
+                'headerOptions' => [
+                    'class' => 'col-xs-4',
+                ]                
             ],
-            'period',
+            [
+                'attribute' => 'period',
+                'headerOptions' => [
+                    'class' => 'col-xs-1',
+                ]
+            ],
             'created_at',
             'updated_at',
             ['class' => 'yii\grid\ActionColumn'],

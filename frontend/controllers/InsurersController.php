@@ -8,6 +8,7 @@ use frontend\models\InsurersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * InsurersController implements the CRUD actions for Insurers model.
