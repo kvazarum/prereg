@@ -16,6 +16,7 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $role
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -28,9 +29,8 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_NOT_ACTIVE = 1;
     const STATUS_ACTIVE = 10;
     
-    const ROLE_USER = 1;
-    const ROLE_MODER = 5;
-    const ROLE_ADMIN = 10;    
+    public $password;
+//    public $role = 'user';
 
     /**
      * @inheritdoc
@@ -56,8 +56,19 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['username', 'password', 'email', 'name'], 'filter', 'filter' => 'trim'],
+            [['username', 'name', 'created_at', 'updated_at', 'status'], 'required'],
+//            ['email', 'email'],
+            [ 'password', 'required', 'on' => 'create'],
+            ['username', 'unique', 'message' => 'Это имя занято.'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'email', 'name'], 'string', 'max' => 3, 'max' => 255],
+            [['role'] , 'string'],
+            [['auth_key'], 'string', 'max' => 30],
+            [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
+            [['username'], 'unique'],            
+            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_NOT_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 

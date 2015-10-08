@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use frontend\models\User;
+use frontend\models\AuthAssignment;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
@@ -28,27 +30,41 @@ date_default_timezone_set($timezone);
         <?= Html::a('Изменить пароль', ['password-change', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?php
+        $status = User::getStatusName($model->status);
+        echo DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'username',
             'name',
-//            'auth_key',
-//            'password_hash',
-//            'password_reset_token',
             'email:email',
-            'role',
-            'status',
+//            'role',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => $model->status == 10 ? '<span class="label label-success">'.$status.'</span>' : '<span class="label label-danger">'.$status.'</span>',
+            ],
             [
                 'attribute' => 'created_at',
-                'value' => date('d-m-Y H:i:s', $model->created_at)
+                'value' => date('d-M-Y H:i:s', $model->created_at),
             ],
             [
                 'attribute' => 'updated_at',
-                'value' => date('d-m-Y H:i:s', $model->updated_at)
-            ]
+                'value' => date('d-M-Y H:i:s', $model->updated_at),
+            ],
         ],
-    ]) ?>
+    ]);
+        
+    echo Html::tag('p', 'Назначенные роли');
+    
+    $auth = AuthAssignment::findAll(['user_id' => $model->id]);
+    $assignment = [];
+    foreach ($auth as $item)
+    {
+        $assignment[] = $item->item_name;
+    }
+    echo Html::listBox('roles', null,   $assignment);
+    ?>
 
 </div>

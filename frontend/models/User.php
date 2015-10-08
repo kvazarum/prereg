@@ -11,24 +11,22 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $name
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
- * @property integer $role
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  */
-class User extends \yii\db\ActiveRecord implements IdentityInterface
+class User extends \common\models\User
 {
     const STATUS_DELETED = 0;
     const STATUS_NOT_ACTIVE = 1;
     const STATUS_ACTIVE = 10;
+    
     const SCENARIO_PROFILE = 'profile';
-
-    public $password;
-
     /**
      * @inheritdoc
      */
@@ -50,7 +48,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         return [
-            self::SCENARIO_DEFAULT => ['username', 'email', 'status', 'role'],
+            self::SCENARIO_DEFAULT => ['username', 'name', 'email', 'status', 'role'],
             self::SCENARIO_PROFILE => ['email'],
         ];
     }
@@ -58,23 +56,23 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['username', 'password', 'email'], 'filter', 'filter' => 'trim'],
-            [['username', 'name', 'email', 'created_at', 'updated_at', 'status'], 'required'],
-            ['email', 'email'],
-            [ 'password', 'required', 'on' => 'create'],
-            ['username', 'unique', 'message' => 'Это имя занято.'],
-            [['role', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'email'], 'string', 'max' => 3, 'max' => 255],
-
-            [['auth_key'], 'string', 'max' => 30],
-            [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
-            [['username'], 'unique'],
-            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
-        ];
-    }
+//    public function rules()
+//    {
+//        return [
+//            [['username', 'password', 'email', 'name'], 'filter', 'filter' => 'trim'],
+//            [['username', 'name', 'created_at', 'updated_at', 'status'], 'required'],
+////            ['email', 'email'],
+//            [ 'password', 'required', 'on' => 'create'],
+//            ['username', 'unique', 'message' => 'Это имя занято.'],
+//            [['role', 'status', 'created_at', 'updated_at'], 'integer'],
+//            [['username', 'email'], 'string', 'max' => 3, 'max' => 255],
+//
+//            [['auth_key'], 'string', 'max' => 30],
+//            [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
+//            [['username'], 'unique'],
+//            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
+//        ];
+//    }
 
     /**
      * @inheritdoc

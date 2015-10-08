@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserSearch */
@@ -21,27 +22,43 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать пользователя', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить пользователя', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'username',
+            [
+                'attribute' => 'id',
+                'headerOptions' =>[
+                    'class' => 'col-md-1',
+                ],
+            ],
+            [
+                'attribute' => 'username',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->username, '/user/view?id='.$model->id,['target' => '_blank'])  ;
+                }
+            ],
             'name',
-//            'auth_key',
-//            'password_hash',
-            // 'password_reset_token',
-            // 'email:email',
-            // 'role',
-            // 'status',
-            // 'created_at',
-            // 'updated_at',
-
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($model){
+                    if ($model->status == 10)
+                    {
+                        $class = 'label-success';
+                    }
+                    else
+                    {
+                        $class = 'label-danger';
+                    }
+                    return '<span class="label '.$class.'">'.User::getStatusName($model->status).'</span>';
+                }
+            ],                                          
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

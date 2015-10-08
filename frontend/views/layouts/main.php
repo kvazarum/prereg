@@ -56,13 +56,13 @@ AppAsset::register($this);
                 ['label' => 'Врачи', 'url' => ['/doctors']],
                 ['label' => 'Специалисты', 'url' => ['/specialists']],
                 ['label' => 'Страховщики', 'url' => ['/insurers']],
-                ['label' => 'Пользователи', 'url' => ['/user']],
+//                ['label' => 'Пользователи', 'url' => ['/user']],
             ]];
         $menuItems[] = ['label' => 'Администрирование', 
             "items" => [
                 ['label' => 'Генерация графиков', 'url' => ['/records/admin-occupations']],
                 ['label' => 'Графики врачей', 'url' => ['/records/index']],
-                ['label' => 'Список пользователей', 'url' => ['/admin']]
+                ['label' => 'Список пользователей', 'url' => ['/user']]
             ]];
         $menuItems[] = [
             'label' => 'Выход (' . Yii::$app->user->identity->username . ')',

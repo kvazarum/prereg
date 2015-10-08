@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use frontend\models\PasswordChangeForm;
 use yii\filters\AccessControl;
+use frontend\models\AuthAssignment;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -79,8 +80,17 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
+        $model->status = User::STATUS_NOT_ACTIVE;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save())
+            {
+//                $assign = new AuthAssignment();
+//                $assign->item_name = $model->role;
+//                $assign->user_id = $model->id;
+//                $assign->created_at = time();
+//                $assign->save();
+            }            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -98,12 +108,15 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $assignments = AuthAssignment::findAll(['user_id' => $id]);
+        $roles = [];        
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'roles' => $assignments,                
             ]);
         }
     }
