@@ -130,7 +130,7 @@ class DoctorsController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->can(moder))
+        if (Yii::$app->user->can('moder'))
         {
             $this->findModel($id)->delete();
             return $this->redirect(['index']);
