@@ -29,13 +29,13 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'ГБУЗ ОКБ',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => 'http://gbuz-okb-tver.ru',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Выбор специальности', 'url' => ['/site/index']],
+        ['label' => 'Регистрация заявки', 'url' => ['/site/index']],
         ['label' => 'О нас', 'url' => ['/site/about']],
 //        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
