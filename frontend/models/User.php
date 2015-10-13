@@ -48,7 +48,7 @@ class User extends \common\models\User
     public function scenarios()
     {
         return [
-            self::SCENARIO_DEFAULT => ['username', 'name', 'email', 'status', 'role'],
+            self::SCENARIO_DEFAULT => ['username', 'name', 'email', 'status'],
             self::SCENARIO_PROFILE => ['email'],
         ];
     }

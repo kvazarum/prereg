@@ -8,6 +8,7 @@ use frontend\models\UserLoginSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * UserLoginController implements the CRUD actions for UserLogin model.
@@ -17,6 +18,15 @@ class UserLoginController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['moder']
+                    ],
+                ]
+            ],                        
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

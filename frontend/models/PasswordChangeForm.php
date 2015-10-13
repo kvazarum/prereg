@@ -5,7 +5,7 @@ namespace frontend\models;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use Yii;
-use common\models\User;
+use frontend\models\User;
 
 /**
  * Password reset form
@@ -82,6 +82,7 @@ class PasswordChangeForm extends Model
     {
         $user = $this->_user;
         $user->setPassword($this->newPassword);
-        return $user->save();
+        $result = $user->save();
+        return $result;
     }
 }
