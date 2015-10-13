@@ -85,11 +85,11 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save())
             {
-//                $assign = new AuthAssignment();
-//                $assign->item_name = $model->role;
-//                $assign->user_id = $model->id;
-//                $assign->created_at = time();
-//                $assign->save();
+                $assign = new AuthAssignment();
+                $assign->item_name = 'user';
+                $assign->user_id = $model->id;
+                $assign->created_at = time();
+                $assign->save(false);
             }            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
