@@ -18,8 +18,8 @@ class OccupationsSearch extends Occupations
     public function rules()
     {
         return [
-            [['id', 'period'], 'integer'],
-            [['name', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'period', 'created_at', 'updated_at'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 

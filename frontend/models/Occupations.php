@@ -3,6 +3,8 @@
 namespace frontend\models;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
+use yii\helpers\Json;
+use yii\behaviors\TimestampBehavior;
 
 use Yii;
 
@@ -12,11 +14,12 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property integer $period
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $created_at
+ * @property integer $updated_at
  */
 class Occupations extends \yii\db\ActiveRecord
 {
+    private $attributes_diff = [];
     /**
      * @inheritdoc
      */
@@ -24,6 +27,16 @@ class Occupations extends \yii\db\ActiveRecord
     {
         return 'occupations';
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }    
 
     /**
      * @inheritdoc
@@ -31,9 +44,9 @@ class Occupations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'period',  'created_at', 'updated_at'], 'required'],
-            [['period'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['name', 'period', ], 'required'],
+            [['period', 'created_at', 'updated_at'], 'integer'],
+            [[ 'created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['name'], 'unique'],
         ];
@@ -59,4 +72,36 @@ class Occupations extends \yii\db\ActiveRecord
         $result = ArrayHelper::map($result, 'id', 'name');
         return $result;
     }
+    
+    public function beforeSave($insert) {
+        if ($insert) {
+//                $this->addEventLog(EventLog::ACTION_ADD_ORDER);
+        } else {
+                $old = $this->getOldAttributes();
+                $new = $this->getAttributes();
+                $this->attributes_diff = array_diff_assoc($new, $old);
+        }
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        if ($insert){
+            $params = Json::encode(['ID' => $this->id]);
+            $action = UserLogin::ACTION_ADD_OCCUPATION;
+        }
+        else {
+            $params = Json::encode($this->attributes_diff);
+            $action = UserLogin::ACTION_UPDATE_OCCUPATION;
+        }
+        UserLogin::addLog($action, $params);
+        
+        parent::afterSave($insert, $changedAttributes);
+    }
+    
+    public function afterDelete() {
+        $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
+        UserLogin::addLog(UserLogin::ACTION_DELETE_OCCUPATION, $data);
+        
+        parent::afterDelete();
+    }    
 }

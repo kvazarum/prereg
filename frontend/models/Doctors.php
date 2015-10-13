@@ -4,6 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use frontend\models\UserLogin;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "doctors".
@@ -22,6 +24,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Doctors extends \yii\db\ActiveRecord
 {
+    private $attributes_diff = [];
+    
     /**
      * @inheritdoc
      */
@@ -107,5 +111,37 @@ class Doctors extends \yii\db\ActiveRecord
         $hour = $string[0];
         $minute = $string[1];
         return $hour*60+$minute;
+    }
+    
+    public function beforeSave($insert) {
+        if ($insert) {
+//                $this->addEventLog(EventLog::ACTION_ADD_ORDER);
+        } else {
+                $old = $this->getOldAttributes();
+                $new = $this->getAttributes();
+                $this->attributes_diff = array_diff_assoc($new, $old);
+        }
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        if ($insert){
+            $params = Json::encode(['ID' => $this->id]);
+            $action = UserLogin::ACTION_ADD_DOCTOR;
+        }
+        else {
+            $params = Json::encode($this->attributes_diff);
+            $action = UserLogin::ACTION_UPDATE_DOCTOR;
+        }
+        UserLogin::addLog($action, $params);
+        
+        parent::afterSave($insert, $changedAttributes);
+    }
+    
+    public function afterDelete() {
+        $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
+        UserLogin::addLog(UserLogin::ACTION_DELETE_DOCTOR, $data);
+        
+        parent::afterDelete();
     }
 }

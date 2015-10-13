@@ -45,9 +45,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => [
                     'class' => 'col-xs-1',
                 ]
+            ],            
+            [
+                'attribute' => 'created_at',
+                'value' => function ($model){
+                    return date('d-m-Y H:i:s', $model->created_at);
+                }
             ],
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'updated_at',
+                'value' => function ($model){
+                    return date('d-m-Y H:i:s', $model->updated_at);
+                }
+            ],                    
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);

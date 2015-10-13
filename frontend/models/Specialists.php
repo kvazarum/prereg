@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use frontend\models\Doctors;
 use frontend\models\Records;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "specialists".
@@ -19,6 +20,7 @@ use frontend\models\Records;
  */
 class Specialists extends \yii\db\ActiveRecord
 {
+    private $attributes_diff = [];    
     /**
      * @inheritdoc
      */
@@ -115,5 +117,37 @@ class Specialists extends \yii\db\ActiveRecord
             $result = true;
         }
         return $result;
+    }    
+    
+    public function beforeSave($insert) {
+        if ($insert) {
+//                $this->addEventLog(EventLog::ACTION_ADD_ORDER);
+        } else {
+                $old = $this->getOldAttributes();
+                $new = $this->getAttributes();
+                $this->attributes_diff = array_diff_assoc($new, $old);
+        }
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        if ($insert){
+            $params = Json::encode(['ID' => $this->id]);
+            $action = UserLogin::ACTION_ADD_SPECIALIST;
+        }
+        else {
+            $params = Json::encode($this->attributes_diff);
+            $action = UserLogin::ACTION_UPDATE_SPECIALIST;
+        }
+        UserLogin::addLog($action, $params);
+        
+        parent::afterSave($insert, $changedAttributes);
+    }
+    
+    public function afterDelete() {
+        $data = Json::encode(['ID' => $this->id, 'name' => $this->doctor->name, 'occupation' => $this->occupation->name]);
+        UserLogin::addLog(UserLogin::ACTION_DELETE_SPECIALIST, $data);
+        
+        parent::afterDelete();
     }    
 }

@@ -88,8 +88,8 @@ class OccupationsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if (!$this->actionIsDouble($model->name))
             {
-                $model->created_at = date('Y-m-d H:i:s');
-                $model->updated_at = date('Y-m-d H:i:s');
+//                $model->created_at = date('Y-m-d H:i:s');
+//                $model->updated_at = date('Y-m-d H:i:s');
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -117,7 +117,7 @@ class OccupationsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->updated_at = date('Y-m-d H:i:s');
+//            $model->updated_at = date('Y-m-d H:i:s');
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

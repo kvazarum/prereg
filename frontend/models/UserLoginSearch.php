@@ -19,7 +19,7 @@ class UserLoginSearch extends UserLogin
     {
         return [
             [['id', 'user_id', 'login_at'], 'integer'],
-            [['data'], 'safe'],
+            [['data', 'action'], 'safe'],
         ];
     }
 
