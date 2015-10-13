@@ -6,7 +6,7 @@ use Yii;
 use frontend\modules\admin\models\User;
 
 /**
- * This is the model class for table "user_login".
+ * This is the model class for table "logs".
  *
  * @property integer $id
  * @property integer $user_id
@@ -19,6 +19,7 @@ use frontend\modules\admin\models\User;
 class UserLogin extends \yii\db\ActiveRecord
 {
     const UNKNOWN_ACTION = 0;
+    
     const ACTION_ADD_DOCTOR = 10;
     const ACTION_UPDATE_DOCTOR = 11;
     const ACTION_DELETE_DOCTOR = 12;
