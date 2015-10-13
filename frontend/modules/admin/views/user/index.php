@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\User;
+use frontend\modules\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserSearch */
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'username',
                 'format' => 'raw',
                 'value' => function($model){
-                    return Html::a($model->username, '/user/view?id='.$model->id,['target' => '_blank'])  ;
+                    return Html::a($model->username, '/admin/user/view?id='.$model->id,['target' => '_blank'])  ;
                 }
             ],
             'name',

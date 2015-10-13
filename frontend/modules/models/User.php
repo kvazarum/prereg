@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -56,27 +56,6 @@ class User extends \common\models\User
     /**
      * @inheritdoc
      */
-//    public function rules()
-//    {
-//        return [
-//            [['username', 'password', 'email', 'name'], 'filter', 'filter' => 'trim'],
-//            [['username', 'name', 'created_at', 'updated_at', 'status'], 'required'],
-////            ['email', 'email'],
-//            [ 'password', 'required', 'on' => 'create'],
-//            ['username', 'unique', 'message' => 'Это имя занято.'],
-//            [['role', 'status', 'created_at', 'updated_at'], 'integer'],
-//            [['username', 'email'], 'string', 'max' => 3, 'max' => 255],
-//
-//            [['auth_key'], 'string', 'max' => 30],
-//            [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
-//            [['username'], 'unique'],
-//            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
-//        ];
-//    }
-
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -87,7 +66,6 @@ class User extends \common\models\User
             'password' => 'Пароль',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
-            'role' => 'Role',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

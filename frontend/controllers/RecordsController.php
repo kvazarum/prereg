@@ -29,12 +29,12 @@ class RecordsController extends Controller
                 'class' => AccessControl::className(),
                 'only' => ['create', 'update', 'delete', 'view', 'get-data', 'get-day-report-detail', 
                     'get-day-report-main', 'get-report-by-specialist', 'get-request', 'save-record',
-                    'specialist-record', 'request', 'register', 'index', 'day-report'
+                    'specialist-record', 'request', 'register', 'index', 'day-report', 'specialist-report'
                 ],
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@']
+                        'roles' => ['moder']
                     ],
                     [
                         'allow' => false,

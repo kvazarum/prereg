@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\models\User;
+use frontend\modules\models\User;
 use frontend\models\AuthItem;
 
 /* @var $this yii\web\View */
@@ -21,13 +21,12 @@ use frontend\models\AuthItem;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?php
-        $items = AuthItem::findAll(['type' => 1]);
-        $names = [];
-        foreach ($items as $item)
-        {
-            $names[] = [$item->name => $item->name];
-        }
-        echo $form->field($model, 'role')->dropDownList($names);
+//        $items = AuthItem::findAll(['type' => 1]);
+//        $names = [];
+//        foreach ($items as $item)
+//        {
+//            $names[] = [$item->name => $item->name];
+//        }
         ?>
 
     <?= $form->field($model, 'status')->dropDownList([User::STATUS_DELETED => 'DELETED', 

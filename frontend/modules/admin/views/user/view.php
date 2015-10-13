@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use frontend\models\User;
+use frontend\modules\models\User;
 use frontend\models\AuthAssignment;
 
 /* @var $this yii\web\View */
