@@ -6,6 +6,7 @@ use Yii;
 use frontend\models\Doctors;
 use frontend\models\Records;
 use yii\helpers\Json;
+use frontend\modules\log\models\UserLogin;
 
 /**
  * This is the model class for table "specialists".

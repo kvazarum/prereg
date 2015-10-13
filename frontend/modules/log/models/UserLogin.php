@@ -1,8 +1,9 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\log\models;
 
 use Yii;
+use frontend\modules\admin\models\User;
 
 /**
  * This is the model class for table "user_login".
@@ -29,6 +30,10 @@ class UserLogin extends \yii\db\ActiveRecord
     const ACTION_ADD_SPECIALIST = 30;
     const ACTION_UPDATE_SPECIALIST = 31;
     const ACTION_DELETE_SPECIALIST = 32;    
+    
+    const ACTION_ADD_INSURER = 40;
+    const ACTION_UPDATE_INSURER = 41;
+    const ACTION_DELETE_INSURER = 42;      
     /**
      * @inheritdoc
      */
@@ -100,6 +105,15 @@ class UserLogin extends \yii\db\ActiveRecord
                 break;
             case 32:
                 $result = 'ACTION_DELETE_SPECIALIST';
+                break;            
+            case 40:
+                $result = 'ACTION_ADD_INSURER';
+                break;
+            case 41:
+                $result = 'ACTION_UPDATE_INSURER';
+                break;
+            case 42:
+                $result = 'ACTION_DELETE_INSURER';
                 break;            
             default :
                 $result = 'UNKNOWN_ACTION';

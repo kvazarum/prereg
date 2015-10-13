@@ -1,11 +1,11 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\log\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\UserLogin;
+use frontend\modules\log\models\UserLogin;
 
 /**
  * UserLoginSearch represents the model behind the search form about `frontend\models\UserLogin`.

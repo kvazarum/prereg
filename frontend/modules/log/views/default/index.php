@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\User;
-use frontend\models\UserLogin;
+use frontend\modules\log\models\UserLogin;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserLoginSearch */

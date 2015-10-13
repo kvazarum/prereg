@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\helpers\Json;
 use yii\behaviors\TimestampBehavior;
+use frontend\modules\log\models\UserLogin;
 
 use Yii;
 

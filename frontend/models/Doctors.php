@@ -4,8 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use frontend\models\UserLogin;
 use yii\helpers\Json;
+use frontend\modules\log\models\UserLogin;
 
 /**
  * This is the model class for table "doctors".

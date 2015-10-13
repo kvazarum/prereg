@@ -63,7 +63,7 @@ AppAsset::register($this);
                 ['label' => 'Генерация графиков', 'url' => ['/records/admin-occupations']],
                 ['label' => 'Графики врачей', 'url' => ['/records/index']],
                 ['label' => 'Список пользователей', 'url' => ['/admin/user']],
-                ['label' => 'Журнал', 'url' => ['/user-login/index']],
+                ['label' => 'Журнал', 'url' => ['/log']],
             ]];
         $menuItems[] = [
             'label' => 'Выход (' . Yii::$app->user->identity->username . ')',

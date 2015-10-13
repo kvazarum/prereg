@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\modules\log\controllers;
 
 use Yii;
-use frontend\models\UserLogin;
-use frontend\models\UserLoginSearch;
+use frontend\modules\log\models\UserLogin;
+use frontend\modules\log\models\UserLoginSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use yii\filters\AccessControl;
 /**
  * UserLoginController implements the CRUD actions for UserLogin model.
  */
-class UserLoginController extends Controller
+class DefaultController extends Controller
 {
     public function behaviors()
     {
@@ -23,7 +23,7 @@ class UserLoginController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['moder']
+                        'roles' => ['admin']
                     ],
                 ]
             ],                        
@@ -61,43 +61,6 @@ class UserLoginController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new UserLogin model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-//        $model = new UserLogin();
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        } else {
-//            return $this->render('create', [
-//                'model' => $model,
-//            ]);
-//        }
-    }
-
-    /**
-     * Updates an existing UserLogin model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-//        $model = $this->findModel($id);
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        } else {
-//            return $this->render('update', [
-//                'model' => $model,
-//            ]);
-//        }
     }
 
     /**

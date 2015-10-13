@@ -15,6 +15,9 @@ return [
         'admin' => [
             'class' => 'frontend\modules\admin\Module',
         ],
+        'log' => [
+            'class' => 'frontend\modules\log\Module',
+        ],        
        'gridview' =>  [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to  

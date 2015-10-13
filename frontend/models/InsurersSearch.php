@@ -18,7 +18,7 @@ class InsurersSearch extends Insurers
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'safe'],
         ];
     }
