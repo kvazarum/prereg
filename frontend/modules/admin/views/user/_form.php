@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\modules\models\User;
+use frontend\modules\admin\models\User;
 use frontend\models\AuthItem;
 
 /* @var $this yii\web\View */

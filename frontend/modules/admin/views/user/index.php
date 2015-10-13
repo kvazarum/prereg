@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\modules\models\User;
+use frontend\modules\admin\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserSearch */
