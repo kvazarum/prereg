@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use backend\models\AuthAssignment;
-use frontend\models\PasswordChangeForm;
+use frontend\modules\admin\models\PasswordChangeForm;
 
 /**
  * UserController implements the CRUD actions for User model.

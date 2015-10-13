@@ -8,7 +8,7 @@ use frontend\modules\admin\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use frontend\models\PasswordChangeForm;
+use frontend\modules\admin\models\PasswordChangeForm;
 use yii\filters\AccessControl;
 use frontend\models\AuthAssignment;
 

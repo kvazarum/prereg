@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\admin\models;
 
 use yii\base\InvalidParamException;
 use yii\base\Model;
