@@ -131,11 +131,11 @@ class User extends \common\models\User
     public function afterSave($insert, $changedAttributes) {
         $params = Json::encode(['ID' => $this->id]);
         if ($insert){
-            $action = UserLogin::ACTION_ADD_DOCTOR;
+            $action = UserLogin::ACTION_ADD_USER;
         }
         else {
             $params .= Json::encode($this->attributes_diff);
-            $action = UserLogin::ACTION_UPDATE_DOCTOR;
+            $action = UserLogin::ACTION_UPDATE_USER;
         }
         UserLogin::addLog($action, $params);
         
@@ -144,7 +144,7 @@ class User extends \common\models\User
     
     public function afterDelete() {
         $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
-        UserLogin::addLog(UserLogin::ACTION_DELETE_DOCTOR, $data);
+        UserLogin::addLog(UserLogin::ACTION_DELETE_USER, $data);
         
         parent::afterDelete();
     }    
