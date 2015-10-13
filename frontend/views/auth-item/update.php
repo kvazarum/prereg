@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\AuthItem */
+/* @var $model frontend\modules\admin\models\AuthItem */
 
 $this->title = 'Update Auth Item: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];

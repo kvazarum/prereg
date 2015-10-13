@@ -33,13 +33,17 @@ class UserLogin extends \yii\db\ActiveRecord
     
     const ACTION_ADD_INSURER = 40;
     const ACTION_UPDATE_INSURER = 41;
-    const ACTION_DELETE_INSURER = 42;      
+    const ACTION_DELETE_INSURER = 42;   
+    
+    const ACTION_ADD_USER = 50;
+    const ACTION_UPDATE_USER = 51;
+    const ACTION_DELETE_USER = 52;    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_login';
+        return 'logs';
     }
 
     /**
@@ -115,6 +119,15 @@ class UserLogin extends \yii\db\ActiveRecord
             case 42:
                 $result = 'ACTION_DELETE_INSURER';
                 break;            
+            case 50:
+                $result = 'ACTION_ADD_USER';
+                break;
+            case 51:
+                $result = 'ACTION_UPDATE_USER';
+                break;
+            case 52:
+                $result = 'ACTION_DELETE_USER';
+                break;                
             default :
                 $result = 'UNKNOWN_ACTION';
                 break;

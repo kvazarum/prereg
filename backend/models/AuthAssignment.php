@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use frontend\modules\admin\models\AuthItem;
 
 /**
  * This is the model class for table "auth_assignment".

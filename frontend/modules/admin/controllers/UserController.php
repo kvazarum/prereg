@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use frontend\modules\admin\models\PasswordChangeForm;
 use yii\filters\AccessControl;
-use frontend\models\AuthAssignment;
+use frontend\modules\admin\models\AuthAssignment;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -129,8 +129,14 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        if ($this->findModel($id)->delete())
+        {
+            $assignmets = AuthAssignment::findAll(['user_id' => $id]);
+            foreach ($assignmets as $assign)
+            {
+                $assign->delete();
+            }
+        }
         return $this->redirect(['index']);
     }
 

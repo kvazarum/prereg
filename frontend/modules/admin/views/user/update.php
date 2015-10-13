@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use frontend\models\AuthAssignment;
+use frontend\modules\admin\models\AuthAssignment;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */

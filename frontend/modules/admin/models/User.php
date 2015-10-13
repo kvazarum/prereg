@@ -5,6 +5,8 @@ namespace frontend\modules\admin\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
+use yii\helpers\Json;
+use frontend\modules\log\models\UserLogin;
 
 /**
  * This is the model class for table "user".
@@ -27,6 +29,9 @@ class User extends \common\models\User
     const STATUS_ACTIVE = 10;
     
     const SCENARIO_PROFILE = 'profile';
+    
+    private $attributes_diff = [];
+    
     /**
      * @inheritdoc
      */
@@ -112,4 +117,35 @@ class User extends \common\models\User
         return $this->getAuthKey() === $authKey;
     }
 
+    public function beforeSave($insert) {
+        if ($insert) {
+//                $this->addEventLog(EventLog::ACTION_ADD_ORDER);
+        } else {
+                $old = $this->getOldAttributes();
+                $new = $this->getAttributes();
+                $this->attributes_diff = array_diff_assoc($new, $old);
+        }
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        $params = Json::encode(['ID' => $this->id]);
+        if ($insert){
+            $action = UserLogin::ACTION_ADD_DOCTOR;
+        }
+        else {
+            $params .= Json::encode($this->attributes_diff);
+            $action = UserLogin::ACTION_UPDATE_DOCTOR;
+        }
+        UserLogin::addLog($action, $params);
+        
+        parent::afterSave($insert, $changedAttributes);
+    }
+    
+    public function afterDelete() {
+        $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
+        UserLogin::addLog(UserLogin::ACTION_DELETE_DOCTOR, $data);
+        
+        parent::afterDelete();
+    }    
 }

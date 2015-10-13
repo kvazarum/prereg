@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\AuthItem;
-use frontend\models\AuthItemSearch;
+use frontend\modules\admin\models\AuthItem;
+use frontend\modules\admin\models\AuthItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
