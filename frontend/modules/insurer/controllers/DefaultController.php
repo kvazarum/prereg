@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\modules\insurer\controllers;
 
 use Yii;
-use frontend\models\Insurers;
-use frontend\models\InsurersSearch;
+use frontend\modules\insurer\models\Insurers;
+use frontend\modules\insurer\models\InsurersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use yii\filters\AccessControl;
 /**
  * InsurersController implements the CRUD actions for Insurers model.
  */
-class InsurersController extends Controller
+class DefaultController extends Controller
 {
     public function behaviors()
     {
@@ -31,9 +31,9 @@ class InsurersController extends Controller
                     [
                         'allow' => false,
                         'roles' => ['?']
-                    ]                    
+                    ]
                 ]
-            ],             
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

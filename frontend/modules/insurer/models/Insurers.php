@@ -1,10 +1,12 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\insurer\models;
 
+use frontend\models\Payments;
 use Yii;
 use frontend\modules\log\models\Log;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\Json;
 
 /**

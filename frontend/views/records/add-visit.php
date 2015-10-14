@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\models\Records;
 use yii\helpers\ArrayHelper;
-use frontend\models\Insurers;
+use frontend\modules\insurer\models\Insurers;
 use kartik\select2\Select2;
 
 

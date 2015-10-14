@@ -55,7 +55,7 @@ AppAsset::register($this);
                 ['label' => 'Специальности', 'url' => ['/occupations']],
                 ['label' => 'Врачи', 'url' => ['/doctors']],
                 ['label' => 'Специалисты', 'url' => ['/specialists']],
-                ['label' => 'Страховщики', 'url' => ['/insurers']],
+                ['label' => 'Страховщики', 'url' => ['/insurer']],
 //                ['label' => 'Пользователи', 'url' => ['/user']],
             ]];
         $menuItems[] = ['label' => 'Администрирование', 

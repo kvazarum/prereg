@@ -2,15 +2,15 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model frontend\models\Insurers */
 
-$this->title = 'Изменить: ' . ' ' . $model->name;
+/* @var $this yii\web\View */
+/* @var $model \frontend\modules\insurer\models\Insurers */
+
+$this->title = 'Добавить страховую компанию';
 $this->params['breadcrumbs'][] = ['label' => 'Страховые компании', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Изменить';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="insurers-update">
+<div class="insurers-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

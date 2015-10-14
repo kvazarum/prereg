@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Insurers */
+/* @var $model \frontend\modules\insurer\models\Insurers */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Страховые компании', 'url' => ['index']];

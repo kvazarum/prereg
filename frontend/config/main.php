@@ -25,6 +25,9 @@ return [
         'doctors' => [
             'class' => 'frontend\modules\doctors\Module',
         ],
+        'insurer' => [
+            'class' => 'frontend\modules\insurer\Module',
+        ],
        'gridview' =>  [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to  

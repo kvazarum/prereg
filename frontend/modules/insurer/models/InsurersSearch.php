@@ -1,16 +1,16 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\insurer\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Insurers;
+use frontend\modules\insurer\models\Insurers;
 
 /**
- * InsurersSearch represents the model behind the search form about `frontend\models\Insurers`.
+ * InsurersSearch represents the model behind the search form about `frontend\modules\insurer\models\Insurers`.
  */
-class InsurersSearch extends Insurers
+class InsurersSearch extends \frontend\modules\insurer\models\Insurers
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class InsurersSearch extends Insurers
      */
     public function search($params)
     {
-        $query = Insurers::find();
+        $query = \frontend\modules\insurer\models\Insurers::find();
 
         // add conditions that should always apply here
 
