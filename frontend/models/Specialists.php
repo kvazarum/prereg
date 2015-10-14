@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use frontend\modules\occupations\models\Occupations;
 use Yii;
 use frontend\models\Doctors;
 use frontend\models\Records;

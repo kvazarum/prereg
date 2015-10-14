@@ -5,7 +5,7 @@ use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Occupations */
+/* @var $model \frontend\modules\occupations\models\Occupations */
 
 $this->title = 'Добавить специальность';
 $this->params['breadcrumbs'][] = ['label' => 'Специальности', 'url' => ['index']];

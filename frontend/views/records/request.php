@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use frontend\models\Specialists;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;

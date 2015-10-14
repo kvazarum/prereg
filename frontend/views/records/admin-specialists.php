@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use dosamigos\datepicker\DatePicker;
 use yii\helpers\ArrayHelper;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use kartik\select2\Select2;
 use yii\bootstrap\Modal;
 use yii\widgets\MaskedInput;

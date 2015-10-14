@@ -5,7 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\OccupationsSearch */
+/* @var $searchModel \frontend\modules\occupations\models\OccupationsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Специальности';
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function ($model){
-                    $url = '/occupations/view?id='.$model->id;
+                    $url = '/occupations/default/view?id='.$model->id;
                     $result = Html::a($model->name, $url, ['target' => '_blank']);
                     return $result;
                 },

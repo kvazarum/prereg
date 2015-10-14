@@ -6,7 +6,7 @@ use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use frontend\models\Specialists;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Requests */

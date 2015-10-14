@@ -1,6 +1,7 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\occupations\models;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\helpers\Json;

@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Occupations */
+/* @var $model \frontend\modules\occupations\models\Occupations */
 /* @var $form ActiveForm */
 ?>
 <div class="admin-occupations">

@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use frontend\models\Specialists;
 use yii\helpers\Url;
 use frontend\models\Doctors;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use frontend\models\Records;
 
 /* @var $this yii\web\View */

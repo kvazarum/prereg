@@ -5,7 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 //use dosamigos\datepicker\DatePicker;
 use kartik\date\DatePicker;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */

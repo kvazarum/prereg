@@ -1,11 +1,11 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\occupations\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 
 /**
  * OccupationsSearch represents the model behind the search form about `frontend\models\Occupations`.

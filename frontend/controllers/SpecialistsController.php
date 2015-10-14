@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use frontend\models\Doctors;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use yii\helpers\Json;
 use frontend\models\Records;
 use yii\filters\AccessControl;

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\models\Doctors;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */

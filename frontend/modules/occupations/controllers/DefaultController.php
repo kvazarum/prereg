@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\modules\occupations\controllers;
 
 use Yii;
-use frontend\models\Occupations;
-use frontend\models\OccupationsSearch;
+use frontend\modules\occupations\models\Occupations;
+use frontend\modules\occupations\models\OccupationsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,7 +15,7 @@ use yii\filters\AccessControl;
 /**
  * OccupationsController implements the CRUD actions for Occupations model.
  */
-class OccupationsController extends Controller
+class DefaultController extends Controller
 {
     public function behaviors()
     {
@@ -31,9 +31,9 @@ class OccupationsController extends Controller
                     [
                         'allow' => false,
                         'roles' => ['?']
-                    ]                    
+                    ]
                 ]
-            ],            
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -56,7 +56,7 @@ class OccupationsController extends Controller
                 'name'
             ]
         ]);
-        
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -88,16 +88,14 @@ class OccupationsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if (!$this->actionIsDouble($model->name))
             {
-//                $model->created_at = date('Y-m-d H:i:s');
-//                $model->updated_at = date('Y-m-d H:i:s');
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            else 
+            else
             {
                 return $this->render('create', [
                     'model' => $model,
-                ]);                
+                ]);
             }
         } else {
             return $this->render('create', [
@@ -117,7 +115,6 @@ class OccupationsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-//            $model->updated_at = date('Y-m-d H:i:s');
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -155,7 +152,7 @@ class OccupationsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
+
     public function actionGetData($id)
     {
         $result = Occupations::findOne($id);
@@ -171,5 +168,5 @@ class OccupationsController extends Controller
             $result = true;
         }
         return $result;
-    }    
+    }
 }

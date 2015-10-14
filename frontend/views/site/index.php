@@ -1,6 +1,6 @@
 <?php
-use frontend\models\Occupations;
-use frontend\models\OccupationsSearch;
+use frontend\modules\occupations\models\Occupations;
+use frontend\modules\occupations\models\OccupationsSearch;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 

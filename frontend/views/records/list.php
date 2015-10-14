@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use frontend\models\Doctors;
 use frontend\models\Specialists;
-use frontend\models\Occupations;
+use frontend\modules\occupations\models\Occupations;
 use frontend\models\Records;
 use yii\helpers\Url;
 //use Yii;
