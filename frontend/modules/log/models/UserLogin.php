@@ -54,7 +54,8 @@ class UserLogin extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'action'], 'required'],
-            [['id', 'user_id',  'login_at',  'action'], 'integer'],
+            [['id', 'login_at',  'action'], 'integer'],
+            [['user_id',], 'safe'],
             [['data',], 'string'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

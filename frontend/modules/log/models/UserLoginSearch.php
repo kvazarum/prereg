@@ -18,8 +18,8 @@ class UserLoginSearch extends UserLogin
     public function rules()
     {
         return [
-            [['id', 'user_id', 'login_at'], 'integer'],
-            [['data', 'action'], 'safe'],
+            [['id', 'login_at'], 'integer'],
+            [['data', 'user_id', 'action'], 'safe'],
         ];
     }
 
@@ -56,15 +56,18 @@ class UserLoginSearch extends UserLogin
             // $query->where('0=1');
             return $dataProvider;
         }
+        
+        $query->joinWith('user');
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+//            'user_id' => $this->user_id,
             'login_at' => $this->login_at,
         ]);
 
         $query->andFilterWhere(['like', 'data', $this->data]);
+        $query->andFilterWhere(['like', 'user.name', $this->user_id]);
 
         return $dataProvider;
     }
