@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 use frontend\models\Records;
 use frontend\models\Specialists;
 

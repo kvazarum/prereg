@@ -1,10 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Doctors */
+/* @var $model \frontend\modules\doctors\models\Doctors */
 
 $this->title = 'Изменить данные: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Врачи', 'url' => ['index']];

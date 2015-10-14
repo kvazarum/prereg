@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Doctors */
+/* @var $model \frontend\modules\doctors\models\Doctors */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Врачи', 'url' => ['index']];
@@ -56,8 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'end_time',
                 'displayOnly' => true,
             ],
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'created_at',
+                'value' => date('d-m-Y H:i:s', $model->created_at),
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => date('d-m-Y H:i:s', $model->updated_at),
+            ],
+
         ],
     ]) ?>
 

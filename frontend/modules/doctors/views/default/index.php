@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\DoctorsSearch */
+/* @var $searchModel \frontend\modules\doctors\models\DoctorsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Врачи';
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function ($model){
-                    $url = '/doctors/view?id='.$model->id;
+                    $url = '/doctors/default/view?id='.$model->id;
                     $result = Html::a($model->name, $url, []);
                     return $result;
                 }

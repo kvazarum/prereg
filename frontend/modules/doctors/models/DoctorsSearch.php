@@ -1,16 +1,16 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\doctors\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 
 /**
- * DoctorsSearch represents the model behind the search form about `frontend\models\Doctors`.
+ * DoctorsSearch represents the model behind the search form about `frontend\modules\doctors\models\Doctors`.
  */
-class DoctorsSearch extends Doctors
+class DoctorsSearch extends \frontend\modules\doctors\models\Doctors
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class DoctorsSearch extends Doctors
     public function rules()
     {
         return [
-            [['id', 'number', 'price_initial', 'price_secondary'], 'integer'],
+            [['id', 'number', 'price_initial', 'price_secondary', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'phone', 'start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class DoctorsSearch extends Doctors
      */
     public function search($params)
     {
-        $query = Doctors::find()->orderBy('name');
+        $query = \frontend\modules\doctors\models\Doctors::find()->orderBy('name');
 
         // add conditions that should always apply here
 

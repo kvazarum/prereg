@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\modules\doctors\controllers;
 
 use Yii;
-use frontend\models\Doctors;
-use frontend\models\DoctorsSearch;
+use frontend\modules\doctors\models\Doctors;
+use frontend\modules\doctors\models\DoctorsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,7 +15,7 @@ use yii\web\ForbiddenHttpException;
 /**
  * DoctorsController implements the CRUD actions for Doctors model.
  */
-class DoctorsController extends Controller
+class DefaultController extends Controller
 {
     public function behaviors()
     {
@@ -31,9 +31,9 @@ class DoctorsController extends Controller
                     [
                         'allow' => false,
                         'roles' => ['?']
-                    ]                    
+                    ]
                 ]
-            ],            
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -67,7 +67,7 @@ class DoctorsController extends Controller
     {
         $model = $this->findModel($id);
         $this->changeTimeFormat($model); // форматируем время начала и конца работы
-        
+
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -85,7 +85,7 @@ class DoctorsController extends Controller
         if (Yii::$app->user->can('moder') && $model->load(Yii::$app->request->post()) && !$this->actionIsDouble($model->name)) {
             if (count(explode(':', $model->start_time)) != 2)
             {
-                throw new \yii\base\ErrorException('Неправильный формат времени приёма!');                
+                throw new \yii\base\ErrorException('Неправильный формат времени приёма!');
             }
             $this->changeTimeFormat($model);
             $model->save();
@@ -111,7 +111,7 @@ class DoctorsController extends Controller
             if (count(explode(':', $model->start_time)) != 2)
             {
                 throw new \yii\base\ErrorException('Неправильный формат времени приёма! ');
-            }            
+            }
             $this->changeTimeFormat($model);
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
@@ -139,14 +139,14 @@ class DoctorsController extends Controller
         {
             throw new ForbiddenHttpException();
         }
-        
+
     }
 
     /**
      * Finds the Doctors model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Doctors the loaded model
+     * @return \frontend\modules\doctors\models\Doctors the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -157,32 +157,32 @@ class DoctorsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
-/**
- * Получение данных врача по его <b>id</b>
- * @param integer $id уникальный идентификатор в базе данных
- * @return mixed набор полей записи о враче
- */    
+
+    /**
+     * Получение данных врача по его <b>id</b>
+     * @param integer $id уникальный идентификатор в базе данных
+     * @return mixed набор полей записи о враче
+     */
     public static function actionGetData($id)
     {
         $doctor = Doctors::findOne($id);
-        
+
         return Json::encode($doctor);
     }
-    
-/**
- * Изменение формата времени у экземпляра класса <b>Doctors</b>
- * старый формат <b>чч</b>:<b>мм</b>
- * выходной формат - количество минут от полночи: <b>часы</b> * 60 + <b>минуты</b>
- * @param Doctors $model экземпляр класса <b>Doctors</b>
- */    
+
+    /**
+     * Изменение формата времени у экземпляра класса <b>Doctors</b>
+     * старый формат <b>чч</b>:<b>мм</b>
+     * выходной формат - количество минут от полночи: <b>часы</b> * 60 + <b>минуты</b>
+     * @param \frontend\modules\doctors\models\Doctors $model экземпляр класса <b>Doctors</b>
+     */
     private function changeTimeFormat(&$model)
     {
         $start_time = explode(':', $model->start_time);
         if (count($start_time) == 2)
         {
             $model->start_time = Doctors::timeToInt($model->start_time);
-           
+
             $model->end_time = Doctors::timeToInt($model->end_time);
         }
         else
@@ -191,12 +191,12 @@ class DoctorsController extends Controller
             $model->end_time = Doctors::timeToString($model->end_time);
         }
     }
-    
-/**
- * Преобразование числа минут во время в формате чч:мм
- * @param string $string
- * @return string время в формате чч:мм
- */    
+
+    /**
+     * Преобразование числа минут во время в формате чч:мм
+     * @param string $string
+     * @return string время в формате чч:мм
+     */
 //    private function intToTime($string)
 //    {
 //        $minute = $string%60;
@@ -212,11 +212,11 @@ class DoctorsController extends Controller
 //        return $hour.':'.$minute;
 //    }
 
-/**
- * Преобразование времени в формате чч:мм в число минут
- * @param string $string
- * @return int количество минут
- */        
+    /**
+     * Преобразование времени в формате чч:мм в число минут
+     * @param string $string
+     * @return int количество минут
+     */
 //    private function timeToInt($string)
 //    {
 //        $string = explode(':', $string);
@@ -225,11 +225,11 @@ class DoctorsController extends Controller
 //        return $hour*60+$minute;
 //    }
 
-/**
- * Проверка на наличие совпадающих записей
- * @param type $name ФИО доктора
- * @return boolean
- */
+    /**
+     * Проверка на наличие совпадающих записей
+     * @param type $name ФИО доктора
+     * @return boolean
+     */
     public function actionIsDouble($name)
     {
         $result = false;

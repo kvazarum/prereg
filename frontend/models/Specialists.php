@@ -4,7 +4,7 @@ namespace frontend\models;
 
 use frontend\modules\occupations\models\Occupations;
 use Yii;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 use frontend\models\Records;
 use yii\helpers\Json;
 use frontend\modules\log\models\Log;
@@ -17,7 +17,7 @@ use frontend\modules\log\models\Log;
  * @property integer $occupation_id
  * @property string $created_at
  * @property string $updated_at
- * @property Doctors $doctor
+ * @property \frontend\modules\doctors\models\Doctors $doctor
  * @property Occupations $occupation
  */
 class Specialists extends \yii\db\ActiveRecord
@@ -62,7 +62,7 @@ class Specialists extends \yii\db\ActiveRecord
     */
     public function getDoctor()
     {
-        return $this->hasOne(Doctors::className(), ['id' => 'doctor_id']);
+        return $this->hasOne(\frontend\modules\doctors\models\Doctors::className(), ['id' => 'doctor_id']);
     }
     
     /**

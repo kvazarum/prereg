@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\models\Specialists;
 use yii\helpers\Url;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 use frontend\modules\occupations\models\Occupations;
 use frontend\models\Records;
 

@@ -22,6 +22,9 @@ return [
         'occupations' => [
             'class' => 'frontend\modules\occupations\Module',
         ],
+        'doctors' => [
+            'class' => 'frontend\modules\doctors\Module',
+        ],
        'gridview' =>  [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to  

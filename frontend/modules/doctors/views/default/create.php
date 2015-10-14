@@ -5,7 +5,7 @@ use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Doctors */
+/* @var $model \frontend\modules\doctors\models\Doctors */
 
 $this->title = 'Добавить врача';
 $this->params['breadcrumbs'][] = ['label' => 'Врачи', 'url' => ['index']];

@@ -8,7 +8,7 @@ use frontend\models\RecordsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 use frontend\modules\occupations\models\Occupations;
 use yii\helpers\Json;
 use yii\web\Response;

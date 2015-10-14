@@ -1,9 +1,10 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\modules\doctors\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\Json;
 use frontend\modules\log\models\Log;
 
@@ -19,8 +20,8 @@ use frontend\modules\log\models\Log;
  * @property integer $price_secondary
  * @property string $start_time
  * @property string $end_time
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $created_at
+ * @property integer $updated_at
  */
 class Doctors extends \yii\db\ActiveRecord
 {
@@ -51,7 +52,7 @@ class Doctors extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'number', 'description', 'phone', 'price_initial', 'price_secondary', 'start_time', 'end_time'], 'required'],
-            [['number', 'price_initial', 'price_secondary'], 'integer'],
+            [['number', 'price_initial', 'price_secondary', 'created_at', 'updated_at'], 'integer'],
             ['number', 'unique', 'targetClass' => self::className(),'message' => 'Этот табельный номер уже используется.'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],

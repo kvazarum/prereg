@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\Doctors;
+use frontend\modules\doctors\models\Doctors;
 use frontend\models\Specialists;
 use frontend\modules\occupations\models\Occupations;
 use frontend\models\Records;

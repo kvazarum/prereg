@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Doctors */
+/* @var $model \frontend\modules\doctors\models\Doctors */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
