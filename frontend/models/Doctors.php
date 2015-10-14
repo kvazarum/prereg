@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Json;
-use frontend\modules\log\models\UserLogin;
+use frontend\modules\log\models\Log;
 
 /**
  * This is the model class for table "doctors".
@@ -127,20 +127,20 @@ class Doctors extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes) {
         if ($insert){
             $params = Json::encode(['ID' => $this->id]);
-            $action = UserLogin::ACTION_ADD_DOCTOR;
+            $action = Log::ACTION_ADD_DOCTOR;
         }
         else {
             $params = Json::encode($this->attributes_diff);
-            $action = UserLogin::ACTION_UPDATE_DOCTOR;
+            $action = Log::ACTION_UPDATE_DOCTOR;
         }
-        UserLogin::addLog($action, $params);
+        Log::addLog($action, $params);
         
         parent::afterSave($insert, $changedAttributes);
     }
     
     public function afterDelete() {
         $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
-        UserLogin::addLog(UserLogin::ACTION_DELETE_DOCTOR, $data);
+        Log::addLog(Log::ACTION_DELETE_DOCTOR, $data);
         
         parent::afterDelete();
     }

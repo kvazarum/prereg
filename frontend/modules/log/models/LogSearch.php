@@ -5,12 +5,12 @@ namespace frontend\modules\log\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\modules\log\models\UserLogin;
+use frontend\modules\log\models\Log;
 
 /**
  * UserLoginSearch represents the model behind the search form about `frontend\models\UserLogin`.
  */
-class UserLoginSearch extends UserLogin
+class LogSearch extends Log
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class UserLoginSearch extends UserLogin
      */
     public function search($params)
     {
-        $query = UserLogin::find();
+        $query = Log::find();
 
         // add conditions that should always apply here
 

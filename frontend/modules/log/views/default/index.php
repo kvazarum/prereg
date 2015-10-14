@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\User;
-use frontend\modules\log\models\UserLogin;
+use frontend\modules\log\models\Log;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserLoginSearch */
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'action',
                 'value' => function ($model){
-                    return UserLogin::getActionName($model->action);
+                    return Log::getActionName($model->action);
                 }               
             ],
             [

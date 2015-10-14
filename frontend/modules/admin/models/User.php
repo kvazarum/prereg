@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use yii\helpers\Json;
-use frontend\modules\log\models\UserLogin;
+use frontend\modules\log\models\Log;
 
 /**
  * This is the model class for table "user".
@@ -146,20 +146,20 @@ class User extends \common\models\User
     public function afterSave($insert, $changedAttributes) {
         $params = Json::encode(['ID' => $this->id]);
         if ($insert){
-            $action = UserLogin::ACTION_ADD_USER;
+            $action = Log::ACTION_ADD_USER;
         }
         else {
             $params .= Json::encode($this->attributes_diff);
-            $action = UserLogin::ACTION_UPDATE_USER;
+            $action = Log::ACTION_UPDATE_USER;
         }
-        UserLogin::addLog($action, $params);
+        Log::addLog($action, $params);
         
         parent::afterSave($insert, $changedAttributes);
     }
     
     public function afterDelete() {
         $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
-        UserLogin::addLog(UserLogin::ACTION_DELETE_USER, $data);
+        Log::addLog(Log::ACTION_DELETE_USER, $data);
         
         parent::afterDelete();
     }    

@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\helpers\Json;
 use yii\behaviors\TimestampBehavior;
-use frontend\modules\log\models\UserLogin;
+use frontend\modules\log\models\Log;
 
 use Yii;
 
@@ -88,20 +88,20 @@ class Occupations extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes) {
         if ($insert){
             $params = Json::encode(['ID' => $this->id]);
-            $action = UserLogin::ACTION_ADD_OCCUPATION;
+            $action = Log::ACTION_ADD_OCCUPATION;
         }
         else {
             $params = Json::encode($this->attributes_diff);
-            $action = UserLogin::ACTION_UPDATE_OCCUPATION;
+            $action = Log::ACTION_UPDATE_OCCUPATION;
         }
-        UserLogin::addLog($action, $params);
+        Log::addLog($action, $params);
         
         parent::afterSave($insert, $changedAttributes);
     }
     
     public function afterDelete() {
         $data = Json::encode(['ID' => $this->id, 'name' => $this->name]);
-        UserLogin::addLog(UserLogin::ACTION_DELETE_OCCUPATION, $data);
+        Log::addLog(Log::ACTION_DELETE_OCCUPATION, $data);
         
         parent::afterDelete();
     }    

@@ -16,7 +16,7 @@ use frontend\modules\admin\models\User;
  *
  * @property User $user
  */
-class UserLogin extends \yii\db\ActiveRecord
+class Log extends \yii\db\ActiveRecord
 {
     const UNKNOWN_ACTION = 0;
     

@@ -3,8 +3,8 @@
 namespace frontend\modules\log\controllers;
 
 use Yii;
-use frontend\modules\log\models\UserLogin;
-use frontend\modules\log\models\UserLoginSearch;
+use frontend\modules\log\models\Log;
+use frontend\modules\log\models\LogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,7 +42,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserLoginSearch();
+        $searchModel = new LogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -80,12 +80,12 @@ class DefaultController extends Controller
      * Finds the UserLogin model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UserLogin the loaded model
+     * @return Log the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UserLogin::findOne($id)) !== null) {
+        if (($model = Log::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
