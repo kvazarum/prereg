@@ -58,7 +58,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     return '<span class="label '.$class.'">'.User::getStatusName($model->status).'</span>';
                 }
-            ],                                          
+            ],
+            [
+                'label' => 'Роли',
+                'value' => function ($model){
+                    return implode(',', $model->roles);
+                }
+                ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
