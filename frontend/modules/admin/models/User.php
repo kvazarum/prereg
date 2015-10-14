@@ -116,6 +116,21 @@ class User extends \common\models\User
     {
         return $this->getAuthKey() === $authKey;
     }
+    
+/**
+ * Получение массива назначенных ролей пользователя
+ * @return array
+ */    
+    public function getRoles()
+    {
+        $assignments = AuthAssignment::findAll(['user_id' => $this->id]);
+        $result = [];
+        foreach ($assignments as $assign)
+        {
+            $result[] = $assign->item_name;
+        }
+        return $result;
+    }
 
     public function beforeSave($insert) {
         if ($insert) {
