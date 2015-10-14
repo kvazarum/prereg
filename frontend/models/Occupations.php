@@ -86,12 +86,12 @@ class Occupations extends \yii\db\ActiveRecord
     }
 
     public function afterSave($insert, $changedAttributes) {
+        $params = Json::encode(['ID' => $this->id]);
         if ($insert){
-            $params = Json::encode(['ID' => $this->id]);
             $action = Log::ACTION_ADD_OCCUPATION;
         }
         else {
-            $params = Json::encode($this->attributes_diff);
+            $params .= Json::encode($this->attributes_diff);
             $action = Log::ACTION_UPDATE_OCCUPATION;
         }
         Log::addLog($action, $params);
