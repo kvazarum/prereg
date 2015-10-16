@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use frontend\models\User;
-use frontend\models\Visits;
+use frontend\modules\admin\models\User;
+use frontend\modules\admin\models\Visits;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Records */
