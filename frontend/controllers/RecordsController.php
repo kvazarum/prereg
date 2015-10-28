@@ -29,7 +29,7 @@ class RecordsController extends Controller
                 'class' => AccessControl::className(),
                 'only' => ['create', 'update', 'delete', 'view', 'get-data', 'get-day-report-detail', 
                     'get-day-report-main', 'get-report-by-specialist', 'get-request', 'save-record',
-                    'specialist-record', 'request', 'register', 'index', 'day-report', 'specialist-report'
+                    'specialist-record', 'request', 'register', 'index', 'day-report', 'specialist-report', 'add-visit'
                 ],
                 'rules' => [
                     [
@@ -147,6 +147,10 @@ class RecordsController extends Controller
                 $model->visited = 0;
                 $model->visit_type = null;
                 $model->insurer_id = null;
+            }
+            if ($model->visited == false){
+                $model->insurer_id = null;
+                $model->visit_type = null;
             }
             $result = $model->save();
             if (!$result)
@@ -442,7 +446,11 @@ class RecordsController extends Controller
             {
                 $model->user_id = Yii::$app->user->id;
             }
-            $model->reserved = TRUE;
+            if (!is_numeric($model->insurer_id))
+            {
+                $model->insurer_id = null;
+            }
+            $model->reserved = true;
             $model->visited = true;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
