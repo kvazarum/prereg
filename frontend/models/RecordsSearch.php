@@ -19,8 +19,9 @@ class RecordsSearch extends Records
     public function rules()
     {
         return [
-            [['id',  'cabinet_id', 'reserved', 'visited', 'sum'], 'integer'],
-            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id', 'occupationName', 'user_id'], 'safe'],
+            [['id',  'cabinet_id', 'reserved', 'visited', 'sum',], 'integer'],
+            [['name', 'phone', 'email', 'start_time', 'created_at', 'updated_at', 'specialist_id', 
+                'occupationName', 'user_id', 'insurer_id'], 'safe'],
         ];
     }
 

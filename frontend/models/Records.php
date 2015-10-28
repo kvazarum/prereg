@@ -4,16 +4,16 @@ namespace frontend\models;
 
 use Yii;
 use frontend\models\Records;
+use frontend\modules\insurer\models\Insurers;
 
 /**
  * This is the model class for table "records".
  *
- * @property string $id
+ * @property integer $id
  * @property integer $specialist_id
  * @property string $name
  * @property string $phone
  * @property string $email
- * @property integer $cabinet_id
  * @property string $start_time
  * @property integer $reserved
  * @property integer $user_id
@@ -23,8 +23,10 @@ use frontend\models\Records;
  * @property integer $insurer_id
  * @property string $created_at
  * @property string $updated_at
+ * @property Payments[] $payments 
  * @property Specialists $specialist
  * @property Occupation $occupation
+ * @property Insurers $insurer
  */
 class Records extends \yii\db\ActiveRecord
 {
@@ -141,6 +143,14 @@ class Records extends \yii\db\ActiveRecord
     }
 
 /**
+ * Получение страховщика
+ * @return type
+ */
+    public function getInsurer()
+    {
+        return Insurers::findOne($this->insurer_id);
+    }    
+/**
  * Получение название специальности текущего врача
  * @return type
  */
@@ -149,8 +159,5 @@ class Records extends \yii\db\ActiveRecord
         return $this->specialist->occupation->name;
     }
 
-    public function getRegistratorName()
-    {
-        
-    }
+
 }

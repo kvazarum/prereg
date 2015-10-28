@@ -19,6 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(); ?>
     <h1><?= Html::encode($this->title) ?></h1>
+    
+    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+    
 <table class="table table-striped table-bordered detail-view">
         <tr>
             <th width="200">
@@ -65,9 +68,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </th>
             <td>
             <?= $form->field($model, 'visit_type')->radioList([
-            Records::CASH => 'Наличные',
-            Records::INSURER => 'Страховая компания',
-        ])->label(FALSE) ?>
+                Records::CASH => 'Наличные',
+                Records::INSURER => 'Страховая компания',
+                ])->label(FALSE) ?>
             </td>
         </tr>
         <tr>
@@ -76,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </th>
             <td>
             <?php
-            //$model->specialist->occupation->name
+            
             $list = ArrayHelper::map(Insurers::find()->orderBy('name')->all(), 'id' , 'name');
 
             echo $form->field($model, 'insurer_id')->widget(Select2::classname(), [
@@ -86,27 +89,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
-            ])->label(FALSE)
+            ])->label(FALSE);
+                    
             ?>
             </td>
         </tr>
     </table>
-
-    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-
  
-    <?php
-        $list = ArrayHelper::map(Insurers::find()->orderBy('name')->all(), 'id' , 'name');
-
-        echo $form->field($model, 'insurer_id')->widget(Select2::classname(), [
-        'data' => $list,
-        'language' => 'ru',
-        'options' => ['placeholder' => 'Выберите страховщика ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
