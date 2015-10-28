@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use frontend\modules\admin\models\User;
 use frontend\modules\admin\models\Visits;
+use frontend\modules\insurer\models\Insurers;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Records */
@@ -27,11 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'method' => 'post',
                 ],
             ]);
-            if (!$model->visited)
-            {
+//            if (!$model->visited)
+//            {
                 $id = $model->id;
                 echo Html::a('Посещение', ['records/add-visit', 'id' => $id], ['class' => 'btn btn-success']);
-            }
+//            }
         }
         ?>
     </p>
@@ -78,6 +79,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'user_id',
                 'format'=>'html',
                 'value' => $model->user_id ? User::findOne($model->user_id)->name: 'Интернет-пользователь'
+            ],
+            [
+                'attribute' => 'visit_type',
+                'label' => 'Тип посещения',
+                'visible' => !is_null($model->visit_type),
+                'value' => $model->visit_type ? 'Договор страхования' : 'Наличные',
+            ],
+            [
+                'attribute' => 'insurer_id',
+                'label' => 'Страховщик',
+                'visible' => is_numeric($model->insurer_id),
+//                'value' => $model->insurer_id,
+                'value' => $model->insurer_id ? $model->insurer->name : 'Не задано',
             ],
             'created_at',
             'updated_at'
