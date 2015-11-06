@@ -178,7 +178,7 @@ function setSpecialistData(data)
 {
         setPeriod(data.occupation_id);
         
-        $.get("/doctors/get-data", {id : data.doctor_id}, function(data){
+        $.get("/doctors/default/get-data", {id : data.doctor_id}, function(data){
             data = $.parseJSON(data);
 
             var ds = data.start_time;
@@ -218,7 +218,7 @@ function setSpecialistData(data)
 
 function setPeriod(id)
 {
-    $.get("/occupations/get-data", {id : id}, function(data){
+    $.get("/occupations/default/get-data", {id : id}, function(data){
         data = $.parseJSON(data);
         $("#period").prop("value", data.period);
     });
@@ -406,7 +406,8 @@ $("#specialist-report").click(function(){
 
             text += '</th>';                
         text += '</tr></thead>';
-//            $("#body").append(text);
+        var countReserved = 0;
+        var countVisited = 0;
         data.forEach(function(item)
         {
             text += '<tr>';
@@ -423,8 +424,23 @@ $("#specialist-report").click(function(){
                 text += item.vis;
                 text += '</td>';
             text += "</tr>";
-//                $("#body").append(text);
+            countReserved += Number(item.res);
+            countVisited += Number(item.vis);
         });
+        text += '<tr class="info">';
+            text += '<td>';
+                text += '<b>Итого:</b>';
+            text += "</td>";    
+            text += '<td>';
+//                text += item.oc_name;
+            text += '</td>';
+            text += '<td>';
+            text += '<b>'+countReserved+'</b>';
+            text += '</td>';
+            text += '<td>';
+            text += '<b>'+countVisited+'</b>';
+            text += '</td>';
+        text += "</tr>";        
         text += '</table>';
         $("#body").append(text);
 
