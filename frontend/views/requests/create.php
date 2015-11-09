@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $minutes = $str_time[1];
         $date = explode('-', $date);
         $day = $date[2];    
-        $month = Records::$monthsFull[(int)$date[1]];
+        $month = Records::$monthsFull[(int)$date[1] - 1];
         $year = $date[0];
         $str_time = $day.' '.$month.' '.$year.'г. '.$hours.'ч.'.' '.$minutes.' мин.';
         
