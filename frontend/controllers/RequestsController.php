@@ -90,6 +90,10 @@ class RequestsController extends Controller
                 {
                     $model->user_id = Yii::$app->user->id;
                 }
+                else 
+                {
+                    $model->user_id = 0;
+                }
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
