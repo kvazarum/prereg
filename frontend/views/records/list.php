@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo Html::tag('h2', $doctor->name);
             echo Html::tag('h4',$doctor->description);
 
-            $month = Records::$monthsFull[(int)date('m', $date)];
+            $month = Records::$monthsFull[(int)date('m', $date) - 1];
             echo '<h4><strong>'.date("d", $date).' '.$month.' '.date('Y', $date).'</strong></h4>';
         echo Html::endTag('div');
 
@@ -40,37 +40,31 @@ $this->params['breadcrumbs'][] = $this->title;
 //        $count = 0;
         $hour = 0;
         echo Html::beginTag('div', ['class' => '']);
-        echo Html::beginTag('p');
-        for ($i = 0; $i <count($records); $i++)
-        {
-            $data = strtotime($records[$i]->start_time);
-            if ($i == 0)
+            echo Html::beginTag('p');
+            for ($i = 0; $i <count($records); $i++)
             {
-                $hour = date("H", $data);
+                echo Html::beginTag('div');
+                $data = strtotime($records[$i]->start_time);
+                if ($i == 0)
+                {
+                    $hour = date("H", $data);
+                }
+                if (Yii::$app->user->isGuest)
+                {
+                    $url = Url::to(['requests/create', 'id' => $records[$i]->id]);
+                }
+                else
+                {
+                    $url = Url::to(['records/update', 'id' => $records[$i]->id]);
+                }
+
+                $text = date("H:i", $data);
+                $classes = 'btn btn-lg btn-info';
+
+                echo Html::a($text, $url, ['class' => $classes, 'style' => ['width' => '500px', 'margin' => '1px']]);
+                echo Html::endTag('div');
             }
-            if (Yii::$app->user->isGuest)
-            {
-                $url = Url::to(['requests/create', 'id' => $records[$i]->id]);
-            }
-            else
-            {
-                $url = Url::to(['records/update', 'id' => $records[$i]->id]);
-            }
-            
-            $text = date("H:i", $data);
-            $classes = 'btn btn-lg btn-info list-group-item modal-content';
-            
-            if ($hour != date("H", $data))
-            {
-//                $count = 0;
-                $hour = date("H", $data);
-                echo Html::endTag('p');
-                echo Html::beginTag('p');
-            }
-//            $count++;
-            echo Html::a($text, $url, ['class' => $classes]);
-        }
-        echo Html::endTag('p');
+            echo Html::endTag('p');
         echo Html::endTag('div');
     ?>
 </div>
