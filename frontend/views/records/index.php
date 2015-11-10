@@ -61,17 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'specialist.occupation.name',
                 'format' => 'text',
                 'label' => 'Специальность',
-//                'filter' => Select2::widget([
-//                    'attribute' => 'occupationName',
-//                    'name' => 'occupationName',
-//                    'data' => $occList,
-//                    'options' => [
-//                        'placeholder' => 'Выберите специальность ...',
-//                    ],
-//                    'pluginOptions' => [
-//                        'allowClear' => true
-//                    ],                    
-//                ])
             ],
             [
                 'attribute' => 'start_time',
@@ -82,12 +71,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     $hour = date('H',strtotime($model->start_time));
                     $minut = date('i',strtotime($model->start_time));
                     $text = $day.'-'.$month.'-'.$year.' '.$hour.':'.$minut;
-//                    $text = $model->start_time;
                     $result = $text;
                     return $result;
                 },                
                 'headerOptions' => [
-                    'class'=>'col-lg-2'
+                    'class'=>'col-lg-3'
                 ],                
 //                'format' => ['datetime', 'dd-MM-Y H:i'],
                 'filter' => DatePicker::widget([
