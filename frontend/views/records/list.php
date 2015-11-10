@@ -60,6 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 $text = date("H:i", $data);
                 $classes = 'btn btn-lg btn-info';
+                if ((time() - $data) > 0)
+                {
+                    $classes .= ' disabled';
+                    $url = '';
+                }
 
                 echo Html::a($text, $url, ['class' => $classes, 'style' => ['width' => '500px', 'margin' => '1px']]);
                 echo Html::endTag('div');
