@@ -385,8 +385,8 @@ $("#generate").click(function()
 });
 
 $("#specialist-report").click(function(){
-    var date_from = $("#date_from").val();
-    var date_to = $("#date_to").val();
+    var date_from = $("#date_from").val() + ' 00:00:00';
+    var date_to = $("#date_to").val() + ' 23:59:59';
 
     $.get("/records/get-report-by-specialist", {date_from:date_from, date_to:date_to}, function(data){
         data = $.parseJSON(data);
@@ -406,8 +406,8 @@ $("#specialist-report").click(function(){
 
             text += '</th>';                
         text += '</tr></thead>';
-        var countReserved = 0;
-        var countVisited = 0;
+		var countReserved = 0;
+		var countVisited = 0;
         data.forEach(function(item)
         {
             text += '<tr>';
@@ -419,82 +419,43 @@ $("#specialist-report").click(function(){
                 text += '</td>';
                 text += '<td>';
                 text += item.res;
+				countReserved += Number(item.res);
                 text += '</td>';
                 text += '<td>';
                 text += item.vis;
+				countVisited += Number(item.vis);
                 text += '</td>';
             text += "</tr>";
-            countReserved += Number(item.res);
-            countVisited += Number(item.vis);
+//                $("#body").append(text);
         });
-        text += '<tr class="info">';
-            text += '<td>';
-                text += '<b>Итого:</b>';
-            text += "</td>";    
-            text += '<td>';
-//                text += item.oc_name;
-            text += '</td>';
-            text += '<td>';
-            text += '<b>'+countReserved+'</b>';
-            text += '</td>';
-            text += '<td>';
-            text += '<b>'+countVisited+'</b>';
-            text += '</td>';
-        text += "</tr>";        
+            text += '<tr class="info">';
+                text += '<td colspan="2">';
+                    text += '<b>Итого:</b>';
+                text += "</td>";
+                text += '<td>';
+                text += '<b>' + countReserved + '</b>';
+                text += '</td>';
+                text += '<td>';
+                text += '<b>' + countVisited + '</b>';
+                text += '</td>';
+            text += "</tr>";
+                text += '<td colspan="3">';
+                text += '<b>Процент явки:</b>';
+                text += "</td>";
+                text += '<td>';
+                var percent = 0;
+                if (countReserved != 0)
+                {
+                    percent = Math.round(countVisited/countReserved * 100)/100;
+                }
+                text += percent + ' %';
+                text += '</td>';
+            text += "</tr>";
         text += '</table>';
         $("#body").append(text);
 
     });
 });
-
-function renderSpecialistDayTable(report_date, specialist_id, item)
-{
-    $.get("/records/get-day-report-detail", {date_:report_date, specialist_id: specialist_id}, function(data2){
-        data2 = $.parseJSON(data2);
-        var stime = item.start_time.split(' ');
-        stime = stime[0].split('-');
-        fullDate = stime[2] + '-' + stime[1]+ '-' + stime[0]
-        text = '<div class="row">'
-        text += '<div style="padding-left: 15px;"><h3>' + item.dname + '</h3>';
-        text += '<h4>' + item.oname + ' ' + fullDate + '</h4></div>';
-        text += '<table class="table table-striped table-bordered">';
-            text += '<tr>';
-                text += '<th class="col-lg-3">';
-                    text += 'ФИО пациента';
-                text += '</th>';
-                text += '<th class="col-lg-2">';
-                        text += 'Время приёма';
-                text += '</th>';
-                text += '<th  class="col-lg-2">';
-                        text += '№ телефона';
-                text += '</th>';
-                text += '<th>';
-                        text += 'Регистратор';
-                text += '</th>';
-            text += '</tr>';
-            data2.forEach(function(item2){
-            text += '<tr>';
-                text += '<td class="col-lg-5">';
-                    text += '<a target="_blank" href="/records/view?id=' + item2.id + '">'+item2.name + '</a>';
-                text += '</td>';
-                text += '<td>';
-                    var stime = item2.start_time.split(' ');
-                    stime = stime[1].split(':');
-                    text += stime[0] + ':' + stime[1];
-                text += '</td>';
-                text += '<td>';
-                    text += item2.phone;
-                text += '</td>';
-                text += '<td>';
-                    text += item2.uname;
-                text += '</td>';
-            text += '</tr>';
-            });
-        text += '</table>';
-        text += '</div>';
-        $("#body").append(text);
-      });
-}
 
 $("#day-report-submit").click(function(){
     var report_date = $("#report_date").val();
@@ -505,10 +466,7 @@ $("#day-report-submit").click(function(){
         {
             data.forEach(function(item)
             {
-                var text = '';
-                    $("#body").append(text);
-                        renderSpecialistDayTable(report_date, item.specialist_id, item);
-                $("#body").append(text);
+                renderSpecialistDayTable(report_date, item.specialist_id, item);
         //TODO сделать разрыв страницы про достижении определённого числа строк ()
             });
         }
@@ -520,7 +478,84 @@ $("#day-report-submit").click(function(){
                 text += '</div>';
              $("#body").append(text);
         }
+
+        function renderSpecialistDayTable(report_date, specialist_id, item)
+        {
+            const COUNT_OF_LINES = 21;
+            const HEADER_LINES = 4;
+            $.get("/records/get-day-report-detail", {date_:report_date, specialist_id: specialist_id}, function(data2){
+                data2 = $.parseJSON(data2);
+
+                var linesCount = getLinesCount();   //  кол-во записей
+                linesCount += getHeadersCount() * 3; //  добавляем кол-во строк, занятых заголовками о враче
+                var linesCount = linesCount % COUNT_OF_LINES; //    кол-во уже занятых строк
+                var recordsCount = data2.length;    //  кол-во записей
+                var sum = linesCount + recordsCount + HEADER_LINES;    //  кол-во строк после вывода записей
+
+                if (sum > 17)
+                {
+                    //text = '<hr class="page-break" />';     //  добавляем разрыв страницы при печати
+                    //$("#body").append(text);
+                }
+                var stime = item.start_time.split(' ');
+                stime = stime[0].split('-');
+                fullDate = stime[2] + '-' + stime[1]+ '-' + stime[0]
+                text = '<div class="row">'
+                text += '<div style="padding-left: 15px;"><h3>' + item.dname + '</h3>';
+                text += '<h4>' + item.oname + ' ' + fullDate + '</h4></div>';
+                text += '<table class="table table-striped table-bordered">';
+                text += '<tr class="line">';
+                text += '<th class="col-lg-3">';
+                text += 'ФИО пациента';
+                text += '</th>';
+                text += '<th class="col-lg-2">';
+                text += 'Время приёма';
+                text += '</th>';
+                text += '<th  class="col-lg-2">';
+                text += '№ телефона';
+                text += '</th>';
+                text += '<th>';
+                text += 'Регистратор';
+                text += '</th>';
+                text += '</tr>';
+                data2.forEach(function(item2){
+                    text += '<tr class="line">';
+                    text += '<td class="col-lg-5">';
+                    text += '<a target="_blank" href="/records/view?id=' + item2.id + '">'+item2.name + '</a>';
+                    text += '</td>';
+                    text += '<td>';
+                    var stime = item2.start_time.split(' ');
+                    stime = stime[1].split(':');
+                    text += stime[0] + ':' + stime[1];
+                    text += '</td>';
+                    text += '<td>';
+                    text += item2.phone;
+                    text += '</td>';
+                    text += '<td>';
+                    text += item2.uname;
+                    text += '</td>';
+                    text += '</tr>';
+                });
+                text += '</table>';
+                text += '</div>';
+                $("#body").append(text);
+            });
+        }
+
+        function getLinesCount()
+        {
+            var count = $('.line').length;
+            return count;
+        }
+
+        function getHeadersCount()
+        {
+            var count = $('.row').length;
+            return count;
+        }
+
     });
+
 });
 
 /**
